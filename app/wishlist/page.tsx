@@ -8,12 +8,13 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { type Product } from '@/contexts/CartContext';
 
 export default function WishlistPage() {
   const { state, removeFromWishlist } = useWishlist();
   const { toast } = useToast();
 
-  const handleRemove = (product) => {
+  const handleRemove = (product: Product) => {
     removeFromWishlist(product.id);
     toast({
       title: 'Dihapus dari Wishlist',
