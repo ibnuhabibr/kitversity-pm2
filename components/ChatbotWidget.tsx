@@ -26,8 +26,17 @@ export const ChatbotWidget = () => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => {
     // Load messages from localStorage if available
-    const savedMessages = localStorage.getItem('chatHistory');
-    return savedMessages ? JSON.parse(savedMessages) : [
+    try {
+      if (typeof window !== 'undefined') {
+        const savedMessages = localStorage.getItem('chatHistory');
+        if (savedMessages) {
+          return JSON.parse(savedMessages);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading chat history:', error);
+    }
+    return [
       { 
         id: 'welcome',
         sender: 'bot', 
@@ -48,7 +57,14 @@ export const ChatbotWidget = () => {
 
   // Save messages to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('chatHistory', JSON.stringify(messages));
+    // Save messages to localStorage whenever they change
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('chatHistory', JSON.stringify(messages));
+      }
+    } catch (error) {
+      console.error('Error saving chat history:', error);
+    }
   }, [messages]);
 
   // Fungsi untuk auto-scroll ke pesan terakhir
@@ -188,15 +204,11 @@ export const ChatbotWidget = () => {
   };
 
   // Fungsi untuk clear chat history
-  const clearChatHistory = () => {
-    const initialMessage: Message = {
-      id: 'welcome',
-      sender: 'bot',
-      text: 'Halo! Ada yang bisa Kit-Bot bantu seputar produk Kitversity?',
-      timestamp: Date.now()
-    };
-    setMessages([initialMessage]);
-    localStorage.removeItem('chatHistory');
+  const handleClearChat = () => {
+    setMessages([]);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('chatHistory');
+    }
     toast({
       title: "Chat History Cleared",
       description: "Riwayat chat telah dihapus.",
@@ -238,7 +250,7 @@ export const ChatbotWidget = () => {
                   variant="ghost" 
                   size="icon" 
                   className="h-8 w-8" 
-                  onClick={clearChatHistory}
+                  onClick={handleClearChat}
                   title="Hapus Riwayat Chat"
                 >
                   <Trash2 className="h-4 w-4" />

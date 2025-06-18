@@ -47,20 +47,27 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Load wishlist dari localStorage saat komponen pertama kali mount
   useEffect(() => {
-    const savedWishlist = localStorage.getItem('kitversity-wishlist');
-    if (savedWishlist) {
-      try {
-        const wishlistItems = JSON.parse(savedWishlist);
-        dispatch({ type: 'LOAD_WISHLIST', payload: wishlistItems });
-      } catch (error) {
-        console.error('Error loading wishlist from localStorage:', error);
+    try {
+      if (typeof window !== 'undefined') {
+        const savedWishlist = localStorage.getItem('kitversity-wishlist');
+        if (savedWishlist) {
+          dispatch({ type: 'LOAD_WISHLIST', payload: JSON.parse(savedWishlist) });
+        }
       }
+    } catch (error) {
+      console.error('Error loading wishlist from localStorage:', error);
     }
   }, []);
 
   // Simpan wishlist ke localStorage setiap kali ada perubahan
   useEffect(() => {
-    localStorage.setItem('kitversity-wishlist', JSON.stringify(state.items));
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kitversity-wishlist', JSON.stringify(state.items));
+      }
+    } catch (error) {
+      console.error('Error saving wishlist to localStorage:', error);
+    }
   }, [state.items]);
 
   const addToWishlist = (product: Product) => {
