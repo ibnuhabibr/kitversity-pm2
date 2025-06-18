@@ -35,8 +35,10 @@ function ProductsContent() {
       result = getProductsByCategory(categoryParam);
       setSelectedCategories([categoryParam]);
     } else if (selectedCategories.length > 0) {
-      result = result.filter(product => selectedCategories.includes(product.category));
-    }
+      result = result.filter(product => 
+    product.category.some(c => selectedCategories.includes(c)) // <-- Perubahan di sini
+  );
+}
 
     // Apply price filter
     result = result.filter(product => 

@@ -1,12 +1,12 @@
 import { Product } from '@/contexts/CartContext';
 
 export const categories = [
+  { id: 'paket-bundling', name: 'Paket Bundling', icon: '🎁' },
   { id: 'alat-tulis', name: 'Alat Tulis', icon: '✏️' },
-  { id: 'tas-pouch', name: 'Tas & Pouch', icon: '🎒' },
   { id: 'pakaian', name: 'Pakaian', icon: '👕' },
-  { id: 'elektronik', name: 'Elektronik', icon: '💻' },
-  { id: 'buku', name: 'Buku & Modul', icon: '📚' },
-  { id: 'kesehatan', name: 'Kesehatan', icon: '🏥' }
+  { id: 'aksesoris', name: 'Aksesoris', icon: '🎒' },
+  { id: 'laki-laki', name: 'Laki-laki', icon: '👨‍🎓' },
+  { id: 'perempuan', name: 'Perempuan', icon: '👩‍🎓' }
 ];
 
 export const products: Product[] = [
@@ -16,7 +16,7 @@ export const products: Product[] = [
     price: 89000,
     originalPrice: 120000,
     image: 'https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg',
-    category: 'alat-tulis',
+    category: ['alat-tulis'],
     rating: 5.0,
     sold: 45,
     discount: 26,
@@ -29,7 +29,7 @@ export const products: Product[] = [
     price: 185000,
     originalPrice: 250000,
     image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg',
-    category: 'tas-pouch',
+    category: ['aksesoris'],
     rating: 5.0,
     sold: 32,
     discount: 26,
@@ -42,7 +42,7 @@ export const products: Product[] = [
     price: 45000,
     originalPrice: 65000,
     image: 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg',
-    category: 'pakaian',
+    category: ['pakaian','laki-laki'],
     rating: 4.9,
     sold: 58,
     discount: 31,
@@ -59,7 +59,7 @@ export const products: Product[] = [
     price: 125000,
     originalPrice: 180000,
     image: 'https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg',
-    category: 'elektronik',
+    category: ['aksesoris'],
     rating: 4.9,
     sold: 28,
     discount: 31,
@@ -71,7 +71,7 @@ export const products: Product[] = [
     name: 'Buku Panduan Mahasiswa Baru',
     price: 35000,
     image: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg',
-    category: 'buku',
+    category: ['alat-tulis'],
     rating: 5.0,
     sold: 41,
     description: 'Panduan lengkap untuk mahasiswa baru berisi tips dan trik sukses di perkuliahan.',
@@ -83,7 +83,7 @@ export const products: Product[] = [
     price: 25000,
     originalPrice: 35000,
     image: 'https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg',
-    category: 'kesehatan',
+    category: ['aksesoris'],
     rating: 5.0,
     sold: 52,
     discount: 29,
@@ -96,7 +96,7 @@ export const products: Product[] = [
     price: 55000,
     originalPrice: 75000,
     image: 'https://images.pexels.com/photos/3766111/pexels-photo-3766111.jpeg',
-    category: 'tas-pouch',
+    category: ['aksesoris'],
     rating: 4.9,
     sold: 37,
     discount: 27,
@@ -109,7 +109,7 @@ export const products: Product[] = [
     price: 150000,
     originalPrice: 200000,
     image: 'https://images.pexels.com/photos/4502492/pexels-photo-4502492.jpeg',
-    category: 'elektronik',
+    category: ['aksesoris'],
     rating: 5.0,
     sold: 24,
     discount: 25,
@@ -123,7 +123,7 @@ export const getProductById = (id: string): Product | undefined => {
 };
 
 export const getProductsByCategory = (category: string): Product[] => {
-  return products.filter(product => product.category === category);
+  return products.filter(product => product.category.includes(category));
 };
 
 export const searchProducts = (query: string): Product[] => {
@@ -131,6 +131,6 @@ export const searchProducts = (query: string): Product[] => {
   return products.filter(product => 
     product.name.toLowerCase().includes(searchTerm) ||
     product.description.toLowerCase().includes(searchTerm) ||
-    product.category.toLowerCase().includes(searchTerm)
+    product.category.some(cat => cat.toLowerCase().includes(searchTerm)) // <-- Perubahan di sini
   );
 };

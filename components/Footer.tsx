@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Instagram, MessageCircle } from 'lucide-react';
 
@@ -8,17 +9,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-blue-500 text-white px-3 py-1 rounded-lg font-bold text-lg">
-                K
-              </div>
-              <span className="text-xl font-bold">Kitversity</span>
-            </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Solusi lengkap untuk mahasiswa baru di Surabaya. Kami menyediakan 
-              semua kebutuhan kuliah dengan kualitas terbaik dan harga terjangkau.
-            </p>
-          </div>
+  <div className="flex items-center space-x-3 mb-4">
+    {/* Logo baru di footer */}
+    <Image
+      src="/logo-kitversity.png"
+      alt="Kitversity Logo"
+      width={40}
+      height={40}
+    />
+    <span className="text-xl font-bold">Kitversity</span>
+  </div>
+  <p className="text-gray-400 text-sm leading-relaxed">
+    Solusi lengkap untuk mahasiswa baru di Surabaya. Kami menyediakan 
+    semua kebutuhan kuliah dengan kualitas terbaik dan harga terjangkau.
+  </p>
+</div>
 
           {/* Quick Links */}
           <div>

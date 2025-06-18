@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ProductCard from '@/components/ProductCard';
-import WelcomeBanner from '@/components/WelcomeBanner';
+import { WelcomePopup } from '@/components/WelcomePopup';
 import { products, categories } from '@/data/products';
 
 const heroSlides = [
@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <div>
-      <WelcomeBanner />
+      <WelcomePopup />
       
       {/* Hero Section */}
       <section className="relative h-[60vh] overflow-hidden">
@@ -209,46 +209,63 @@ export default function Home() {
 
       {/* Value Proposition */}
       <section className="py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🚚</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Pengiriman Cepat
-              </h3>
-              <p className="text-gray-600">
-                Pengiriman same-day untuk area Surabaya dan sekitarnya
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💬</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Customer Service 24/7
-              </h3>
-              <p className="text-gray-600">
-                Tim support siap membantu Anda kapan saja via WhatsApp
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✅</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Produk Berkualitas
-              </h3>
-              <p className="text-gray-600">
-                Semua produk telah melalui quality control untuk kepuasan Anda
-              </p>
-            </div>
-          </div>
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Layout diubah jadi grid-cols-4 untuk desktop */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Keunggulan 1 */}
+      <div className="text-center">
+        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">💸</span>
         </div>
-      </section>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          Harga Termurah
+        </h3>
+        <p className="text-gray-600">
+          Kami jamin harga paling kompetitif untuk kantong mahasiswa.
+        </p>
+      </div>
+
+      {/* Keunggulan 2 */}
+      <div className="text-center">
+        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">🚚</span>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          Gratis Ongkos Kirim
+        </h3>
+        <p className="text-gray-600">
+          Area Surabaya & Kampus UNAIR. Pengiriman cepat dan aman.
+        </p>
+      </div>
+
+      {/* Keunggulan 3 */}
+      <div className="text-center">
+        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">💬</span>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          Customer Service 24/7
+        </h3>
+        <p className="text-gray-600">
+          Tim support siap membantu Anda kapan saja via WhatsApp.
+        </p>
+      </div>
+
+      {/* Keunggulan 4 */}
+      <div className="text-center">
+        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">✅</span>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          Produk Berkualitas
+        </h3>
+        <p className="text-gray-600">
+          Semua produk telah melalui quality control untuk kepuasan Anda.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
     </div>
   );
 }

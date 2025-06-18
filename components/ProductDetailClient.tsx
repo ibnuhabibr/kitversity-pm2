@@ -37,7 +37,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       toast({
         title: 'Ditambahkan ke Wishlist!',
         description: `${product.name} telah ditambahkan ke wishlist Anda.`,
-        variant: 'success',
+        variant: 'default'
       });
     }
   };
@@ -86,7 +86,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     toast({
       title: 'Berhasil!',
       description: `${quantity}x ${product.name} ditambahkan ke keranjang`,
-      variant: 'success'
+      variant: 'default'
     });
   };
 
@@ -175,11 +175,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       </span>
                     )}
                   </div>
-                </div>
 
-                {/* Variants */}
-                {product.variants && product.variants.map((variant) => (
-                  <div key={variant.name}>
+                  {/* Variants */}
+                  {product.variants && product.variants.map((variant) => (
+                  <div key={variant.name} className="mb-4">
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                       {variant.name}
                     </label>
@@ -200,6 +199,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     </Select>
                   </div>
                 ))}
+                </div>
 
                 {/* Quantity */}
                 <div>
