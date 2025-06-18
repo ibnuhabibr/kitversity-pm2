@@ -68,5 +68,21 @@
     "typescript": "5.2.2",
     "vaul": "^0.9.9",
     "zod": "^3.23.8"
-  }
+  },
+  "main": "next.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibnuhabibr/kitversity_.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ibnuhabibr/kitversity_/issues"
+  },
+  "homepage": "https://github.com/ibnuhabibr/kitversity_#readme",
+  "description": ""
 }

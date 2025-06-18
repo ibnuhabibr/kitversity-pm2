@@ -125,7 +125,7 @@ Mohon info lanjut untuk proses pembayaran dan pengiriman. Terima kasih!`;
     toast({
       title: 'Pesanan Diteruskan!',
       description: 'Anda akan diarahkan ke WhatsApp untuk konfirmasi dengan admin.',
-      variant: 'success'
+      variant: 'default'
     });
     
     router.push('/');
