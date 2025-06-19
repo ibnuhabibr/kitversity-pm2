@@ -15,8 +15,8 @@ export default function CartPage() {
   const { toast } = useToast();
 
   const handleCheckout = () => {
-  sessionStorage.removeItem('buyNowItem');
-  router.push('/pembayaran');
+    sessionStorage.removeItem('buyNowItem');
+    router.push('/checkout');
   };
 
   const formatPrice = (price: number) => {

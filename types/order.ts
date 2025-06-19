@@ -21,17 +21,17 @@ export type OrderStatus =
   | 'cancelled';
 
 export interface OrderItem {
-  productId: string;
+  id: string;
   name: string;
   price: number;
   quantity: number;
+  image: string;
 }
 
 export interface CustomerInfo {
   name: string;
   email: string;
   phone: string;
-  address: string;
 }
 
 export interface PaymentInfo {
@@ -47,9 +47,9 @@ export interface Order {
   items: OrderItem[];
   customerInfo: CustomerInfo;
   totalAmount: number;
-  status: OrderStatus;
-  paymentStatus: PaymentStatus;
-  paymentInfo?: PaymentInfo;
+  status: string;
+  paymentStatus: string;
+  paymentMethod: PaymentMethod;
   createdAt: string;
   updatedAt: string;
 }

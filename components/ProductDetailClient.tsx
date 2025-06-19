@@ -93,7 +93,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const handleBuyNow = () => {
     const buyNowItem = { ...product, quantity, selectedVariants };
     sessionStorage.setItem('buyNowItem', JSON.stringify([buyNowItem]));
-    router.push('/pembayaran');
+    router.push('/checkout');
   };
 
   const handleVariantChange = (variantName: string, value: string) => {

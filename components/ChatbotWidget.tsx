@@ -18,6 +18,15 @@ type Message = {
   timestamp: number;
 };
 
+// Welcome messages
+const welcomeMessages = [
+  "Halo! 👋 Ada yang bisa Kit-Bot bantu seputar produk Kitversity?",
+  "Hai! 😊 Ada yang ingin ditanyakan tentang produk Kitversity?",
+  "Selamat datang! 🌟 Ada yang bisa saya bantu hari ini?",
+  "Halo! ✨ Ada pertanyaan seputar produk Kitversity?",
+  "Hi! 🎓 Ada yang bisa saya bantu seputar kebutuhan kuliahmu?"
+];
+
 export const ChatbotWidget = () => {
   const { toast } = useToast();
   
@@ -36,11 +45,13 @@ export const ChatbotWidget = () => {
     } catch (error) {
       console.error('Error loading chat history:', error);
     }
+    // Get random welcome message
+    const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
     return [
       { 
         id: 'welcome',
         sender: 'bot', 
-        text: 'Halo! Ada yang bisa Kit-Bot bantu seputar produk Kitversity?',
+        text: randomWelcome,
         timestamp: Date.now()
       }
     ];
@@ -138,6 +149,11 @@ export const ChatbotWidget = () => {
         .replace(/^\s*text:\s*/i, '') // Hapus label "text:"
         .replace(/^\s*message:\s*/i, '') // Hapus label "message:"
         .replace(/^\s*reply:\s*/i, '') // Hapus label "reply:"
+        .replace(/\n\s*\n/g, '\n') // Remove multiple empty lines
+        .replace(/\n/g, '<br>') // Replace newlines with <br>
+        .replace(/([.!?])\s+/g, '$1<br><br>') // Add double line break after sentences
+        .replace(/(\d+\.\s)/g, '<br>$1') // Add line break before numbered lists
+        .replace(/([•-])\s/g, '<br>$1 ') // Add line break before bullet points
         .trim(); // Hapus whitespace di awal dan akhir
 
       return botReply;
@@ -205,7 +221,13 @@ export const ChatbotWidget = () => {
 
   // Fungsi untuk clear chat history
   const handleClearChat = () => {
-    setMessages([]);
+    const randomWelcome = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    setMessages([{
+      id: 'welcome',
+      sender: 'bot',
+      text: randomWelcome,
+      timestamp: Date.now()
+    }]);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('chatHistory');
     }
@@ -273,7 +295,7 @@ export const ChatbotWidget = () => {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="flex-1 p-4 overflow-y-auto space-y-4">
+            <CardContent className="flex-1 p-4 overflow-y-auto space-y-4 h-0">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -284,15 +306,23 @@ export const ChatbotWidget = () => {
                 >
                   <div
                     className={cn(
-                      "max-w-xs rounded-lg px-3 py-2",
+                      "max-w-[280px] rounded-lg px-3 py-2",
                       msg.sender === 'user'
                         ? "bg-blue-600 text-white rounded-br-none"
                         : "bg-gray-200 text-gray-800 rounded-bl-none"
                     )}
                   >
-                    <p className="text-sm">{msg.text}</p>
+                    <p 
+                      className="text-sm whitespace-pre-wrap leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: msg.text }}
+                    />
                     <p className="text-xs opacity-70 mt-1">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
+                      {new Date(msg.timestamp).toLocaleTimeString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                      })}
                     </p>
                   </div>
                 </div>

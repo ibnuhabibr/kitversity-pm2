@@ -33,17 +33,11 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      const offset = 100; // Increased offset to keep messages visible
-      const elementPosition = messagesEndRef.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      // Only scroll if we're not at the top of the chat
-      if (window.scrollY > 0) {
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      });
     }
   }, [messages]);
 
@@ -58,7 +52,7 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
   };
 
   return (
-    <div className="h-[600px] overflow-y-auto mb-4 space-y-4">
+    <div className="h-full overflow-y-auto space-y-4 pr-2 pb-2">
       {messages.map((msg) => (
         <div
           key={msg.id}
@@ -289,8 +283,8 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="max-w-4xl mx-auto p-4 flex-1 flex flex-col">
         <div className="mb-4 flex items-center justify-between">
           <Link href="/" className="flex items-center text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-5 w-5 mr-2" />
@@ -307,38 +301,42 @@ export default function ChatPage() {
           </Button>
         </div>
 
-        <Card className="shadow-lg">
-          <CardHeader className="border-b bg-white">
+        <Card className="shadow-lg flex-1 flex flex-col">
+          <CardHeader className="border-b bg-white flex-shrink-0">
             <div className="flex items-center space-x-2">
               <Sparkles className="h-6 w-6 text-blue-600" />
               <CardTitle className="text-xl">Chatbot AI Kitversity</CardTitle>
             </div>
           </CardHeader>
           
-          <CardContent className="p-4">
-            <DynamicMessageList messages={messages} isLoading={isLoading} />
+          <CardContent className="p-0 flex-1 flex flex-col">
+            <div className="flex-1 overflow-hidden min-h-0 p-4 pb-2">
+              <DynamicMessageList messages={messages} isLoading={isLoading} />
+            </div>
 
-            <form onSubmit={handleSendMessage} className="flex items-center space-x-2">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ketik pesanmu..."
-                autoComplete="off"
-                disabled={isLoading}
-                className="flex-1"
-              />
-              <Button 
-                type="submit" 
-                size="icon" 
-                disabled={isLoading || !inputValue.trim()}
-                className={cn(
-                  "bg-blue-600 hover:bg-blue-700",
-                  isLoading && "opacity-50 cursor-not-allowed"
-                )}
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </form>
+            <div className="border-t bg-gray-50 p-4 flex-shrink-0">
+              <form onSubmit={handleSendMessage} className="flex items-center space-x-2">
+                <Input
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Ketik pesanmu..."
+                  autoComplete="off"
+                  disabled={isLoading}
+                  className="flex-1"
+                />
+                <Button 
+                  type="submit" 
+                  size="icon" 
+                  disabled={isLoading || !inputValue.trim()}
+                  className={cn(
+                    "bg-blue-600 hover:bg-blue-700",
+                    isLoading && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </form>
+            </div>
           </CardContent>
         </Card>
       </div>
