@@ -202,7 +202,7 @@ export default function CartPage() {
                   💡 Tips Hemat
                 </p>
                 <p className="text-sm text-blue-700">
-                  Belanja minimal {formatPrice(100000)} untuk mendapatkan gratis ongkir ke seluruh Surabaya!
+                  Gratis ongkir untuk area Surabaya dan Kampus UNAIR tanpa minimal pembelian!
                 </p>
               </div>
             </div>

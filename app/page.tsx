@@ -195,10 +195,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Gratis Ongkir untuk Pembelian Pertama!
+              Gratis Ongkir untuk Pembelian di area Surabaya dan Kampus UNAIR
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Dapatkan gratis ongkir ke seluruh Surabaya untuk pembelian minimal Rp 100.000
+              Tanpa minimal pembelian
             </p>
             <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
               <Link href="/produk">Belanja Sekarang</Link>

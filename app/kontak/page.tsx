@@ -39,9 +39,9 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Alamat</h3>
                     <p className="text-gray-600">
-                      Jl. Raya Universitas No. 123<br />
-                      Mulyorejo, Surabaya 60115<br />
-                      Jawa Timur, Indonesia
+                      Jl. Mojo II No.8, Mojo<br />
+                      Kec. Gubeng, Surabaya<br />
+                      Jawa Timur 60285
                     </p>
                   </div>
                 </div>
@@ -69,8 +69,16 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@kitversity.com</p>
-                    <p className="text-gray-600">support@kitversity.com</p>
+                    <p className="text-gray-600 mb-2">admin@kitversity.com</p>
+                    <Button 
+                      asChild
+                      size="sm" 
+                      className="bg-blue-600 hover:bg-blue-700"
+                    >
+                      <a href="mailto:admin@kitversity.com?subject=Pertanyaan%20Kitversity&body=Halo%20Kitversity%2C%0A%0ASaya%20ingin%20bertanya%20tentang%20produk%20atau%20layanan%20Anda.%0A%0ATerima%20kasih.">
+                        Kirim Email
+                      </a>
+                    </Button>
                   </div>
                 </div>
 
@@ -81,9 +89,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Jam Operasional</h3>
                     <div className="text-gray-600 space-y-1">
-                      <p>Senin - Jumat: 08:00 - 20:00 WIB</p>
-                      <p>Sabtu: 08:00 - 17:00 WIB</p>
-                      <p>Minggu: 10:00 - 16:00 WIB</p>
+                      <p>Setiap hari 24/7</p>
                     </div>
                   </div>
                 </div>
@@ -110,7 +116,7 @@ export default function ContactPage() {
                   className="w-full justify-start"
                   size="lg"
                 >
-                  <a href="mailto:info@kitversity.com">
+                  <a href="mailto:admin@kitversity.com?subject=Pertanyaan%20Kitversity&body=Halo%20Kitversity%2C%0A%0ASaya%20ingin%20bertanya%20tentang%20produk%20atau%20layanan%20Anda.%0A%0ATerima%20kasih.">
                     <Mail className="h-5 w-5 mr-3" />
                     Kirim Email
                   </a>

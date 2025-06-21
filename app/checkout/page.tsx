@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
-import { PaymentMethod } from '@/types/order';
+import { OrderItem, PaymentMethod } from '@/types/order';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,7 +14,9 @@ import { Loader2, CreditCard, Wallet, QrCode, Building2 } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { state, clearCart, getTotalPrice } = useCart();
+  const { state: cartState, clearCart, getTotalPrice: getCartTotalPrice } = useCart();
+  const [checkoutItems, setCheckoutItems] = useState<OrderItem[]>([]);
+  const [isBuyNow, setIsBuyNow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +27,32 @@ export default function CheckoutPage() {
   });
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('bank_transfer');
+
+  useEffect(() => {
+    const buyNowItemString = sessionStorage.getItem('buyNowItem');
+    if (buyNowItemString) {
+      try {
+        const buyNowItems = JSON.parse(buyNowItemString);
+        if (Array.isArray(buyNowItems) && buyNowItems.length > 0) {
+          setCheckoutItems(buyNowItems);
+          setIsBuyNow(true);
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to parse buyNowItem from sessionStorage", error);
+        // Fallback to cart if parsing fails
+      }
+    }
+    
+    // Fallback to cart items if no valid buy now item is found
+    setCheckoutItems(cartState.items);
+    setIsBuyNow(false);
+
+  }, [cartState.items]);
+
+  const getTotalPrice = () => {
+    return checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +66,7 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          items: state.items,
+          items: checkoutItems,
           customerInfo: {
             name: customerInfo.name,
             email: customerInfo.email,
@@ -55,7 +83,11 @@ export default function CheckoutPage() {
       }
 
       // Clear cart and redirect to payment page
-      clearCart();
+      if (isBuyNow) {
+        sessionStorage.removeItem('buyNowItem');
+      } else {
+        clearCart();
+      }
       window.location.href = data.payment.redirectUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -64,19 +96,19 @@ export default function CheckoutPage() {
     }
   };
 
-  if (state.items.length === 0) {
+  if (checkoutItems.length === 0) {
     return (
       <div className="container max-w-2xl py-8">
         <Alert>
           <AlertDescription>
-            Your cart is empty. Please add items to your cart before proceeding to checkout.
+            Keranjang belanja Anda kosong. Silakan tambahkan produk ke keranjang sebelum melanjutkan ke pembayaran.
           </AlertDescription>
         </Alert>
         <Button
           className="mt-4"
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/produk')}
         >
-          Continue Shopping
+          Lanjutkan Belanja
         </Button>
       </div>
     );
@@ -195,7 +227,7 @@ export default function CheckoutPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {state.items.map((item) => (
+                {checkoutItems.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name} x {item.quantity}</span>
                     <span>Rp {(item.price * item.quantity).toLocaleString()}</span>

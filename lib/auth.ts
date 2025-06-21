@@ -1,118 +1,116 @@
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { UserModel } from './db/models';
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'your-secret-key'
+const secretKey = new TextEncoder().encode(
+  process.env.JWT_SECRET_KEY || 'your-super-secret-key-that-is-at-least-32-chars-long'
 );
 
 // Interface untuk payload JWT
-interface JWTPayload {
-  userId: number;
-  email: string;
-  role: 'admin' | 'user';
-}
+// export interface JWTPayload {
+//   [key: string]: any;
+//   userId: number;
+//   email: string;
+//   role: 'admin' | 'user';
+// }
 
 // Fungsi untuk membuat token JWT
 export async function createToken(payload: JWTPayload) {
-  const token = await new SignJWT(payload)
+  return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('24h')
-    .sign(JWT_SECRET);
-  return token;
+    .sign(secretKey);
 }
 
 // Fungsi untuk verifikasi token JWT
-export async function verifyToken(token: string) {
+export async function verifyToken<T>(token: string): Promise<T | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
-    return payload as JWTPayload;
+    const { payload } = await jwtVerify(token, secretKey);
+    return payload as T;
   } catch (error) {
+    console.error('JWT Verification Error:', error);
     return null;
   }
 }
 
 // Middleware untuk autentikasi
-export async function authMiddleware(request: NextRequest) {
-  const token = request.cookies.get('token')?.value;
+export const middleware = (handler: any) => async (request: NextRequest, params: any) => {
+    const token = cookies().get('token')?.value;
 
-  if (!token) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    );
-  }
+    if (!token) {
+        return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
 
-  const payload = await verifyToken(token);
-  if (!payload) {
-    return NextResponse.json(
-      { error: 'Invalid token' },
-      { status: 401 }
-    );
-  }
+    const payload = await verifyToken<{ userId?: number }>(token);
 
-  // Tambahkan user ke request
-  const user = await UserModel.findById(payload.userId);
+    if (!payload || typeof payload.userId !== 'number') {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
+
+    const user = await UserModel.findById(payload.userId);
+
+    if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+    
+    // Attach user to the request for the next handler
+    (request as any).user = user;
+
+    return handler(request, params);
+};
+
+// Fungsi untuk login (NONAKTIF SEMENTARA)
+/*
+export async function login(credentials: { email: string; password?: string }) {
+  const user = await UserModel.findByEmail(credentials.email);
   if (!user) {
-    return NextResponse.json(
-      { error: 'User not found' },
-      { status: 401 }
-    );
+    throw new Error('Invalid email or password');
   }
 
-  return NextResponse.next();
-}
-
-// Fungsi untuk login
-export async function login(email: string, password: string) {
-  const user = await UserModel.findByEmail(email);
-  if (!user) {
-    throw new Error('User not found');
-  }
-
-  // TODO: Implementasi password hashing
-  // Untuk sementara, kita asumsikan password sudah di-hash
-  if (user.password !== password) {
-    throw new Error('Invalid password');
-  }
+  // TODO: Implement password hashing and comparison
+  // const isPasswordMatch = credentials.password === user.password;
+  // if (!isPasswordMatch) {
+  //   throw new Error('Invalid email or password');
+  // }
 
   const token = await createToken({
     userId: user.id,
     email: user.email,
-    role: user.role || 'user'
+    role: user.role,
   });
 
   return { token, user };
 }
+*/
 
 // Fungsi untuk register
 export async function register(userData: {
   name: string;
   email: string;
-  password: string;
   phone?: string;
   university?: string;
   address?: string;
 }) {
-  // Cek apakah email sudah terdaftar
   const existingUser = await UserModel.findByEmail(userData.email);
   if (existingUser) {
     throw new Error('Email already registered');
   }
 
-  // TODO: Implementasi password hashing
-  // Untuk sementara, kita simpan password as-is
   const user = await UserModel.create({
     ...userData,
-    role: 'user'
+    role: 'user',
   });
+
+  if (!user) {
+    throw new Error('Failed to create user');
+  }
 
   const token = await createToken({
     userId: user.id,
     email: user.email,
-    role: user.role
+    role: user.role,
   });
 
   return { token, user };

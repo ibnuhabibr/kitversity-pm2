@@ -106,8 +106,8 @@ export default function FailedPage() {
           <div>
             <h3 className="font-semibold mb-2">Payment Information</h3>
             <div className="space-y-1 text-sm">
-              <p><span className="font-medium">Method:</span> {order.paymentInfo?.method}</p>
-              <p><span className="font-medium">Status:</span> {order.paymentInfo?.status}</p>
+              <p><span className="font-medium">Method:</span> {order.paymentMethod}</p>
+              <p><span className="font-medium">Status:</span> {order.paymentStatus}</p>
             </div>
           </div>
         </CardContent>

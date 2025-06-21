@@ -68,7 +68,7 @@ const faqData = [
     id: '6',
     category: 'shipping',
     question: 'Apakah ada gratis ongkir?',
-    answer: 'Ya! Kami memberikan gratis ongkir untuk pengiriman ke area Surabaya dengan minimum pembelian Rp 100.000. Untuk pembelian pertama, Anda juga mendapat gratis ongkir tanpa minimum pembelian.'
+    answer: 'Ya! Kami memberikan gratis ongkir untuk pengiriman ke area Surabaya dan Kampus UNAIR tanpa minimum pembelian. Semua pesanan di area tersebut akan mendapatkan gratis ongkir.'
   },
   {
     id: '7',
@@ -92,7 +92,7 @@ const faqData = [
     id: '10',
     category: 'general',
     question: 'Bagaimana cara menghubungi customer service?',
-    answer: 'Cara tercepat adalah melalui WhatsApp di +62 851-3570-6028. Tim kami aktif 24/7 dan akan merespon dengan cepat. Anda juga bisa mengirim email ke info@kitversity.com atau menggunakan form kontak di website.'
+    answer: 'Cara tercepat adalah melalui WhatsApp di +62 851-3570-6028. Tim kami aktif 24/7 dan akan merespon dengan cepat. Anda juga bisa mengirim email ke admin@kitversity.com atau menggunakan form kontak di website.'
   }
 ];
 
@@ -238,7 +238,7 @@ export default function FAQPage() {
                 className="text-blue-600 border-white hover:bg-white hover:text-blue-700"
                 size="lg"
               >
-                <a href="mailto:info@kitversity.com">
+                <a href="mailto:admin@kitversity.com">
                   Kirim Email
                 </a>
               </Button>

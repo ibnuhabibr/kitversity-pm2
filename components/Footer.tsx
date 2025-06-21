@@ -56,8 +56,8 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Hubungi Kami</h3>
             <div className="space-y-2 text-sm text-gray-400">
-              <p>📍 Jl. Raya Universitas No. 123, Surabaya</p>
-              <p>📧 info@kitversity.com</p>
+              <p>📍 Jl. Mojo II No.8, Mojo, Kec. Gubeng, Surabaya</p>
+              <p>📧 admin@kitversity.com</p>
               <p>📞 +62 851-3570-6028</p>
             </div>
             
@@ -66,16 +66,20 @@ const Footer = () => {
               <p className="text-sm font-medium mb-2">Ikuti Kami:</p>
               <div className="flex space-x-3">
                 <a 
-                  href="#" 
+                  href="https://www.instagram.com/kitversity/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a 
-                  href="#" 
+                  href="https://wa.me/6285135706028" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors"
-                  aria-label="TikTok"
+                  aria-label="WhatsApp"
                 >
                   <MessageCircle className="h-5 w-5" />
                 </a>

@@ -32,14 +32,21 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest'
-      });
-    }
-  }, [messages]);
+    // Improved auto-scroll with better timing
+    const scrollToBottom = () => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        });
+      }
+    };
+
+    // Small delay to ensure DOM is updated
+    const timeoutId = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeoutId);
+  }, [messages, isLoading]);
 
   const formatTimestamp = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -52,7 +59,7 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
   };
 
   return (
-    <div className="h-full overflow-y-auto space-y-4 pr-2 pb-2">
+    <div className="h-full overflow-y-auto space-y-3 pr-2">
       {messages.map((msg) => (
         <div
           key={msg.id}
@@ -63,14 +70,14 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
         >
           <div
             className={cn(
-              "max-w-xl rounded-lg px-4 py-3",
+              "max-w-[80%] sm:max-w-[70%] rounded-lg px-3 py-2 sm:px-4 sm:py-3",
               msg.sender === 'user'
                 ? "bg-blue-600 text-white rounded-br-none"
                 : "bg-gray-100 text-gray-800 rounded-bl-none"
             )}
           >
             <p 
-              className="text-sm whitespace-pre-wrap leading-relaxed"
+              className="text-sm whitespace-pre-wrap leading-relaxed break-words"
               dangerouslySetInnerHTML={{ __html: msg.text }}
             />
             <p className="text-xs opacity-70 mt-1">
@@ -81,7 +88,7 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
       ))}
       {isLoading && (
         <div className="flex items-end gap-2 justify-start animate-in slide-in-from-bottom-1">
-          <div className="bg-gray-100 text-gray-800 rounded-lg px-4 py-3 rounded-bl-none">
+          <div className="bg-gray-100 text-gray-800 rounded-lg px-3 py-2 sm:px-4 sm:py-3 rounded-bl-none max-w-[80%] sm:max-w-[70%]">
             <div className="flex items-center space-x-1">
               <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <div className="w-2 h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -90,7 +97,7 @@ const MessageList = ({ messages, isLoading }: { messages: Message[], isLoading: 
           </div>
         </div>
       )}
-      <div ref={messagesEndRef} />
+      <div ref={messagesEndRef} className="h-2" />
     </div>
   );
 };
@@ -283,62 +290,67 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="max-w-4xl mx-auto p-4 flex-1 flex flex-col">
-        <div className="mb-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="h-5 w-5 mr-2" />
+    <div className="h-full bg-gray-50 flex flex-col">
+      <div className="w-full max-w-4xl mx-auto p-2 sm:p-4 flex-1 flex flex-col">
+        <div className="mb-2 sm:mb-4 flex items-center justify-between flex-shrink-0">
+          <Link href="/" className="flex items-center text-gray-600 hover:text-gray-900 text-sm sm:text-base">
+            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
             Kembali ke Beranda
           </Link>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={handleClearChat}
-            className="text-gray-600 hover:text-gray-900"
+            className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm"
           >
-            <Trash2 className="h-4 w-4 mr-2" />
+            <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Hapus Riwayat
           </Button>
         </div>
 
-        <Card className="shadow-lg flex-1 flex flex-col">
-          <CardHeader className="border-b bg-white flex-shrink-0">
-            <div className="flex items-center space-x-2">
-              <Sparkles className="h-6 w-6 text-blue-600" />
-              <CardTitle className="text-xl">Chatbot AI Kitversity</CardTitle>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="p-0 flex-1 flex flex-col">
-            <div className="flex-1 overflow-hidden min-h-0 p-4 pb-2">
-              <DynamicMessageList messages={messages} isLoading={isLoading} />
-            </div>
+        {/* This container will grow and center the chatbox */}
+        <div className="flex-1 flex items-center justify-center pb-4">
+          <Card className="shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-2xl h-[500px] sm:h-[600px] lg:h-[700px] flex flex-col">
+            <CardHeader className="border-b bg-white flex-shrink-0 p-3 sm:p-4 lg:p-6">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+                <CardTitle className="text-lg sm:text-xl">Chatbot AI Kitversity</CardTitle>
+              </div>
+            </CardHeader>
+            
+            <CardContent className="p-0 flex-1 flex flex-col min-h-0">
+              {/* Messages area - fixed height, scrollable */}
+              <div className="flex-1 overflow-y-auto p-2 sm:p-3 lg:p-4 pb-2">
+                <DynamicMessageList messages={messages} isLoading={isLoading} />
+              </div>
 
-            <div className="border-t bg-gray-50 p-4 flex-shrink-0">
-              <form onSubmit={handleSendMessage} className="flex items-center space-x-2">
-                <Input
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Ketik pesanmu..."
-                  autoComplete="off"
-                  disabled={isLoading}
-                  className="flex-1"
-                />
-                <Button 
-                  type="submit" 
-                  size="icon" 
-                  disabled={isLoading || !inputValue.trim()}
-                  className={cn(
-                    "bg-blue-600 hover:bg-blue-700",
-                    isLoading && "opacity-50 cursor-not-allowed"
-                  )}
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </form>
-            </div>
-          </CardContent>
-        </Card>
+              {/* Input area - always visible at bottom */}
+              <div className="border-t bg-gray-50 p-2 sm:p-3 lg:p-4 flex-shrink-0">
+                <form onSubmit={handleSendMessage} className="flex items-center space-x-2">
+                  <Input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Ketik pesanmu..."
+                    autoComplete="off"
+                    disabled={isLoading}
+                    className="flex-1 text-sm sm:text-base"
+                  />
+                  <Button 
+                    type="submit" 
+                    size="icon" 
+                    disabled={isLoading || !inputValue.trim()}
+                    className={cn(
+                      "bg-blue-600 hover:bg-blue-700 h-9 w-9 sm:h-10 sm:w-10",
+                      isLoading && "opacity-50 cursor-not-allowed"
+                    )}
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </form>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

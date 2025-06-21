@@ -109,7 +109,6 @@ export default function SuccessPage() {
               <p><span className="font-medium">Name:</span> {order.customerInfo.name}</p>
               <p><span className="font-medium">Email:</span> {order.customerInfo.email}</p>
               <p><span className="font-medium">Phone:</span> {order.customerInfo.phone}</p>
-              <p><span className="font-medium">Address:</span> {order.customerInfo.address}</p>
             </div>
           </div>
 
@@ -117,7 +116,7 @@ export default function SuccessPage() {
             <h3 className="font-semibold mb-2">Order Items</h3>
             <div className="space-y-2">
               {order.items.map((item) => (
-                <div key={item.productId} className="flex justify-between text-sm">
+                <div key={item.id} className="flex justify-between text-sm">
                   <span>{item.name} x {item.quantity}</span>
                   <span>Rp {(item.price * item.quantity).toLocaleString()}</span>
                 </div>
@@ -134,11 +133,8 @@ export default function SuccessPage() {
           <div>
             <h3 className="font-semibold mb-2">Payment Information</h3>
             <div className="space-y-1 text-sm">
-              <p><span className="font-medium">Method:</span> {order.paymentInfo?.method}</p>
-              <p><span className="font-medium">Status:</span> {order.paymentInfo?.status}</p>
-              {order.paymentInfo?.paidAt && (
-                <p><span className="font-medium">Paid At:</span> {new Date(order.paymentInfo.paidAt).toLocaleString()}</p>
-              )}
+              <p><span className="font-medium">Method:</span> {order.paymentMethod}</p>
+              <p><span className="font-medium">Status:</span> {order.paymentStatus}</p>
             </div>
           </div>
         </CardContent>
