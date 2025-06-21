@@ -40,7 +40,7 @@ const createTransactionDetails = (
       gross_amount: amount
     },
     item_details: items.map(item => ({
-      id: item.productId,
+      id: item.id,
       price: item.price,
       quantity: item.quantity,
       name: item.name

@@ -16,9 +16,14 @@ async function initializeDatabase() {
       email: 'admin@kitversity.com',
       phone: '081234567890',
       university: 'Universitas Airlangga',
-      address: 'Surabaya'
+      address: 'Surabaya',
+      role: 'admin'
     });
-    console.log('Admin user created:', admin.email);
+    if (admin) {
+      console.log('Admin user created:', admin.email);
+      } else { 
+        console.log('Failed to create admin user');
+      }
 
     // Tambah beberapa produk
     const products = [
@@ -50,8 +55,12 @@ async function initializeDatabase() {
 
     for (const product of products) {
       const createdProduct = await ProductModel.create(product);
-      console.log('Product created:', createdProduct.name);
-    }
+      if (createdProduct) {
+        console.log('Product created:', createdProduct.name);
+      } else{
+        console.log("Failed to create product", product.name);
+      }
+      }
 
     console.log('Database initialization completed successfully');
   } catch (error) {
