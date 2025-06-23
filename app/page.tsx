@@ -77,13 +77,19 @@ export default function Home() {
               <div className="absolute inset-0 bg-black bg-opacity-40" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white max-w-2xl px-4">
-                  <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                  <h1 className={`text-4xl md:text-6xl font-bold mb-4 ${
+                        slide.id === 1 ? 'invisible' : ''
+                      }`}>
                     {slide.title}
                   </h1>
-                  <p className="text-xl md:text-2xl font-semibold text-orange-400 mb-4">
+                  <p className={`text-xl md:text-2xl font-semibold text-orange-400 mb-4 ${
+                        slide.id === 1 ? 'invisible' : ''
+                      }`}>
                     {slide.subtitle}
                   </p>
-                  <p className="text-lg mb-8 opacity-90">
+                  <p className={`text-lg mb-8 opacity-90 ${
+                        slide.id === 1 ? 'invisible' : ''
+                      }`}>
                     {slide.description}
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
