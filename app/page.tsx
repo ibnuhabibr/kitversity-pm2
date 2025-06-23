@@ -12,7 +12,7 @@ import { products, categories } from '@/data/products';
 const heroSlides = [
   {
     id: 1,
-    image: 'https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg',
+    image: '/banner1.png',
     title: 'PAKET LENGKAP OSPEK',
     subtitle: 'DISKON 20%!',
     description: 'Dapatkan semua kebutuhan OSPEK dengan harga spesial'
