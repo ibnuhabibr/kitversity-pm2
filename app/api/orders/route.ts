@@ -1,92 +1,85 @@
 import { NextResponse } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateOrderRequest, OrderResponse, Order, PaymentMethod } from '@/types/order';
 import { z } from 'zod';
-import { createPayment } from '@/lib/midtrans';
+import type { CreateOrderRequest, Order as FrontendOrder } from '@/types/order';
+import { OrderModel, OrderItemModel } from '@/lib/db/models';
+import type { Order as DbOrder } from '@/types/database'; // Tipe untuk data dari DB
 
-// Schema validasi untuk request
 const createOrderSchema = z.object({
   items: z.array(z.object({
     id: z.string(),
     name: z.string(),
     price: z.number(),
     quantity: z.number().min(1),
-    image: z.string()
-  })),
+    image: z.string().optional(),
+  })).min(1),
   customerInfo: z.object({
-    name: z.string().min(3),
-    email: z.string().email(),
-    phone: z.string().min(10),
-    address: z.string().optional()
+    name: z.string().min(3, { message: "Nama harus diisi" }),
+    email: z.string().email({ message: "Email tidak valid" }),
+    phone: z.string().min(10, { message: "Nomor telepon tidak valid" }),
+    address: z.string().optional(),
   }),
-  paymentMethod: z.enum(['bank_transfer', 'gopay', 'shopeepay', 'qris', 'virtual_account'])
+  paymentMethod: z.enum(['bank_transfer', 'qris']),
 });
 
-// In-memory storage untuk orders (bisa diganti dengan database nanti)
-const orders = new Map<string, Order>();
+// Fungsi helper untuk mengubah data dari format DB ke format frontend
+function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): FrontendOrder {
+  return {
+    id: String(dbOrder.id),
+    items: items,
+    customerInfo: JSON.parse(dbOrder.customer_info || '{}'),
+    totalAmount: Number(dbOrder.total_amount),
+    status: dbOrder.status,
+    paymentStatus: dbOrder.status, // Kita asumsikan sama dengan status order
+    paymentMethod: dbOrder.payment_method as any,
+    createdAt: new Date(dbOrder.created_at).toISOString(),
+    updatedAt: new Date(dbOrder.updated_at).toISOString(),
+  };
+}
 
 export async function POST(request: Request) {
   try {
     const body: CreateOrderRequest = await request.json();
-    
-    // Validasi request
     const validatedData = createOrderSchema.parse(body);
-    
-    // Generate unique order ID
-    const orderId = `ORDER-${uuidv4()}`;
-    
-    // Hitung total amount
-    const totalAmount = validatedData.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
+    const { items, customerInfo, paymentMethod } = validatedData;
 
-    // Buat order
-    const order: Order = {
-      id: orderId,
-      items: validatedData.items,
-      customerInfo: validatedData.customerInfo,
-      totalAmount,
-      status: 'pending',
-      paymentStatus: 'pending',
-      paymentMethod: validatedData.paymentMethod as PaymentMethod,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
+    const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // Simpan order
-    orders.set(orderId, order);
+    const newDbOrder = await OrderModel.create({
+      user_id: null,
+      total_amount: totalAmount,
+      status: 'pending-payment',
+      shipping_address: customerInfo.address || 'Tidak ada alamat',
+      shipping_method: 'standard',
+      payment_method: paymentMethod,
+      customer_info: JSON.stringify(customerInfo),
+    });
 
-    // Buat payment dengan Midtrans
-    const payment = await createPayment(
-      orderId,
-      totalAmount,
-      validatedData.items,
-      validatedData.customerInfo,
-      validatedData.paymentMethod as PaymentMethod
-    );
-
-    const response: OrderResponse = {
-      order,
-      payment: {
-        token: payment.token,
-        redirectUrl: payment.redirectUrl
-      }
-    };
-
-    return NextResponse.json(response);
-  } catch (error) {
-    console.error('Error creating order:', error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid request data', details: error.errors },
-        { status: 400 }
-      );
+    if (!newDbOrder || !newDbOrder.id) {
+      throw new Error('Gagal membuat pesanan di database.');
     }
-    return NextResponse.json(
-      { error: 'Failed to create order' },
-      { status: 500 }
-    );
+
+    for (const item of items) {
+      const productId = parseInt(item.id, 10);
+      if (isNaN(productId)) continue;
+      await OrderItemModel.create({
+        order_id: newDbOrder.id,
+        product_id: productId,
+        quantity: item.quantity,
+        price: item.price,
+      });
+    }
+
+    // Transformasi data sebelum dikirim sebagai response
+    const frontendOrder = transformDbOrderToFrontend(newDbOrder);
+
+    return NextResponse.json({ order: frontendOrder });
+
+  } catch (error) {
+    console.error('Error saat membuat pesanan:', error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: 'Data tidak valid', details: error.errors }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Gagal membuat pesanan', details: (error as Error).message }, { status: 500 });
   }
 }
 
@@ -96,33 +89,24 @@ export async function GET(request: Request) {
     const orderId = searchParams.get('id');
 
     if (orderId) {
-      const order = orders.get(orderId);
-      if (!order) {
-        return NextResponse.json(
-          { error: 'Order not found' },
-          { status: 404 }
-        );
+      const dbOrder = await OrderModel.findById(parseInt(orderId, 10));
+      if (!dbOrder) {
+        return NextResponse.json({ error: 'Pesanan tidak ditemukan' }, { status: 404 });
       }
-      return NextResponse.json({ order });
+      const orderItems = await OrderItemModel.findByOrderId(dbOrder.id);
+      
+      // Transformasi data sebelum dikirim sebagai response
+      const frontendOrder = transformDbOrderToFrontend(dbOrder, orderItems);
+
+      return NextResponse.json({ order: frontendOrder });
     }
 
-    // Return all orders
-    const allOrders = Array.from(orders.values());
-    return NextResponse.json({ orders: allOrders });
+    const allDbOrders = await OrderModel.findAll();
+    const allFrontendOrders = allDbOrders.map(order => transformDbOrderToFrontend(order));
+    return NextResponse.json({ orders: allFrontendOrders });
+
   } catch (error) {
     console.error('Error fetching orders:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch orders' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Gagal mengambil data pesanan' }, { status: 500 });
   }
 }
-
-// Helper function untuk format harga
-function formatPrice(price: number) {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0
-  }).format(price);
-} 
