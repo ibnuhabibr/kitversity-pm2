@@ -1,123 +1,286 @@
+// Lokasi: data/products.ts
+
 import { Product } from '@/contexts/CartContext';
 
 export const categories = [
-  { id: 'paket-bundling', name: 'Paket Bundling', icon: '🎁' },
-  { id: 'alat-tulis', name: 'Alat Tulis', icon: '✏️' },
   { id: 'pakaian', name: 'Pakaian', icon: '👕' },
-  { id: 'aksesoris', name: 'Aksesoris', icon: '🎒' },
-  { id: 'laki-laki', name: 'Laki-laki', icon: '👨‍🎓' },
-  { id: 'perempuan', name: 'Perempuan', icon: '👩‍🎓' }
+  { id: 'aksesoris', name: 'Aksesoris', icon: '🎀' },
+  { id: 'perlengkapan', name: 'Perlengkapan', icon: '👔' },
+  { id: 'sepatu', name: 'Sepatu', icon: '👞' }
 ];
 
+// Daftar produk dengan ID dan urutan yang sudah final
 export const products: Product[] = [
   {
-    id: '1',
-    name: 'Paket Alat Tulis Lengkap Mahasiswa',
-    price: 89000,
-    originalPrice: 120000,
-    image: 'https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg',
-    category: ['alat-tulis'],
+    id: '1', // Urut
+    name: 'Kemeja Putih',
+    price: 75000,
+    originalPrice: 107000,
+    discount: 30,
+    image: '/produk1.png',
+    category: ['pakaian'],
     rating: 5.0,
-    sold: 45,
-    discount: 26,
-    description: 'Paket lengkap alat tulis untuk mahasiswa baru yang berisi pulpen, pensil, penggaris, penghapus, dan perlengkapan tulis lainnya.',
-    specifications: 'Berisi: 5 pulpen (biru, hitam, merah), 3 pensil 2B, 1 penggaris 30cm, 2 penghapus, 1 tip-ex, 1 stabilo kuning, 1 stapler mini'
-  },
-  {
-    id: '2',
-    name: 'Tas Ransel Anti Air Mahasiswa',
-    price: 185000,
-    originalPrice: 250000,
-    image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg',
-    category: ['aksesoris'],
-    rating: 5.0,
-    sold: 32,
-    discount: 26,
-    description: 'Tas ransel berkualitas tinggi dengan material anti air, cocok untuk mahasiswa aktif.',
-    specifications: 'Material: Oxford 600D waterproof, Kapasitas: 25L, Fitur: USB charging port, anti theft zipper, laptop compartment'
-  },
-  {
-    id: '3',
-    name: 'Kaos Polos Premium Cotton',
-    price: 45000,
-    originalPrice: 65000,
-    image: 'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg',
-    category: ['pakaian','laki-laki'],
-    rating: 4.9,
-    sold: 58,
-    discount: 31,
-    description: 'Kaos polos berbahan cotton premium yang nyaman dipakai sehari-hari.',
-    specifications: 'Bahan: 100% Cotton Combed 30s, Ukuran: S, M, L, XL, XXL, Warna: Putih, Hitam, Navy, Abu-abu',
+    sold: 17,
+    description: 'Kemeja putih lengan panjang berbahan katun Oxford yang adem dan nyaman. Pilihan utama untuk ospek, kegiatan kampus, dan acara formal.',
+    specifications: 'Bahan: Katun Oxford\nWarna: Putih Bersih\nKerah: Standard\nUkuran Tersedia: S, M, L, XL, XXL',
     variants: [
-      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL', 'XXL'] },
-      { name: 'Warna', options: ['Putih', 'Hitam', 'Navy', 'Abu-abu'] }
+      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL', 'XXL'] }
     ]
   },
   {
-    id: '4',
-    name: 'Mouse Wireless Gaming',
-    price: 125000,
-    originalPrice: 180000,
-    image: 'https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg',
-    category: ['aksesoris'],
-    rating: 4.9,
-    sold: 28,
-    discount: 31,
-    description: 'Mouse wireless dengan DPI tinggi untuk gaming dan produktivitas.',
-    specifications: 'DPI: up to 3200, Battery life: 12 months, Wireless range: 10m, Compatible: Windows, Mac, Linux'
-  },
-  {
-    id: '5',
-    name: 'Buku Panduan Mahasiswa Baru',
-    price: 35000,
-    image: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg',
-    category: ['alat-tulis'],
-    rating: 5.0,
-    sold: 41,
-    description: 'Panduan lengkap untuk mahasiswa baru berisi tips dan trik sukses di perkuliahan.',
-    specifications: 'Halaman: 200, Ukuran: A5, Penerbit: Kitversity Press, Bahasa: Indonesia'
-  },
-  {
-    id: '6',
-    name: 'Masker Kain 3 Ply Premium',
-    price: 25000,
-    originalPrice: 35000,
-    image: 'https://images.pexels.com/photos/4167541/pexels-photo-4167541.jpeg',
-    category: ['aksesoris'],
-    rating: 5.0,
-    sold: 52,
+    id: '2', // Urut
+    name: 'Dasi',
+    price: 15000,
+    originalPrice: 21000,
     discount: 29,
-    description: 'Masker kain 3 lapis dengan filter yang dapat dicuci dan digunakan berulang.',
-    specifications: 'Material: Cotton blend, Lapisan: 3 layer, Filter: Replaceable, Ukuran: Dewasa, Warna: Hitam, Biru, Putih'
+    image: '/produk2.png',
+    category: ['aksesoris'],
+    rating: 5.0,
+    sold: 22,
+    description: 'Dasi hitam polos standar yang wajib dimiliki untuk melengkapi penampilan formal saat ospek dan acara resmi lainnya.',
+    specifications: 'Warna: Hitam Pekat\nModel: Slim Fit\nBahan: Poliester Halus'
   },
   {
-    id: '7',
-    name: 'Pouch Organizer Serbaguna',
-    price: 55000,
-    originalPrice: 75000,
-    image: 'https://images.pexels.com/photos/3766111/pexels-photo-3766111.jpeg',
-    category: ['aksesoris'],
-    rating: 4.9,
-    sold: 37,
-    discount: 27,
-    description: 'Pouch organizer dengan berbagai kompartemen untuk menyimpan alat tulis dan gadget.',
-    specifications: 'Material: Canvas, Ukuran: 25x15x8cm, Kompartemen: 8 slot, Zipper: YKK, Warna: Navy, Hitam, Khaki'
+    id: '3', // Urut
+    name: 'Celana Pria Hitam',
+    price: 85000,
+    originalPrice: 121000,
+    discount: 30,
+    image: '/produk3.png',
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 15,
+    description: 'Celana panjang bahan hitam untuk pria. Desain formal yang pas untuk kegiatan perkuliahan dan organisasi.',
+    specifications: 'Bahan: High-twist\nWarna: Hitam\nModel: Regular Fit\nUkuran Pinggang: 28-38',
+    variants: [
+      { name: 'Ukuran', options: ['28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38'] }
+    ]
   },
   {
-    id: '8',
-    name: 'Powerbank 10000mAh Fast Charge',
-    price: 150000,
-    originalPrice: 200000,
-    image: 'https://images.pexels.com/photos/4502492/pexels-photo-4502492.jpeg',
+    id: '4', // Urut
+    name: 'Celana Pria Putih',
+    price: 85000,
+    originalPrice: 121000,
+    discount: 30,
+    image: '/produk17.png', // Gambar tetap sesuai urutan lama
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 11,
+    description: 'Celana panjang bahan putih untuk pria. Pilihan tepat untuk seragam ospek atau acara yang membutuhkan dresscode putih.',
+    specifications: 'Bahan: Katun Drill\nWarna: Putih\nModel: Regular Fit\nUkuran Pinggang: 28-38',
+    variants: [
+      { name: 'Ukuran', options: ['28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38'] }
+    ]
+  },
+  {
+    id: '5', // Urut
+    name: 'Rok Wanita Hitam',
+    price: 80000,
+    originalPrice: 114000,
+    discount: 30,
+    image: '/produk4.png',
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 19,
+    description: 'Rok panjang hitam model A-line untuk wanita. Terbuat dari bahan yang jatuh dan tidak mudah kusut, sopan untuk ke kampus.',
+    specifications: 'Bahan: Katun Woll\nWarna: Hitam\nModel: A-Line\nUkuran: M, L, XL',
+    variants: [
+      { name: 'Ukuran', options: ['M', 'L', 'XL'] }
+    ]
+  },
+  {
+    id: '6', // Urut
+    name: 'Rok Wanita Putih',
+    price: 80000,
+    originalPrice: 114000,
+    discount: 30,
+    image: '/produk18.png', // Gambar tetap sesuai urutan lama
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 13,
+    description: 'Rok panjang putih model A-line untuk wanita. Bahan nyaman dan tidak menerawang, cocok untuk dresscode ospek.',
+    specifications: 'Bahan: Katun Drill\nWarna: Putih\nModel: A-Line\nUkuran: M, L, XL',
+    variants: [
+      { name: 'Ukuran', options: ['M', 'L', 'XL'] }
+    ]
+  },
+  {
+    id: '7', // Urut
+    name: 'Hijab Hitam',
+    price: 20000,
+    originalPrice: 29000,
+    discount: 31,
+    image: '/produk5.png',
     category: ['aksesoris'],
+    rating: 5.0,
+    sold: 25,
+    description: 'Hijab segiempat berwarna hitam pekat yang mudah diatur dan tegak di dahi. Cocok untuk semua jenis acara.',
+    specifications: 'Bahan: Voal Premium\nUkuran: 115 x 115 cm\nFinishing: Jahit Tepi Rapi',
+    variants: [
+      { name: 'Jenis', options: ['Voal', 'Paris Premium'] }
+    ]
+  },
+  {
+    id: '8', // Urut
+    name: 'Hijab Putih',
+    price: 20000,
+    originalPrice: 29000,
+    discount: 31,
+    image: '/produk6.png',
+    category: ['aksesoris'],
+    rating: 5.0,
+    sold: 21,
+    description: 'Hijab segiempat berwarna putih bersih yang anggun. Mudah dibentuk dan nyaman dipakai seharian.',
+    specifications: 'Bahan: Voal Premium\nUkuran: 115 x 115 cm\nFinishing: Jahit Tepi Rapi',
+    variants: [
+        { name: 'Jenis', options: ['Voal', 'Paris Premium'] }
+      ]
+  },
+  {
+    id: '9', // Urut
+    name: 'Kaos Kaki Hitam',
+    price: 15000,
+    originalPrice: 21000,
+    discount: 29,
+    image: '/produk7.png',
+    category: ['perlengkapan'],
     rating: 5.0,
     sold: 24,
-    discount: 25,
-    description: 'Powerbank berkapasitas besar dengan teknologi fast charging untuk semua device.',
-    specifications: 'Kapasitas: 10000mAh, Output: 2.1A, Input: Micro USB + Type-C, LED indicator, Safety protection'
-  }
+    description: 'Kaos kaki hitam polos se-mata kaki. Bahan katun tebal yang menyerap keringat dan nyaman dipakai dengan pantofel.',
+    specifications: 'Bahan: Katun Spandex\nUkuran: All Size (38-44)\nWarna: Hitam'
+  },
+  {
+    id: '10', // Urut
+    name: 'Kaos Kaki Putih',
+    price: 15000,
+    originalPrice: 21000,
+    discount: 29,
+    image: '/produk8.png',
+    category: ['perlengkapan'],
+    rating: 5.0,
+    sold: 23,
+    description: 'Kaos kaki putih polos se-mata kaki. Bahan katun tebal, pilihan tepat untuk kegiatan olahraga dan aktivitas kampus.',
+    specifications: 'Bahan: Katun Spandex\nUkuran: All Size (38-44)\nWarna: Putih'
+  },
+  {
+    id: '11', // Urut
+    name: 'Kaos Putih Panjang',
+    price: 50000,
+    originalPrice: 71000,
+    discount: 30,
+    image: '/produk9.png',
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 18,
+    description: 'Kaos dalaman lengan panjang berwarna putih. Bahan adem dan nyaman, cocok dipakai di dalam kemeja.',
+    specifications: 'Bahan: Cotton Combed 30s\nWarna: Putih\nUkuran: M, L, XL',
+    variants: [
+      { name: 'Ukuran', options: ['M', 'L', 'XL'] }
+    ]
+  },
+  {
+    id: '12', // Urut
+    name: 'Celana Training',
+    price: 55000,
+    originalPrice: 79000,
+    discount: 30,
+    image: '/produk10.png',
+    category: ['pakaian'],
+    rating: 5.0,
+    sold: 12,
+    description: 'Celana training unisex yang nyaman untuk kegiatan olahraga dan kepanitiaan di kampus.',
+    specifications: 'Bahan: Lotto\nWarna: Hitam Strip Putih\nFitur: Saku di kanan dan kiri',
+    variants: [
+      { name: 'Ukuran', options: ['M', 'L', 'XL', 'XXL'] }
+    ]
+  },
+  {
+    id: '13', // Urut
+    name: 'Pantofel Pria',
+    price: 75000,
+    originalPrice: 107000,
+    discount: 30,
+    image: '/produk11.png',
+    category: ['sepatu'],
+    rating: 5.0,
+    sold: 16,
+    description: 'Sepatu pantofel pria formal. Desain klasik yang awet dan nyaman, cocok untuk ospek dan kegiatan resmi.',
+    specifications: 'Bahan: Kulit Sintetis Premium\nWarna: Hitam\nSol: Karet Anti-slip\nUkuran: 39-44',
+    variants: [
+        { name: 'Ukuran', options: ['39', '40', '41', '42', '43', '44'] }
+    ]
+  },
+  {
+    id: '14', // Urut
+    name: 'Pantofel Wanita',
+    price: 65000,
+    originalPrice: 93000,
+    discount: 30,
+    image: '/produk12.png',
+    category: ['sepatu'],
+    rating: 5.0,
+    sold: 20,
+    description: 'Sepatu pantofel wanita dengan hak rendah yang nyaman. Tampil elegan dan profesional di setiap kesempatan.',
+    specifications: 'Bahan: Kulit Sintetis\nWarna: Hitam\nHak: 3 cm\nUkuran: 36-41',
+    variants: [
+        { name: 'Ukuran', options: ['36', '37', '38', '39', '40', '41'] }
+    ]
+  },
+  {
+    id: '15', // Urut
+    name: 'Ikat Pinggang',
+    price: 25000,
+    originalPrice: 36000,
+    discount: 31,
+    image: '/produk13.png',
+    category: ['perlengkapan'],
+    rating: 5.0,
+    sold: 25,
+    description: 'Ikat pinggang formal berwarna hitam dengan kepala silver. Wajib untuk kelengkapan ospek dan seragam.',
+    specifications: 'Bahan: Kulit Sintetis\nWarna: Hitam\nKepala: Logam Silver'
+  },
+  {
+    id: '16', // Urut
+    name: 'Hasduk & Rotan',
+    price: 22000,
+    originalPrice: 31000,
+    discount: 29,
+    image: '/produk14.png',
+    category: ['perlengkapan'],
+    rating: 5.0,
+    sold: 14,
+    description: 'Satu set hasduk pramuka lengkap dengan ring rotan. Perlengkapan wajib untuk kegiatan kepramukaan di kampus.',
+    specifications: 'Bahan Hasduk: Katun\nRing: Rotan Asli'
+  },
+  {
+    id: '17', // Urut
+    name: 'Pin Garuda',
+    price: 7000,
+    originalPrice: 10000,
+    discount: 30,
+    image: '/produk15.png',
+    category: ['perlengkapan', 'aksesoris'],
+    rating: 5.0,
+    sold: 22,
+    description: 'Pin lambang Garuda Pancasila dengan detail yang tajam dan warna emas yang cerah. Pengait peniti yang kuat.',
+    specifications: 'Bahan: Logam Kuningan\nPengait: Peniti'
+  },
+  {
+    id: '18', // Urut
+    name: 'Pin Bendera',
+    price: 7000,
+    originalPrice: 10000,
+    discount: 30,
+    image: '/produk16.png',
+    category: ['perlengkapan', 'aksesoris'],
+    rating: 5.0,
+    sold: 20,
+    description: 'Pin bendera Merah Putih dengan kualitas terbaik. Warna cerah dan tidak mudah luntur. Pengait peniti yang kuat.',
+    specifications: 'Bahan: Logam & Resin\nPengait: Peniti'
+  },
 ];
 
+// Fungsi-fungsi di bawah ini tidak perlu diubah
 export const getProductById = (id: string): Product | undefined => {
   return products.find(product => product.id === id);
 };
@@ -131,6 +294,6 @@ export const searchProducts = (query: string): Product[] => {
   return products.filter(product => 
     product.name.toLowerCase().includes(searchTerm) ||
     product.description.toLowerCase().includes(searchTerm) ||
-    product.category.some(cat => cat.toLowerCase().includes(searchTerm)) // <-- Perubahan di sini
+    product.category.some(cat => cat.toLowerCase().includes(searchTerm))
   );
 };
