@@ -1,8 +1,10 @@
+// Lokasi: lib/db/models.ts
+
 import pool from './config';
 import { Order, OrderItem, Payment, User, Product } from '@/types/database';
 import type { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 
-// Helper to get the first row from a query result
+// Helper untuk mengambil baris pertama dari hasil query
 function getFirstRow<T>(rows: any): T | undefined {
   if (Array.isArray(rows) && rows.length > 0) {
     return rows[0] as T;
@@ -13,11 +15,11 @@ function getFirstRow<T>(rows: any): T | undefined {
 // User Model
 export const UserModel = {
   async create(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User | undefined> {
-    const { name, email, phone, university, address } = user;
+    const { name, email, phone, university, address, role } = user; // Menambahkan 'role'
     const [result] = await pool.query<ResultSetHeader>(
-      `INSERT INTO users (name, email, phone, university, address)
-       VALUES (?, ?, ?, ?, ?)`,
-      [name, email, phone, university, address]
+      `INSERT INTO users (name, email, phone, university, address, role)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, email, phone, university, address, role || 'user'] // Memberi default 'user' jika role tidak ada
     );
     return this.findById(result.insertId);
   },
@@ -56,14 +58,14 @@ export const ProductModel = {
   }
 };
 
-// Order Model
+// Order Model (YANG DIPERBAIKI)
 export const OrderModel = {
   async create(order: Omit<Order, 'id' | 'created_at' | 'updated_at'>): Promise<Order | undefined> {
-    const { user_id, total_amount, status, shipping_address, shipping_method } = order;
+    const { user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info } = order;
     const [result] = await pool.query<ResultSetHeader>(
-      `INSERT INTO orders (user_id, total_amount, status, shipping_address, shipping_method)
-       VALUES (?, ?, ?, ?, ?)`,
-      [user_id, total_amount, status, shipping_address, shipping_method]
+      `INSERT INTO orders (user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info]
     );
     return this.findById(result.insertId);
   },
@@ -79,6 +81,12 @@ export const OrderModel = {
       [status, id]
     );
     return this.findById(id);
+  },
+
+  // Fungsi yang ditambahkan untuk mengatasi error
+  async findAll(): Promise<Order[]> {
+    const [rows] = await pool.query('SELECT * FROM orders');
+    return rows as Order[];
   }
 };
 
@@ -132,4 +140,4 @@ export const PaymentModel = {
     const [updatedRows] = await pool.query('SELECT * FROM payments WHERE id = ?', [id]);
     return getFirstRow<Payment>(updatedRows);
   }
-}; 
+};
