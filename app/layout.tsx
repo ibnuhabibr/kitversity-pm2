@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   title: 'Kitversity - Solusi Lengkap Mahasiswa Baru',
   description: 'Toko online terpercaya untuk kebutuhan mahasiswa baru di Surabaya. Alat tulis, tas, pakaian, elektronik, dan masih banyak lagi.',
   keywords: 'mahasiswa, alat tulis, tas kuliah, surabaya, kitversity',
+  icons: {
+    icon: '/favicon.ico', // -> Ini link ke favicon utama untuk browser
+    apple: '/logo-kitversity.png', // -> Ini ikon untuk 'Add to Home Screen' di perangkat Apple
+  },
 };
 
 export default function RootLayout({
