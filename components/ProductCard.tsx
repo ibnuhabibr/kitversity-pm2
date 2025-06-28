@@ -93,6 +93,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               "transform transition-transform duration-500",
               "group-hover:scale-110"
             )}
+            quality={75} // <-- OPTIMASI DITAMBAHKAN DI SINI
           />
           
           {/* Discount Badge */}
