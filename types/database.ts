@@ -1,3 +1,5 @@
+// Lokasi: types/database.ts
+
 export interface User {
   id: number;
   name: string;
@@ -22,13 +24,16 @@ export interface Product {
   updated_at: Date;
 }
 
+// PERBAIKAN DI SINI
 export interface Order {
   id: number;
-  user_id: number;
+  user_id: number | null; // user_id bisa null
   total_amount: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: string; // Ubah ke string agar lebih fleksibel
   shipping_address: string;
   shipping_method: string;
+  payment_method: 'bank_transfer' | 'qris'; // Tambahkan ini
+  customer_info: string; // Tambahkan ini (sebagai string karena dari DB dibaca sbg JSON string)
   created_at: Date;
   updated_at: Date;
 }
@@ -53,4 +58,4 @@ export interface Payment {
   paid_at?: Date;
   created_at: Date;
   updated_at: Date;
-} 
+}
