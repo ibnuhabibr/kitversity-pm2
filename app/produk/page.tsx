@@ -45,7 +45,7 @@ function ProductsContent() {
     setIsClient(true);
     const categoryQuery = searchParams.get('category');
     if (categoryQuery) {
-        setSelectedCategories(prev => [...new Set([...prev, categoryQuery])]);
+      setSelectedCategories(prev => Array.from(new Set([...prev, categoryQuery])));
     }
     const searchQueryParam = searchParams.get('search');
     if(searchQueryParam){
