@@ -2,7 +2,6 @@
 
 import { Product } from '@/contexts/CartContext';
 
-// Kategori baru sesuai gambar
 export const categories = [
   { id: 'paket-bundling', name: 'Paket Bundling', icon: '🎁' },
   { id: 'alat-tulis', name: 'Alat Tulis', icon: '✏️' },
@@ -12,7 +11,7 @@ export const categories = [
   { id: 'perempuan', name: 'Perempuan', icon: '👩‍🎓' }
 ];
 
-// Daftar produk dengan kategori yang sudah disesuaikan ulang
+// Daftar produk dengan kategori gender yang sudah disesuaikan
 export const products: Product[] = [
   {
     id: '1',
@@ -21,7 +20,7 @@ export const products: Product[] = [
     originalPrice: 107000,
     discount: 30,
     image: '/produk1.png',
-    category: ['pakaian', 'laki-laki', 'perempuan'], // <-- Disesuaikan
+    category: ['pakaian', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 17,
     description: 'Kemeja putih lengan panjang berbahan katun Oxford yang adem dan nyaman. Pilihan utama untuk ospek, kegiatan kampus, dan acara formal.',
@@ -37,7 +36,7 @@ export const products: Product[] = [
     originalPrice: 21000,
     discount: 29,
     image: '/produk2.png',
-    category: ['aksesoris', 'laki-laki'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 22,
     description: 'Dasi hitam polos standar yang wajib dimiliki untuk melengkapi penampilan formal saat ospek dan acara resmi lainnya.',
@@ -50,7 +49,7 @@ export const products: Product[] = [
     originalPrice: 121000,
     discount: 30,
     image: '/produk3.png',
-    category: ['pakaian', 'laki-laki'], // <-- Disesuaikan
+    category: ['pakaian', 'laki-laki'], // Sesuai revisi
     rating: 5.0,
     sold: 15,
     description: 'Celana panjang bahan hitam untuk pria. Desain formal yang pas untuk kegiatan perkuliahan dan organisasi.',
@@ -66,7 +65,7 @@ export const products: Product[] = [
     originalPrice: 121000,
     discount: 30,
     image: '/produk17.png',
-    category: ['pakaian', 'laki-laki'], // <-- Disesuaikan
+    category: ['pakaian', 'laki-laki'], // Sesuai revisi
     rating: 5.0,
     sold: 11,
     description: 'Celana panjang bahan putih untuk pria. Pilihan tepat untuk seragam ospek atau acara yang membutuhkan dresscode putih.',
@@ -82,7 +81,7 @@ export const products: Product[] = [
     originalPrice: 114000,
     discount: 30,
     image: '/produk4.png',
-    category: ['pakaian', 'perempuan'], // <-- Disesuaikan
+    category: ['pakaian', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 19,
     description: 'Rok panjang hitam model A-line untuk wanita. Terbuat dari bahan yang jatuh dan tidak mudah kusut, sopan untuk ke kampus.',
@@ -98,7 +97,7 @@ export const products: Product[] = [
     originalPrice: 114000,
     discount: 30,
     image: '/produk18.png',
-    category: ['pakaian', 'perempuan'], // <-- Disesuaikan
+    category: ['pakaian', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 13,
     description: 'Rok panjang putih model A-line untuk wanita. Bahan nyaman dan tidak menerawang, cocok untuk dresscode ospek.',
@@ -114,7 +113,7 @@ export const products: Product[] = [
     originalPrice: 29000,
     discount: 31,
     image: '/produk5.png',
-    category: ['aksesoris', 'perempuan'], // <-- Disesuaikan
+    category: ['aksesoris', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 25,
     description: 'Hijab segiempat berwarna hitam pekat yang mudah diatur dan tegak di dahi. Cocok untuk semua jenis acara.',
@@ -130,14 +129,14 @@ export const products: Product[] = [
     originalPrice: 29000,
     discount: 31,
     image: '/produk6.png',
-    category: ['aksesoris', 'perempuan'], // <-- Disesuaikan
+    category: ['aksesoris', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 21,
     description: 'Hijab segiempat berwarna putih bersih yang anggun. Mudah dibentuk dan nyaman dipakai seharian.',
     specifications: 'Bahan: Voal Premium\nUkuran: 115 x 115 cm\nFinishing: Jahit Tepi Rapi',
     variants: [
-        { name: 'Jenis', options: ['Voal', 'Paris Premium'] }
-      ]
+      { name: 'Jenis', options: ['Voal', 'Paris Premium'] }
+    ]
   },
   {
     id: '9',
@@ -146,7 +145,7 @@ export const products: Product[] = [
     originalPrice: 21000,
     discount: 29,
     image: '/produk7.png',
-    category: ['aksesoris'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 24,
     description: 'Kaos kaki hitam polos se-mata kaki. Bahan katun tebal yang menyerap keringat dan nyaman dipakai dengan pantofel.',
@@ -159,7 +158,7 @@ export const products: Product[] = [
     originalPrice: 21000,
     discount: 29,
     image: '/produk8.png',
-    category: ['aksesoris'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 23,
     description: 'Kaos kaki putih polos se-mata kaki. Bahan katun tebal, pilihan tepat untuk kegiatan olahraga dan aktivitas kampus.',
@@ -172,7 +171,7 @@ export const products: Product[] = [
     originalPrice: 71000,
     discount: 30,
     image: '/produk9.png',
-    category: ['pakaian', 'laki-laki', 'perempuan'], // <-- Disesuaikan
+    category: ['pakaian', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 18,
     description: 'Kaos dalaman lengan panjang berwarna putih. Bahan adem dan nyaman, cocok dipakai di dalam kemeja.',
@@ -188,7 +187,7 @@ export const products: Product[] = [
     originalPrice: 79000,
     discount: 30,
     image: '/produk10.png',
-    category: ['pakaian'], // <-- Disesuaikan
+    category: ['pakaian', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 12,
     description: 'Celana training unisex yang nyaman untuk kegiatan olahraga dan kepanitiaan di kampus.',
@@ -204,13 +203,13 @@ export const products: Product[] = [
     originalPrice: 107000,
     discount: 30,
     image: '/produk11.png',
-    category: ['aksesoris', 'laki-laki'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki'], // Sesuai revisi
     rating: 5.0,
     sold: 16,
     description: 'Sepatu pantofel pria formal. Desain klasik yang awet dan nyaman, cocok untuk ospek dan kegiatan resmi.',
     specifications: 'Bahan: Kulit Sintetis Premium\nWarna: Hitam\nSol: Karet Anti-slip\nUkuran: 39-44',
     variants: [
-        { name: 'Ukuran', options: ['39', '40', '41', '42', '43', '44'] }
+      { name: 'Ukuran', options: ['39', '40', '41', '42', '43', '44'] }
     ]
   },
   {
@@ -220,13 +219,13 @@ export const products: Product[] = [
     originalPrice: 93000,
     discount: 30,
     image: '/produk12.png',
-    category: ['aksesoris', 'perempuan'], // <-- Disesuaikan
+    category: ['aksesoris', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 20,
     description: 'Sepatu pantofel wanita dengan hak rendah yang nyaman. Tampil elegan dan profesional di setiap kesempatan.',
     specifications: 'Bahan: Kulit Sintetis\nWarna: Hitam\nHak: 3 cm\nUkuran: 36-41',
     variants: [
-        { name: 'Ukuran', options: ['36', '37', '38', '39', '40', '41'] }
+      { name: 'Ukuran', options: ['36', '37', '38', '39', '40', '41'] }
     ]
   },
   {
@@ -236,7 +235,7 @@ export const products: Product[] = [
     originalPrice: 36000,
     discount: 31,
     image: '/produk13.png',
-    category: ['aksesoris', 'laki-laki'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 25,
     description: 'Ikat pinggang formal berwarna hitam dengan kepala silver. Wajib untuk kelengkapan ospek dan seragam.',
@@ -249,7 +248,7 @@ export const products: Product[] = [
     originalPrice: 31000,
     discount: 29,
     image: '/produk14.png',
-    category: ['aksesoris'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 14,
     description: 'Satu set hasduk pramuka lengkap dengan ring rotan. Perlengkapan wajib untuk kegiatan kepramukaan di kampus.',
@@ -262,7 +261,7 @@ export const products: Product[] = [
     originalPrice: 10000,
     discount: 30,
     image: '/produk15.png',
-    category: ['aksesoris'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 22,
     description: 'Pin lambang Garuda Pancasila dengan detail yang tajam dan warna emas yang cerah. Pengait peniti yang kuat.',
@@ -275,7 +274,7 @@ export const products: Product[] = [
     originalPrice: 10000,
     discount: 30,
     image: '/produk16.png',
-    category: ['aksesoris'], // <-- Disesuaikan
+    category: ['aksesoris', 'laki-laki', 'perempuan'], // Sesuai revisi
     rating: 5.0,
     sold: 20,
     description: 'Pin bendera Merah Putih dengan kualitas terbaik. Warna cerah dan tidak mudah luntur. Pengait peniti yang kuat.',
