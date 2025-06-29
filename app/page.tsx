@@ -195,10 +195,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Gratis Ongkir untuk Pembelian di area Surabaya dan Kampus UNAIR
+              Mau Cari Kebutuhan OSPEK? Kitversity Aja
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Tanpa minimal pembelian
+              GRATIS ONGKIR SELURUH WILAYAH SURABAYA
             </p>
             <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
               <Link href="/produk">Belanja Sekarang</Link>

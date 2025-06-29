@@ -3,24 +3,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-// --- PERUBAHAN DI SINI: Menambahkan DialogHeader ---
-import { Dialog, DialogOverlay, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogOverlay, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Bot, PartyPopper, Calendar, X } from 'lucide-react';
+import { MessageCircle, Bot, PartyPopper, Calendar } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-export const WelcomePopup = () => {
+// Pastikan kita mengekspor komponen dengan nama yang benar
+export function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const hasSeenPopup = sessionStorage.getItem('kitversity-welcome-popup-v2');
+    // Menggunakan key baru di sessionStorage untuk memastikan popup ini muncul lagi setelah update
+    const hasSeenPopup = sessionStorage.getItem('kitversity-welcome-popup-v3');
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-        sessionStorage.setItem('kitversity-welcome-popup-v2', 'true');
-      }, 700);
+        sessionStorage.setItem('kitversity-welcome-popup-v3', 'true');
+      }, 500); // Waktu muncul dipercepat menjadi 0.5 detik
       
       return () => clearTimeout(timer);
     }
@@ -41,11 +42,12 @@ export const WelcomePopup = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOverlay className="bg-black/30 backdrop-blur-sm" />
+      {/* Latar belakang semi-transparan yang tidak menghalangi */}
+      <DialogOverlay className="bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
       <DialogContent 
         className={cn(
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", 
-          "sm:max-w-sm p-0 overflow-hidden rounded-xl shadow-2xl border-none" 
+          "sm:max-w-sm p-0 overflow-hidden rounded-xl shadow-2xl border-none fixed"
         )}
       >
         <div className="p-6 text-center bg-white">
@@ -91,15 +93,7 @@ export const WelcomePopup = () => {
             </Button>
           </div>
         </div>
-
-        <DialogClose asChild>
-          <button 
-            className="absolute right-3 top-3 bg-gray-100/50 hover:bg-gray-200/80 p-1.5 rounded-full transition-colors"
-            aria-label="Tutup"
-          >
-            <X className="h-5 w-5 text-gray-600" />
-          </button>
-        </DialogClose>
+        {/* Tombol close (X) sudah otomatis disediakan oleh DialogContent, jadi tidak perlu ditambah manual */}
       </DialogContent>
     </Dialog>
   );
