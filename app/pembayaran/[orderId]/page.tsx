@@ -1,3 +1,5 @@
+// Lokasi: app/pembayaran/[orderId]/page.tsx
+
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
@@ -9,13 +11,13 @@ import { Loader2, Copy, ArrowRight, Banknote, QrCode } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { Order } from '@/types/order';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 
+// --- DETAIL BANK SUDAH SESUAI PERMINTAAN ---
 const bankDetails = [
-    { name: 'Bank BCA', noRek: '1234567890', atasNama: 'Kitversity Indonesia', logo: '/logo-bca.svg' },
-    { name: 'Bank Mandiri', noRek: '0987654321', atasNama: 'Kitversity Indonesia', logo: '/logo-mandiri.svg' },
+    { name: 'Bank BCA', noRek: '7355011704', atasNama: 'Ibnu Habib Ridwansyah', logo: '/logo-bca.png' },
 ];
 
+// Komponen untuk menampilkan detail pembayaran
 const PaymentContent = () => {
   const params = useParams();
   const router = useRouter();
@@ -54,10 +56,15 @@ const PaymentContent = () => {
     toast({ title: 'Berhasil disalin!', description: `${label}: ${textToCopy}` });
   };
 
+  const handlePaymentConfirmation = () => {
+      router.push(`/terimakasih/${orderId}`);
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Loader2 className="w-10 h-10 animate-spin text-primary" />
+        <p className="ml-4 text-lg">Memuat detail pesanan...</p>
       </div>
     );
   }
@@ -79,23 +86,27 @@ const PaymentContent = () => {
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="container max-w-lg mx-auto px-4">
         <Card className="shadow-lg animate-in fade-in-50 duration-500">
-          <CardHeader className="text-center bg-gray-50 rounded-t-lg p-6">
+          <CardHeader className="text-center bg-gray-50 rounded-t-lg p-6 border-b">
             <h1 className="text-2xl font-bold text-gray-800">Instruksi Pembayaran</h1>
             <CardDescription className="mt-1">
                 Selesaikan dalam <strong>1x24 jam</strong> untuk pesanan ID: <span className="font-semibold text-primary">{order.id}</span>
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6">
-            <Alert className="mb-6 text-center">
+            <Alert className="mb-6 text-center bg-blue-50 border-blue-200">
               <AlertDescription>
                 <div className="text-sm text-gray-600">Total Pembayaran</div>
-                <div className="text-3xl font-bold text-gray-800 my-1 tracking-tight" onClick={() => handleCopy(order.totalAmount.toString(), 'Total Pembayaran')}>
-                    Rp {order.totalAmount.toLocaleString('id-ID')} <Copy className="inline h-4 w-4 text-gray-400 cursor-pointer" />
+                <div 
+                    className="text-3xl font-bold text-gray-800 my-1 tracking-tight cursor-pointer hover:bg-blue-100 rounded-md py-1" 
+                    onClick={() => handleCopy(order.totalAmount.toString(), 'Total Pembayaran')}
+                >
+                    Rp {order.totalAmount.toLocaleString('id-ID')} <Copy className="inline h-4 w-4 text-gray-400" />
                 </div>
                 <div className="text-xs text-red-600 font-medium">PENTING: Mohon transfer sesuai nominal di atas.</div>
               </AlertDescription>
             </Alert>
   
+            {/* Tampilan untuk Transfer Bank */}
             {order.paymentMethod === 'bank_transfer' && (
               <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-3">
@@ -116,19 +127,20 @@ const PaymentContent = () => {
                     </Button>
                   </div>
                 ))}
-                 <div className="text-xs text-gray-500 pt-2">
-                    <p><strong>Tata Cara:</strong></p>
-                    <ol className="list-decimal list-inside space-y-1 mt-1">
-                        <li>Buka aplikasi mobile banking atau pergi ke ATM.</li>
-                        <li>Pilih menu transfer dan masukkan nomor rekening tujuan di atas.</li>
-                        <li>Masukkan jumlah transfer **sesuai total pembayaran**.</li>
+                 <div className="text-xs text-gray-500 pt-2 bg-gray-50 p-3 rounded-md">
+                    <p className="font-bold mb-2">Tata Cara Pembayaran:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                        <li>Buka aplikasi M-Banking/Internet Banking atau pergi ke ATM BCA.</li>
+                        <li>Pilih menu **Transfer** dan masukkan nomor rekening tujuan di atas.</li>
+                        <li>Masukkan jumlah transfer **sesuai nominal total pembayaran**.</li>
                         <li>Simpan bukti transfer (screenshot/foto struk).</li>
-                        <li>Klik tombol "Saya Sudah Bayar" di bawah ini.</li>
+                        <li>Klik tombol **"Konfirmasi & Lanjut"** di bawah jika sudah membayar.</li>
                     </ol>
                 </div>
               </div>
             )}
     
+            {/* Tampilan untuk QRIS */}
             {order.paymentMethod === 'qris' && (
               <div className="space-y-4">
                  <div className="flex items-center gap-3 mb-3">
@@ -136,25 +148,26 @@ const PaymentContent = () => {
                     <h3 className="font-semibold text-lg text-gray-800">Scan QRIS Berikut</h3>
                 </div>
                 <div className="flex justify-center p-4 bg-white rounded-lg border">
-                  <Image src="/qris.png" alt="QRIS Code" width={280} height={280} priority />
+                  {/* Pastikan gambar qris.png ada di folder /public */}
+                  <Image src="/qris.png" alt="QRIS Code Kitversity" width={280} height={280} priority />
                 </div>
-                 <div className="text-xs text-gray-500 pt-2">
-                    <p><strong>Tata Cara:</strong></p>
-                    <ol className="list-decimal list-inside space-y-1 mt-1">
+                 <div className="text-xs text-gray-500 pt-2 bg-gray-50 p-3 rounded-md">
+                    <p className="font-bold mb-2">Tata Cara Pembayaran:</p>
+                    <ol className="list-decimal list-inside space-y-1">
                         <li>Buka aplikasi E-Wallet (GoPay, OVO, Dana, ShopeePay) atau Mobile Banking.</li>
-                        <li>Pilih menu Bayar atau Scan QRIS.</li>
+                        <li>Pilih menu **Bayar** atau **Scan QRIS**.</li>
                         <li>Scan kode QR di atas.</li>
-                        <li>Masukkan PIN Anda dan selesaikan pembayaran.</li>
+                        <li>Pastikan nama merchant adalah **"Kitversity"** dan jumlahnya sesuai.</li>
                         <li>Simpan bukti pembayaran (screenshot).</li>
-                        <li>Klik tombol "Saya Sudah Bayar" di bawah ini.</li>
+                        <li>Klik tombol **"Konfirmasi & Lanjut"** di bawah jika sudah membayar.</li>
                     </ol>
                 </div>
               </div>
             )}
   
             <div className="mt-8">
-              <Button onClick={() => router.push(`/terimakasih/${order.id}`)} size="lg" className="w-full font-bold text-base">
-                Saya Sudah Bayar <ArrowRight className="ml-2 h-5 w-5" />
+              <Button onClick={handlePaymentConfirmation} size="lg" className="w-full font-bold text-base">
+                Konfirmasi & Lanjut <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
           </CardContent>
@@ -164,6 +177,7 @@ const PaymentContent = () => {
   );
 }
 
+// Komponen utama halaman yang menggunakan Suspense untuk loading
 export default function PaymentPage() {
     return (
         <Suspense fallback={
@@ -175,4 +189,3 @@ export default function PaymentPage() {
         </Suspense>
     );
 }
-

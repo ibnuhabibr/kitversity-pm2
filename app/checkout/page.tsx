@@ -205,7 +205,7 @@ export default function CheckoutPage() {
                                     isSelected={paymentMethod === 'bank_transfer'}
                                     onSelect={() => setPaymentMethod('bank_transfer')}
                                     title="Transfer Bank"
-                                    description="BCA, Mandiri & Bank lainnya"
+                                    description="Ke Rekening BCA Admin"
                                     icon={<CreditCard className="w-6 h-6" />}
                                 />
                                 <OptionCard
