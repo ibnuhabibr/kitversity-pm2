@@ -2,9 +2,10 @@
 
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import pool from '@/lib/db/config'; // <-- Pastikan ini mengimpor dari file config yang benar
+import pool from '@/lib/db/config';
 import type { Order as DbOrder } from '@/types/database';
-import type { Order as FrontendOrder, CreateOrderRequest } from '@/types/order';
+import type { Order as FrontendOrder } from '@/types/order';
+import type { PoolConnection } from 'mysql2/promise'; // <-- 1. IMPORT TIPE DATA
 
 const createOrderSchema = z.object({
   items: z.array(z.object({
@@ -13,7 +14,7 @@ const createOrderSchema = z.object({
     price: z.number(),
     quantity: z.number().min(1),
     image: z.string().optional(),
-    selectedVariants: z.record(z.string()).optional(), // Tambahkan varian
+    selectedVariants: z.record(z.string()).optional(),
   })).min(1),
   customerInfo: z.object({
     name: z.string().min(3, "Nama harus diisi"),
@@ -43,7 +44,6 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): Fronte
         };
     } catch (e) {
         console.error("Failed to parse customer_info:", dbOrder.customer_info);
-        // Fallback jika JSON tidak valid
         return {
             id: String(dbOrder.id),
             items: items,
@@ -59,7 +59,9 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): Fronte
 }
 
 export async function POST(request: Request) {
-  let connection;
+  // --- 2. BERIKAN TIPE DATA PADA VARIABEL ---
+  let connection: PoolConnection | undefined;
+  
   try {
     const body = await request.json();
     const validatedData = createOrderSchema.parse(body);
