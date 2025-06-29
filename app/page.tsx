@@ -13,23 +13,23 @@ const heroSlides = [
   {
     id: 1,
     image: '/banner1.png',
-    title: 'PAKET LENGKAP OSPEK',
-    subtitle: 'DISKON 20%!',
-    description: 'Dapatkan semua kebutuhan OSPEK dengan harga spesial'
+    title: 'JUAL KEPERLUAN MAHASISWA',
+    subtitle: 'TERLENGKAP DAN TERMURAH',
+    description: 'SEMUA KEBUTUHAN KULIAHMU ADA DI SINI'
   },
   {
     id: 2,
-    image: 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg',
-    title: 'TAS KULIAH PREMIUM',
-    subtitle: 'ANTI AIR & STYLISH',
-    description: 'Tas berkualitas tinggi untuk mahasiswa aktif'
+    image: '/banner2.png',
+    title: 'BINGUNG MAU CARI KEPERLUAN NGAMPUS?',
+    subtitle: 'KITVERSITY-IN AJA',
+    description: 'PALING JAGO PENUHIN KEBUTUHAN NGAMPUSMU'
   },
   {
     id: 3,
-    image: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg',
-    title: 'BUKU & MODUL KULIAH',
-    subtitle: 'LENGKAP & TERPERCAYA',
-    description: 'Koleksi buku dan modul untuk semua jurusan'
+    image: '/banner3.png',
+    title: 'MAU YANG SATSET DAN GAMAU RIBET?',
+    subtitle: 'BELI ONLINE KEBUTUHANMU',
+    description: 'DI KITVERSITY AJA'
   }
 ];
 
@@ -77,21 +77,17 @@ export default function Home() {
               <div className="absolute inset-0 bg-black bg-opacity-40" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white max-w-2xl px-4">
-                  <h1 className={`text-4xl md:text-6xl font-bold mb-4 ${
-                        slide.id === 1 ? 'invisible' : ''
-                      }`}>
+                  {/* --- PERUBAHAN UKURAN FONT DI SINI --- */}
+                  <h1 className="text-3xl md:text-5xl font-bold mb-4">
                     {slide.title}
                   </h1>
-                  <p className={`text-xl md:text-2xl font-semibold text-orange-400 mb-4 ${
-                        slide.id === 1 ? 'invisible' : ''
-                      }`}>
+                  <p className="text-lg md:text-xl font-semibold text-orange-400 mb-4">
                     {slide.subtitle}
                   </p>
-                  <p className={`text-lg mb-8 opacity-90 ${
-                        slide.id === 1 ? 'invisible' : ''
-                      }`}>
+                  <p className="text-base mb-8 opacity-90">
                     {slide.description}
                   </p>
+                  {/* --- AKHIR PERUBAHAN --- */}
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
                       <Link href="/produk">Beli Sekarang</Link>
@@ -139,7 +135,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Categories */}
+      {/* Sisa konten halaman tetap sama... */}
       <section id="categories-section" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -170,7 +166,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Products */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -196,7 +191,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Promo Banner */}
       <section className="py-12 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto text-white">
@@ -213,65 +207,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Value Proposition */}
       <section className="py-16">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Layout diubah jadi grid-cols-4 untuk desktop */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      {/* Keunggulan 1 */}
-      <div className="text-center">
-        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">💸</span>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">💸</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Harga Termurah
+              </h3>
+              <p className="text-gray-600">
+                Kami jamin harga paling kompetitif untuk kantong mahasiswa.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🚚</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Gratis Ongkos Kirim
+              </h3>
+              <p className="text-gray-600">
+                Area Surabaya & Kampus UNAIR. Pengiriman cepat dan aman.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">💬</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Customer Service 24/7
+              </h3>
+              <p className="text-gray-600">
+                Tim support siap membantu Anda kapan saja via WhatsApp.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">✅</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Produk Berkualitas
+              </h3>
+              <p className="text-gray-600">
+                Semua produk telah melalui quality control untuk kepuasan Anda.
+              </p>
+            </div>
+          </div>
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Harga Termurah
-        </h3>
-        <p className="text-gray-600">
-          Kami jamin harga paling kompetitif untuk kantong mahasiswa.
-        </p>
-      </div>
-
-      {/* Keunggulan 2 */}
-      <div className="text-center">
-        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">🚚</span>
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Gratis Ongkos Kirim
-        </h3>
-        <p className="text-gray-600">
-          Area Surabaya & Kampus UNAIR. Pengiriman cepat dan aman.
-        </p>
-      </div>
-
-      {/* Keunggulan 3 */}
-      <div className="text-center">
-        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">💬</span>
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Customer Service 24/7
-        </h3>
-        <p className="text-gray-600">
-          Tim support siap membantu Anda kapan saja via WhatsApp.
-        </p>
-      </div>
-
-      {/* Keunggulan 4 */}
-      <div className="text-center">
-        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">✅</span>
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Produk Berkualitas
-        </h3>
-        <p className="text-gray-600">
-          Semua produk telah melalui quality control untuk kepuasan Anda.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
     </div>
   );
 }

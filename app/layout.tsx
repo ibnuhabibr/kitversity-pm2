@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { Toaster } from '@/components/ui/toaster';
 import { ChatbotWidget } from '@/components/ChatbotWidget';
+import { WelcomePopup } from '@/components/WelcomePopup'; // Hanya WelcomePopup yang diimpor
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -45,6 +46,10 @@ export default function RootLayout({
               </main>
               <Footer />
               <WhatsAppButton />
+              
+              {/* --- PERUBAHAN DI SINI: Hanya memanggil WelcomePopup --- */}
+              <WelcomePopup />
+              
               <ChatbotWidget />
               <Toaster />
             </div>

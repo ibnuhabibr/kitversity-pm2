@@ -1,9 +1,5 @@
-// Lokasi: app/produk/[id]/page.tsx
-
-import { getProductById, products } from '@/data/products';
+import { products } from '@/data/products';
 import ProductDetailClient from '@/components/ProductDetailClient';
-import { notFound } from 'next/navigation';
-import { type Product } from '@/contexts/CartContext';
 
 export async function generateStaticParams() {
   return products.map((product) => ({
@@ -12,11 +8,10 @@ export async function generateStaticParams() {
 }
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product: Product | undefined = getProductById(params.id);
+  const product = products.find(p => p.id === params.id);
 
-  if (!product) {
-    notFound();
-  }
-
+  // Perhatikan: Semua logika dipindahkan ke ProductDetailClient
+  // untuk memungkinkan penggunaan hooks ('use client').
+  // Di sini kita hanya mengambil data dan meneruskannya.
   return <ProductDetailClient product={product} />;
 }

@@ -1,26 +1,38 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Star, ShoppingCart, Plus, Minus, ChevronRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProductCard from '@/components/ProductCard';
-import { useCart, type Product } from '@/contexts/CartContext';
+import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { products } from '@/data/products';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-export default function ProductDetailClient({ product }: { product: Product }) {
+
+export default function ProductDetailClient({ product }: { product: any }) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isWishlisted } = useWishlist();
   const { toast } = useToast();
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Produk Tidak Ditemukan
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   const productIsWishlisted = isWishlisted(product.id);
 
@@ -41,25 +53,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     }
   };
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Produk Tidak Ditemukan
-          </h1>
-        </div>
-      </div>
-    );
-  }
-
   const validateVariants = () => {
     if (product.variants && product.variants.length > 0) {
-      const allVariantsSelected = product.variants.every(variant => selectedVariants[variant.name]);
-      if (!allVariantsSelected) {
+      if (Object.keys(selectedVariants).length !== product.variants.length) {
         toast({
           title: "Peringatan",
-          description: `Harap pilih ${product.variants.map(v => v.name).join(', ')} terlebih dahulu.`,
+          description: "Harap pilih semua varian produk terlebih dahulu (misal: Ukuran).",
           variant: "destructive",
         });
         return false;
@@ -79,13 +78,18 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     });
   };
 
+  // --- INI BAGIAN YANG DIPERBAIKI ---
   const handleBuyNow = () => {
     if (!validateVariants()) return;
 
-    const buyNowItem = { ...product, quantity, selectedVariants };
-    sessionStorage.setItem('buyNowItem', JSON.stringify([buyNowItem]));
+    // 1. Tambahkan item ke keranjang utama
+    addItem(product, quantity, selectedVariants);
+    
+    // 2. Langsung arahkan ke halaman checkout
     router.push('/checkout');
   };
+  // --- AKHIR BAGIAN YANG DIPERBAIKI ---
+
 
   const handleVariantChange = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({
@@ -95,7 +99,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   };
 
   const relatedProducts = products
-    .filter(p => p.category.some(cat => product.category.includes(cat)) && p.id !== product.id)
+    .filter(p => p.category.some((cat: any) => product.category.includes(cat)) && p.id !== product.id)
     .slice(0, 4);
 
   const formatPrice = (price: number) => {
@@ -138,11 +142,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
               <div className="space-y-4">
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-300"
+                    style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
                   />
                   {product.discount && (
                     <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -178,7 +181,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       </span>
                     )}
                   </div>
-                  {product.variants && product.variants.map((variant) => (
+                  {product.variants && product.variants.map((variant: any) => (
                   <div key={variant.name} className="mb-4">
                     <label className="block text-sm font-medium text-gray-900 mb-2">
                       {variant.name}
@@ -191,7 +194,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         <SelectValue placeholder={`Pilih ${variant.name}`} />
                       </SelectTrigger>
                       <SelectContent>
-                        {variant.options.map((option) => (
+                        {variant.options.map((option: any) => (
                           <SelectItem key={option} value={option}>
                             {option}
                           </SelectItem>
