@@ -84,14 +84,11 @@ export async function POST(request: Request) {
     if (!connection) {
         throw new Error('Koneksi database hilang sebelum memproses item pesanan.');
     }
-
-    // --- PERBAIKAN DI SINI ---
-    // Buat variabel konstan baru yang dijamin tidak undefined
+    
     const db = connection;
 
     const orderItemsPromises = items.map(item => {
         const productId = parseInt(item.id, 10);
-        // Gunakan variabel 'db' yang baru dan sudah pasti tipenya
         return db.execute(
             `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
             [orderId, productId, item.quantity, item.price]
@@ -133,7 +130,10 @@ export async function GET(request: Request) {
           return NextResponse.json({ error: 'Pesanan tidak ditemukan' }, { status: 404 });
         }
 
-        const [itemRows] = await pool.execute('SELECT * FROM order_items WHERE order_id = ?', [dbOrder.id]);
+        const [itemRows] = await pool.execute(
+            'SELECT oi.*, p.name FROM `order_items` oi JOIN `products` p ON oi.product_id = p.id WHERE oi.order_id = ?', 
+            [dbOrder.id]
+        );
         
         const frontendOrder = transformDbOrderToFrontend(dbOrder, itemRows as any[]);
   
