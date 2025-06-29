@@ -81,16 +81,18 @@ export async function POST(request: Request) {
       throw new Error('Gagal membuat pesanan di database.');
     }
 
-    // --- PERBAIKAN DI SINI ---
-    // Tambahkan pengecekan ini untuk meyakinkan TypeScript
     if (!connection) {
         throw new Error('Koneksi database hilang sebelum memproses item pesanan.');
     }
 
+    // --- PERBAIKAN DI SINI ---
+    // Buat variabel konstan baru yang dijamin tidak undefined
+    const db = connection;
+
     const orderItemsPromises = items.map(item => {
         const productId = parseInt(item.id, 10);
-        // Sekarang TypeScript yakin 'connection' tidak undefined di sini
-        return connection.execute(
+        // Gunakan variabel 'db' yang baru dan sudah pasti tipenya
+        return db.execute(
             `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
             [orderId, productId, item.quantity, item.price]
         );
