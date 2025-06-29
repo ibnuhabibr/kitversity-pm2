@@ -1,21 +1,22 @@
+// Lokasi: app/checkout/page.tsx
+
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCart } from '@/contexts/CartContext';
+import { useCart, type CartItem } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, CreditCard, QrCode, User, Mail, Phone, CheckCircle, Package, Truck, Home } from 'lucide-react';
+import { Loader2, CreditCard, QrCode, User, Mail, Phone, CheckCircle, Package, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 type NewPaymentMethod = 'bank_transfer' | 'qris';
 type ShippingMethod = 'cod' | 'delivery';
 
-// Komponen Pembantu untuk Opsi Pembayaran & Pengiriman
 const OptionCard = ({ isSelected, onSelect, title, description, icon }: {
     isSelected: boolean;
     onSelect: () => void;
@@ -39,10 +40,15 @@ const OptionCard = ({ isSelected, onSelect, title, description, icon }: {
     </div>
 );
 
-// Komponen Utama Halaman Checkout
 export default function CheckoutPage() {
   const router = useRouter();
   const { state: cartState, clearCart } = useCart();
+  
+  // State untuk menampung item yang akan di-checkout
+  const [checkoutItems, setCheckoutItems] = useState<CartItem[]>([]);
+  // State untuk menandai apakah ini sesi "Beli Langsung"
+  const [isBuyNow, setIsBuyNow] = useState(false);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,7 +56,30 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState<NewPaymentMethod>('bank_transfer');
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('cod');
 
-  const { getTotalPrice } = useCart();
+  // --- LOGIKA UTAMA DI SINI ---
+  useEffect(() => {
+    const buyNowItemString = sessionStorage.getItem('buyNowItem');
+    if (buyNowItemString) {
+      try {
+        const buyNowItems = JSON.parse(buyNowItemString);
+        setCheckoutItems(buyNowItems);
+        setIsBuyNow(true);
+      } catch (e) {
+        // Jika gagal parsing, gunakan keranjang utama
+        setCheckoutItems(cartState.items);
+        setIsBuyNow(false);
+      }
+    } else {
+      // Jika tidak ada item Beli Langsung, gunakan keranjang utama
+      setCheckoutItems(cartState.items);
+      setIsBuyNow(false);
+    }
+  }, [cartState.items]);
+
+  const getTotalPrice = () => {
+    return checkoutItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   const totalPrice = getTotalPrice();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,7 +87,6 @@ export default function CheckoutPage() {
     setIsLoading(true);
     setError(null);
 
-    // Validasi form
     if (!customerInfo.name || !customerInfo.email || !customerInfo.phone) {
         setError("Harap isi Nama, Email, dan Nomor WhatsApp.");
         setIsLoading(false);
@@ -75,7 +103,7 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          items: cartState.items, 
+          items: checkoutItems, // Kirim item yang sudah difilter
           customerInfo: {
             name: customerInfo.name,
             email: customerInfo.email,
@@ -89,7 +117,16 @@ export default function CheckoutPage() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Gagal membuat pesanan');
       
-      clearCart();
+      // --- PERUBAHAN LOGIKA PEMBERSIHAN ---
+      if (isBuyNow) {
+        // Jika Beli Langsung, hanya hapus item sementara
+        sessionStorage.removeItem('buyNowItem');
+      } else {
+        // Jika dari keranjang, baru kosongkan keranjang utama
+        clearCart();
+      }
+      // --- AKHIR PERUBAHAN ---
+
       router.push(`/pembayaran/${data.order.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan, silakan coba lagi.');
@@ -97,7 +134,8 @@ export default function CheckoutPage() {
       setIsLoading(false);
     }
   };
-
+  
+  // ... (sisa kode komponen tetap sama)
   return (
     <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-12">
@@ -194,8 +232,8 @@ export default function CheckoutPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
-                                    {cartState.items.map((item) => (
-                                        <div key={item.cartItemId} className="flex items-center justify-between text-sm">
+                                    {checkoutItems.map((item) => (
+                                        <div key={item.cartItemId || item.id} className="flex items-center justify-between text-sm">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden relative">
                                                     <Image src={item.image || ''} alt={item.name} layout="fill" className="object-cover"/>

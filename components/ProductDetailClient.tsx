@@ -1,3 +1,5 @@
+// Lokasi: components/ProductDetailClient.tsx
+
 'use client';
 
 import React, { useState } from 'react';
@@ -12,12 +14,14 @@ import { useToast } from '@/hooks/use-toast';
 import { products } from '@/data/products';
 import { useWishlist } from '@/contexts/WishlistContext';
 import Link from 'next/link';
-
+import Image from 'next/image';
 
 export default function ProductDetailClient({ product }: { product: any }) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
+  
+  // Kita tidak lagi memerlukan 'state' di sini untuk 'Beli Langsung'
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isWishlisted } = useWishlist();
   const { toast } = useToast();
@@ -36,23 +40,6 @@ export default function ProductDetailClient({ product }: { product: any }) {
 
   const productIsWishlisted = isWishlisted(product.id);
 
-  const handleToggleWishlist = () => {
-    if (productIsWishlisted) {
-      removeFromWishlist(product.id);
-      toast({
-        title: 'Dihapus dari Wishlist',
-        description: `${product.name} telah dihapus dari wishlist Anda.`,
-      });
-    } else {
-      addToWishlist(product);
-      toast({
-        title: 'Ditambahkan ke Wishlist!',
-        description: `${product.name} telah ditambahkan ke wishlist Anda.`,
-        variant: 'default'
-      });
-    }
-  };
-
   const validateVariants = () => {
     if (product.variants && product.variants.length > 0) {
       if (Object.keys(selectedVariants).length !== product.variants.length) {
@@ -69,7 +56,6 @@ export default function ProductDetailClient({ product }: { product: any }) {
 
   const handleAddToCart = () => {
     if (!validateVariants()) return;
-
     addItem(product, quantity, selectedVariants);
     toast({
       title: 'Berhasil!',
@@ -78,19 +64,39 @@ export default function ProductDetailClient({ product }: { product: any }) {
     });
   };
 
-  // --- INI BAGIAN YANG DIPERBAIKI ---
+  // --- LOGIKA "BELI LANGSUNG" DIKEMBALIKAN KE SEMULA ---
   const handleBuyNow = () => {
     if (!validateVariants()) return;
 
-    // 1. Tambahkan item ke keranjang utama
-    addItem(product, quantity, selectedVariants);
+    // 1. Buat item sementara untuk checkout
+    const buyNowItem = { ...product, quantity, selectedVariants };
     
-    // 2. Langsung arahkan ke halaman checkout
+    // 2. Simpan hanya item ini ke sessionStorage
+    sessionStorage.setItem('buyNowItem', JSON.stringify([buyNowItem]));
+    
+    // 3. Arahkan ke checkout
     router.push('/checkout');
   };
-  // --- AKHIR BAGIAN YANG DIPERBAIKI ---
+  // --- AKHIR PERUBAHAN ---
 
-
+  // ... (sisa kode komponen tetap sama)
+  const handleToggleWishlist = () => {
+    if (productIsWishlisted) {
+      removeFromWishlist(product.id);
+      toast({
+        title: 'Dihapus dari Wishlist',
+        description: `${product.name} telah dihapus dari wishlist Anda.`,
+      });
+    } else {
+      addToWishlist(product);
+      toast({
+        title: 'Ditambahkan ke Wishlist!',
+        description: `${product.name} telah ditambahkan ke wishlist Anda.`,
+        variant: 'default'
+      });
+    }
+  };
+  
   const handleVariantChange = (variantName: string, value: string) => {
     setSelectedVariants(prev => ({
       ...prev,
@@ -142,10 +148,11 @@ export default function ProductDetailClient({ product }: { product: any }) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
               <div className="space-y-4">
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
-                    style={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300"
                   />
                   {product.discount && (
                     <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
