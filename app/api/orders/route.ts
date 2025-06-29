@@ -5,7 +5,7 @@ import { z } from 'zod';
 import pool from '@/lib/db/config';
 import type { Order as DbOrder } from '@/types/database';
 import type { Order as FrontendOrder } from '@/types/order';
-import type { PoolConnection } from 'mysql2/promise'; // <-- 1. IMPORT TIPE DATA
+import type { PoolConnection } from 'mysql2/promise';
 
 const createOrderSchema = z.object({
   items: z.array(z.object({
@@ -59,7 +59,6 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): Fronte
 }
 
 export async function POST(request: Request) {
-  // --- 2. BERIKAN TIPE DATA PADA VARIABEL ---
   let connection: PoolConnection | undefined;
   
   try {
@@ -82,8 +81,15 @@ export async function POST(request: Request) {
       throw new Error('Gagal membuat pesanan di database.');
     }
 
+    // --- PERBAIKAN DI SINI ---
+    // Tambahkan pengecekan ini untuk meyakinkan TypeScript
+    if (!connection) {
+        throw new Error('Koneksi database hilang sebelum memproses item pesanan.');
+    }
+
     const orderItemsPromises = items.map(item => {
         const productId = parseInt(item.id, 10);
+        // Sekarang TypeScript yakin 'connection' tidak undefined di sini
         return connection.execute(
             `INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)`,
             [orderId, productId, item.quantity, item.price]
