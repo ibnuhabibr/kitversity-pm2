@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ShoppingCart, Plus, Minus, ChevronRight, Heart } from 'lucide-react';
@@ -11,21 +11,20 @@ import ProductCard from '@/components/ProductCard';
 import { useCart, type Product } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { products } from '@/data/products';
-import { useRouter } from 'next/navigation';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useRouter } from 'next/navigation';
 
-// Ganti nama fungsi & terima 'product' dari props
 export default function ProductDetailClient({ product }: { product: Product }) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string }>({});
-  const { addItem, clearCart } = useCart();
+  const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isWishlisted } = useWishlist();
   const { toast } = useToast();
 
   const productIsWishlisted = isWishlisted(product.id);
 
-   const handleToggleWishlist = () => {
+  const handleToggleWishlist = () => {
     if (productIsWishlisted) {
       removeFromWishlist(product.id);
       toast({
@@ -42,8 +41,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     }
   };
 
-  // Bagian `if (!product)` bisa dihapus karena sudah dihandle di page.tsx, 
-  // tapi kita biarin buat jaga-jaga.
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -56,8 +53,49 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     );
   }
 
+  const validateVariants = () => {
+    if (product.variants && product.variants.length > 0) {
+      const allVariantsSelected = product.variants.every(variant => selectedVariants[variant.name]);
+      if (!allVariantsSelected) {
+        toast({
+          title: "Peringatan",
+          description: `Harap pilih ${product.variants.map(v => v.name).join(', ')} terlebih dahulu.`,
+          variant: "destructive",
+        });
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleAddToCart = () => {
+    if (!validateVariants()) return;
+
+    addItem(product, quantity, selectedVariants);
+    toast({
+      title: 'Berhasil!',
+      description: `${quantity}x ${product.name} ditambahkan ke keranjang`,
+      variant: 'default'
+    });
+  };
+
+  const handleBuyNow = () => {
+    if (!validateVariants()) return;
+
+    const buyNowItem = { ...product, quantity, selectedVariants };
+    sessionStorage.setItem('buyNowItem', JSON.stringify([buyNowItem]));
+    router.push('/checkout');
+  };
+
+  const handleVariantChange = (variantName: string, value: string) => {
+    setSelectedVariants(prev => ({
+      ...prev,
+      [variantName]: value
+    }));
+  };
+
   const relatedProducts = products
-    .filter(p => p.category === product.category && p.id !== product.id)
+    .filter(p => p.category.some(cat => product.category.includes(cat)) && p.id !== product.id)
     .slice(0, 4);
 
   const formatPrice = (price: number) => {
@@ -80,32 +118,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       />
     ));
   };
-
-  const handleAddToCart = () => {
-    addItem(product, quantity, selectedVariants);
-    toast({
-      title: 'Berhasil!',
-      description: `${quantity}x ${product.name} ditambahkan ke keranjang`,
-      variant: 'default'
-    });
-  };
-
-  const handleBuyNow = () => {
-    const buyNowItem = { ...product, quantity, selectedVariants };
-    sessionStorage.setItem('buyNowItem', JSON.stringify([buyNowItem]));
-    router.push('/checkout');
-  };
-
-  const handleVariantChange = (variantName: string, value: string) => {
-    setSelectedVariants(prev => ({
-      ...prev,
-      [variantName]: value
-    }));
-  };
-
+  
   return (
       <div className="min-h-screen bg-gray-50">
-        {/* Breadcrumbs */}
         <div className="bg-white border-b">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <nav className="flex items-center space-x-2 text-sm text-gray-600">
@@ -119,10 +134,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Main Product Section */}
           <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
-              {/* Product Images */}
               <div className="space-y-4">
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
                   <Image
@@ -139,14 +152,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 </div>
               </div>
 
-              {/* Product Info */}
               <div className="space-y-6">
                 <div>
                   <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                     {product.name}
                   </h1>
-
-                  {/* Rating and Sold */}
                   <div className="flex items-center gap-4 mb-4">
                     <div className="flex items-center space-x-1">
                       {renderStars(product.rating)}
@@ -158,8 +168,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       Terjual {product.sold}+
                     </span>
                   </div>
-
-                  {/* Price */}
                   <div className="flex items-center space-x-3 mb-6">
                     <span className="text-3xl font-bold text-gray-900">
                       {formatPrice(product.price)}
@@ -169,14 +177,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         {formatPrice(product.originalPrice)}
                       </span>
                     )}
-                    {product.discount && (
-                      <span className="bg-red-100 text-red-800 px-2 py-1 rounded text-sm font-medium">
-                        Hemat {formatPrice(product.originalPrice! - product.price)}
-                      </span>
-                    )}
                   </div>
-
-                  {/* Variants */}
                   {product.variants && product.variants.map((variant) => (
                   <div key={variant.name} className="mb-4">
                     <label className="block text-sm font-medium text-gray-900 mb-2">
@@ -200,8 +201,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   </div>
                 ))}
                 </div>
-
-                {/* Quantity */}
                 <div>
                   <label className="block text-sm font-medium text-gray-900 mb-2">
                     Jumlah
@@ -225,13 +224,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         <Plus className="h-4 w-4" />
                       </Button>
                     </div>
-                    <span className="text-sm text-gray-600">
-                      Total: {formatPrice(product.price * quantity)}
-                    </span>
                   </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     onClick={handleAddToCart}
@@ -251,7 +246,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   </Button>
                 </div>
 
-                {/* Wishlist */}
                  <Button variant="ghost" className="w-full" onClick={handleToggleWishlist}>
                   <Heart
                     className={`h-5 w-5 mr-2 transition-all ${
@@ -264,7 +258,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </div>
           </div>
 
-          {/* Product Details Tabs */}
           <div className="bg-white rounded-lg shadow-sm mb-8">
             <Tabs defaultValue="description" className="p-6">
               <TabsList className="grid w-full grid-cols-2">
@@ -288,7 +281,6 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </Tabs>
           </div>
 
-          {/* Related Products */}
           {relatedProducts.length > 0 && (
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">

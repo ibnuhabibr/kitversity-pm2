@@ -37,64 +37,71 @@ const faqData = [
   {
     id: '1',
     category: 'general',
-    question: 'Apa itu Kitversity?',
-    answer: 'Kitversity adalah toko online yang menyediakan semua kebutuhan mahasiswa baru, khususnya di area Surabaya. Kami menyediakan berbagai produk mulai dari alat tulis, tas, pakaian, elektronik, buku, hingga perlengkapan kesehatan dengan kualitas terbaik dan harga terjangkau.'
+    question: 'Apa itu kitversity?',
+    answer: 'Kitversity adalah toko online yang menyediakan semua kebutuhan pelajar dan mahasiswa baru, khususnya di area Surabaya. Kami menyediakan berbagai produk mulai dari alat tulis, pakaian, buku, hingga aksesoris dengan kualitas terbaik dan harga terjangkau.'
   },
   {
     id: '2',
     category: 'general',
     question: 'Apakah Kitversity hanya melayani mahasiswa di Surabaya?',
-    answer: 'Meskipun target utama kami adalah mahasiswa di Surabaya, kami juga melayani pengiriman ke luar Surabaya dengan ongkos kirim yang akan dihitung sesuai jarak dan berat barang.'
+    answer: 'Untuk saat ini, Kitversity hanya melayani mahasiswa Kampus Surabaya, namun tidak menutup kemungkinan ke depannya akan menjangkau dan melayani pelajar dari berbagai daerah.'
   },
   {
     id: '3',
     category: 'payment',
     question: 'Metode pembayaran apa saja yang tersedia?',
-    answer: 'Kami menyediakan berbagai metode pembayaran melalui Midtrans, termasuk transfer bank, e-wallet (OVO, Dana, GoPay), kartu kredit/debit, dan untuk area Surabaya/Kampus Unair tersedia juga opsi COD (Cash on Delivery).'
+    answer: 'Kami menyediakan dua metode pembayaran yaitu melalui transfer bank dan juga QRIS (M-Banking dan E-Wallet)'
   },
   {
     id: '4',
     category: 'payment',
     question: 'Apakah pembayaran di Kitversity aman?',
-    answer: 'Ya, sangat aman! Kami menggunakan sistem pembayaran Midtrans yang telah terpercaya dan tersertifikasi PCI DSS. Semua transaksi dienkripsi dan data Anda terlindungi dengan baik.'
+    answer: 'Ya, sangat aman! Kami menggunakan sistem pembayaran dengan alamat rekening tim kami, pembeli juga dapat bertanya untuk lebih lanjut melalui Whatsapp admin atau pun pada grup khusus para pembeli.'
   },
   {
     id: '5',
-    category: 'shipping',
-    question: 'Berapa lama waktu pengiriman?',
-    answer: 'Untuk area Surabaya: 1-2 hari kerja. Untuk luar Surabaya: 3-7 hari kerja tergantung lokasi. Pengiriman COD di area kampus Unair bisa dilakukan pada hari yang sama dengan konfirmasi via WhatsApp.'
+    category: 'general',
+    question: 'Bagaimana sistem pembelian produk Kitversity?',
+    answer: 'Sesuai dengan informasi yang tertera baik dalam website ini dan laman official @Kitversity, kami menerapkan sistem Pre Order atau Open PO. Jadi, kami membuka Open Pre Order mulai dari tanggal 01 Juli — 12 Juli, dan tim kami akan selalu update mengenai berbagai informasi pada grup whatsapp para pembeli.'
   },
   {
     id: '6',
+    category: 'shipping',
+    question: 'Kapan produk akan dikirim atau diberikan?',
+    answer: 'Setelah Open Pre Order ditutup, tim kami langsung menyiapkan produk yang dibeli, kami akan memberi pelayanan terbaik, mulai dari kualitas produk, packaging, hingga pengiriman. Untuk pengiriman sendiri kami menyediakan dua opsi, yaitu pelayanan siap antar tanpa biaya (Gratis Ongkos Kirim) dan juga pengambilan produk oleh pembeli di Kampus UNAIR (Info selanjutnya akan disampaikan di grup).'
+  },
+  {
+    id: '7',
     category: 'shipping',
     question: 'Apakah ada gratis ongkir?',
     answer: 'Ya! Kami memberikan gratis ongkir untuk pengiriman ke area Surabaya dan Kampus UNAIR tanpa minimum pembelian. Semua pesanan di area tersebut akan mendapatkan gratis ongkir.'
   },
   {
-    id: '7',
-    category: 'shipping',
-    question: 'Bagaimana cara tracking pesanan?',
-    answer: 'Setelah pesanan Anda dikirim, kami akan mengirimkan nomor resi via WhatsApp. Anda bisa melakukan tracking melalui website kurir yang bersangkutan atau menghubungi customer service kami.'
-  },
-  {
     id: '8',
-    category: 'product',
-    question: 'Apakah produk di Kitversity original dan berkualitas?',
-    answer: 'Tentu saja! Semua produk yang kami jual telah melalui quality control ketat. Kami bekerja sama dengan supplier terpercaya dan memberikan garansi untuk produk-produk tertentu sesuai dengan ketentuan pabrik.'
+    category: 'general',
+    question: 'Bagaimana saya bisa tahu proses dan progres dari pesanan saya?',
+    answer: 'Tim Kitversity akan selalu update mengenai berbagai informasi pada grup khusus para pembeli, di grup tersebut tim akan dapat berinteraksi langsung dan dapat bertanya tentang apapun.'
   },
   {
     id: '9',
     category: 'product',
-    question: 'Bagaimana jika produk yang saya terima rusak atau tidak sesuai?',
-    answer: 'Kami memiliki kebijakan pengembalian 7 hari untuk produk yang rusak atau tidak sesuai. Hubungi customer service kami via WhatsApp dengan foto produk dan bukti pembelian, kami akan membantu proses penukaran atau pengembalian dana.'
+    question: 'Apakah produk di Kitversity berkualitas?',
+    answer: 'Tentu saja! Semua produk yang kami jual telah melalui quality control ketat. Kami bekerja sama dengan supplier terpercaya dan memberikan garansi untuk produk-produk tertentu sesuai dengan ketentuan pabrik.'
   },
   {
     id: '10',
+    category: 'product',
+    question: 'Bagaimana jika produk yang saya terima rusak atau tidak sesuai?',
+    answer: 'Apabila produk yang diterima oleh pembeli rusak atau tidak sesuai, tim Kitversity akan bertanggung jawab untuk mengganti dengan produk yang sesuai atau bahkan mengganti kerugian dengan pengembalian dana, dengan syarat pembeli wajib melampirkan bukti pendukung, seperti video unboxing produk.'
+  },
+  {
+    id: '11',
     category: 'general',
     question: 'Bagaimana cara menghubungi customer service?',
-    answer: 'Cara tercepat adalah melalui WhatsApp di +62 851-3570-6028. Tim kami aktif 24/7 dan akan merespon dengan cepat. Anda juga bisa mengirim email ke admin@kitversity.com atau menggunakan form kontak di website.'
+    answer: 'Cara tercepat adalah melalui WhatsApp di +62 851-3570-6028. Tim kami aktif 24/7 dan akan merespon dengan cepat. Anda juga bisa mengirim email ke admin@kitversity.com atau menggunakan layanan Chatbot AI yang telah kami latih untuk dapat melayani customer dengan sebaik mungkin.'
   }
 ];
+
 
 export default function FAQPage() {
   const [searchQuery, setSearchQuery] = useState('');

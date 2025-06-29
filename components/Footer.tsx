@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import React from 'react';
 import { Instagram, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
@@ -9,45 +8,44 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-  <div className="flex items-center space-x-3 mb-4">
-    {/* Logo baru di footer */}
-    <Image
-      src="/logo-kitversity.png"
-      alt="Kitversity Logo"
-      width={40}
-      height={40}
-    />
-    <span className="text-xl font-bold">Kitversity</span>
-  </div>
-  <p className="text-gray-400 text-sm leading-relaxed">
-    Solusi lengkap untuk mahasiswa baru di Surabaya. Kami menyediakan 
-    semua kebutuhan kuliah dengan kualitas terbaik dan harga terjangkau.
-  </p>
-</div>
+            <div className="flex items-center space-x-3 mb-4">
+              {/* Logo baru di footer */}
+              <img
+                src="/logo-kitversity.png"
+                alt="Kitversity Logo"
+                style={{ width: '40px', height: '40px' }}
+              />
+              <span className="text-xl font-bold">Kitversity</span>
+            </div>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Solusi lengkap untuk mahasiswa baru di Surabaya. Kami menyediakan 
+              semua kebutuhan kuliah dengan kualitas terbaik dan harga terjangkau.
+            </p>
+          </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Link Cepat</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/" className="text-gray-400 hover:text-white transition-colors">
                   Home
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/produk" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/produk" className="text-gray-400 hover:text-white transition-colors">
                   Produk
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/faq" className="text-gray-400 hover:text-white transition-colors">
                   FAQ
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/kontak" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/kontak" className="text-gray-400 hover:text-white transition-colors">
                   Kontak
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -57,7 +55,10 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Hubungi Kami</h3>
             <div className="space-y-2 text-sm text-gray-400">
               <p>📍 Jl. Mojo II No.8, Mojo, Kec. Gubeng, Surabaya</p>
-              <p>📧 admin@kitversity.com</p>
+              {/* PERBAIKAN DI SINI: Mengubah <p> menjadi <a> agar bisa diklik */}
+              <a href="mailto:admin@kitversity.com" className="hover:text-white transition-colors">
+                📧 admin@kitversity.com
+              </a>
               <p>📞 +62 851-3570-6028</p>
             </div>
             

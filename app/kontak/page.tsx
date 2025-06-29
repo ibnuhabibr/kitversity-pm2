@@ -46,39 +46,27 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+                {/* Bagian Tombol WhatsApp Dihapus */}
                 <div className="flex items-start space-x-4">
                   <div className="bg-green-100 p-3 rounded-lg">
                     <MessageCircle className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">WhatsApp</h3>
-                    <p className="text-gray-600 mb-2">+62 851-3570-6028</p>
-                    <Button 
-                      onClick={handleWhatsAppClick}
-                      size="sm" 
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      Chat Sekarang
-                    </Button>
+                    <p className="text-gray-600">+62 851-3570-6028</p>
                   </div>
                 </div>
 
+                {/* Bagian Tombol Email Dihapus dan Email dijadikan link */}
                 <div className="flex items-start space-x-4">
                   <div className="bg-blue-100 p-3 rounded-lg">
                     <Mail className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600 mb-2">admin@kitversity.com</p>
-                    <Button 
-                      asChild
-                      size="sm" 
-                      className="bg-blue-600 hover:bg-blue-700"
-                    >
-                      <a href="mailto:admin@kitversity.com?subject=Pertanyaan%20Kitversity&body=Halo%20Kitversity%2C%0A%0ASaya%20ingin%20bertanya%20tentang%20produk%20atau%20layanan%20Anda.%0A%0ATerima%20kasih.">
-                        Kirim Email
-                      </a>
-                    </Button>
+                    <a href="mailto:admin@kitversity.com" className="text-gray-600 hover:text-blue-600 transition-colors">
+                      admin@kitversity.com
+                    </a>
                   </div>
                 </div>
 
@@ -126,7 +114,7 @@ export default function ContactPage() {
           </div>
 
           {/* Map Section */}
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden mt-12">
             <div className="p-6 border-b">
               <h2 className="text-2xl font-bold text-gray-900">
                 Lokasi Kami

@@ -1,17 +1,19 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { useState } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import { Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
+import { Button } from '../../components/ui/button';
+import { useCart } from '../../contexts/CartContext';
+import { useToast } from '../../hooks/use-toast';
 
 export default function CartPage() {
-  const router = useRouter();
-  const { state, updateQuantity, removeItem, getTotalPrice } = useCart();
+  const router = {
+    push: (path) => {
+      window.location.href = path;
+    },
+  };
+  // Memperbaiki pemanggilan hook dengan menambahkan getTotalItems
+  const { state, updateQuantity, removeItem, getTotalPrice, getTotalItems } = useCart();
   const { toast } = useToast();
 
   const handleCheckout = () => {
@@ -19,7 +21,7 @@ export default function CartPage() {
     router.push('/checkout');
   };
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
@@ -27,16 +29,18 @@ export default function CartPage() {
     }).format(price);
   };
 
-  const handleQuantityChange = (id: string, newQuantity: number) => {
+  // Use cartItemId to handle quantity changes
+  const handleQuantityChange = (cartItemId, newQuantity) => {
     if (newQuantity < 1) {
-      handleRemoveItem(id);
+      handleRemoveItem(cartItemId);
       return;
     }
-    updateQuantity(id, newQuantity);
+    updateQuantity(cartItemId, newQuantity);
   };
 
-  const handleRemoveItem = (id: string) => {
-    removeItem(id);
+  // Use cartItemId to remove items
+  const handleRemoveItem = (cartItemId) => {
+    removeItem(cartItemId);
     toast({
       title: 'Produk Dihapus',
       description: 'Produk berhasil dihapus dari keranjang',
@@ -59,9 +63,9 @@ export default function CartPage() {
           <p className="text-gray-600 mb-8">
             Belum ada produk yang ditambahkan ke keranjang. Yuk mulai belanja!
           </p>
-          <Button asChild size="lg">
-            <Link href="/produk">Mulai Belanja</Link>
-          </Button>
+          <a href="/produk">
+            <Button size="lg">Mulai Belanja</Button>
+          </a>
         </div>
       </div>
     );
@@ -78,15 +82,15 @@ export default function CartPage() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {state.items.map((item) => (
-              <div key={item.id} className="bg-white rounded-lg shadow-sm p-6">
+              // Use cartItemId as the unique key for mapping
+              <div key={item.cartItemId} className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Product Image */}
                   <div className="relative w-full sm:w-24 h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                    <Image
+                    <img
                       src={item.image}
                       alt={item.name}
-                      fill
-                      className="object-cover"
+                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                     />
                   </div>
 
@@ -94,14 +98,15 @@ export default function CartPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium text-gray-900 text-sm sm:text-base">
-                        <Link href={`/produk/${item.id}`} className="hover:text-blue-600">
+                        <a href={`/produk/${item.id}`} className="hover:text-blue-600">
                           {item.name}
-                        </Link>
+                        </a>
                       </h3>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleRemoveItem(item.id)}
+                        // Pass cartItemId to the remove handler
+                        onClick={() => handleRemoveItem(item.cartItemId)}
                         className="text-red-600 hover:text-red-700 hover:bg-red-50 ml-4"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -138,7 +143,8 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                            // Pass cartItemId to the quantity change handler
+                            onClick={() => handleQuantityChange(item.cartItemId, item.quantity - 1)}
                             disabled={item.quantity <= 1}
                           >
                             <Minus className="h-4 w-4" />
@@ -149,7 +155,8 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                            // Pass cartItemId to the quantity change handler
+                            onClick={() => handleQuantityChange(item.cartItemId, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
@@ -174,7 +181,8 @@ export default function CartPage() {
 
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal ({state.items.reduce((sum, item) => sum + item.quantity, 0)} item)</span>
+                  {/* Memanggil getTotalItems() yang sudah di-destructure */}
+                  <span className="text-gray-600">Subtotal ({getTotalItems()} item)</span>
                   <span className="font-medium">{formatPrice(totalPrice)}</span>
                 </div>
                 <div className="flex justify-between">
@@ -192,9 +200,9 @@ export default function CartPage() {
                 Lanjut ke Pembayaran
               </Button>
 
-              <Button asChild variant="outline" className="w-full">
-                <Link href="/produk">Lanjut Belanja</Link>
-              </Button>
+              <a href="/produk">
+                <Button variant="outline" className="w-full">Lanjut Belanja</Button>
+              </a>
 
               {/* Promo Info */}
               <div className="mt-6 p-4 bg-blue-50 rounded-lg">
