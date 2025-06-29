@@ -5,21 +5,22 @@ import type { Pool } from 'mysql2/promise';
 
 let pool: Pool;
 
-// Logika ini akan membaca DATABASE_URL jika dideploy ke Vercel nanti
-// Tapi saat di lokal, dia akan membaca variabel DB_* dari .env.local
-if (process.env.DATABASE_URL) {
-  // BAGIAN INI UNTUK VPS (PRODUCTION)
-  pool = mysql.createPool({
-    uri: process.env.DATABASE_URL,
-    // ...
-  });
-} else {
-  // BAGIAN INI UNTUK LOKAL (XAMPP)
-  pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    // ...
-  });
+// Inisialisasi koneksi pool hanya sekali
+if (!pool) {
+  try {
+    pool = mysql.createPool({
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
+    });
+    console.log("Database connection pool created successfully.");
+  } catch (error) {
+    console.error("Failed to create database connection pool:", error);
+  }
 }
 
 export default pool;
