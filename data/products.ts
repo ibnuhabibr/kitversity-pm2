@@ -131,21 +131,50 @@ SIZE CHART (Lingkar Pinggang / Panjang Celana 98-100cm):
     rating: 5.0,
     sold: 19,
     description: 'Tampil memesona dengan rok span hitam yang tak terlupakan. Dengan sentuhan rempel belakang yang memukau, rok ini menghadirkan feminitas dan keanggunan untuk momen istimewa Anda. Dirancang dari bahan semi woll berkualitas, memberikan penampilan mewah sekaligus kenyamanan tanpa kompromi.',
-    specifications: `Bahan: Semi Woll (Nyaman dipakai untuk kerja atau acara lainnya)
-Model: Span A-Line dengan rempel belakang
+    specifications: `MATRIAL BAHAN/KAIN : "MELENIUM"
 
-DETAIL UKURAN (Estimasi Berat Badan):
-• S (40-45 kg): Lingkar Pinggang 68 cm, Panjang 91 cm
-• M (45-50 kg): Lingkar Pinggang 72 cm, Panjang 92 cm
-• L (50-55 kg): Lingkar Pinggang 76 cm, Panjang 92 cm
-• XL (55-60 kg): Lingkar Pinggang 80 cm, Panjang 92 cm
-• XXL (60-65 kg): Lingkar Pinggang 84 cm, Panjang 92 cm
-• 3XL (65-70 kg): Lingkar Pinggang 88 cm, Panjang 93 cm
-• 4XL (70-75 kg): Lingkar Pinggang 92 cm, Panjang 93 cm
-• 5XL (75-80 kg): Lingkar Pinggang 96 cm, Panjang 93 cm
-• 6XL (80-85 kg): Lingkar Pinggang 100 cm, Panjang 93 cm`,
+√ TEBAL
+√ HALUS
+√ JATUH&LICIN
+
+UKURAN : S,M,L,XL
+
+WARNA : HITAM,COKLAT,BIRU
+
+MODEL A LINE PINGGANG KARET SAMPING
+
+*KANCING HAG DALAM
+*RESLETING DIBAGIAN BELAKANG
+*TERDAPAT KANTONG SAKU
+*ADA KOLONG BUAT IKAT PINGGANG
+
+KETERANGAN UKURAN : 
+
+SIZE S
+PANJANG : 91 CM
+LINGKAR PINGGANG : 66 CM ( NORMAL ) SETELAH MULUR 80 CM
+LINGKAR BAWAH : 122 CM ( MELINGKAR )
+PERKIRAAN BB : 40-45 KG
+
+SIZE M
+PANJANG : 93 CM
+LINGKAR PINGGANG : 68 CM ( NORMAL ) SETELAH MULUR 82 CM
+LINGKAR BAWAH : 124 CM ( MELINGKAR )
+PERKIRAAN BB : 46-50 KG
+
+SIZE L
+PANJANG :94 CM
+LINGKAR PINGGANG : 70 CM ( NORMAL ) SETELAH MULUR 98 CM
+LINGKAR BAWAH : 125 CM ( MELINGKAR )
+PERKIRAAN BB : 51-55 KG
+
+SIZE XL
+PANJANG :94 CM
+LINGKAR PINGGANG : 72 CM ( NORMAL ) SETELAH MULUR 110 CM
+LINGKAR BAWAH : 126 CM ( MELINGKAR )
+PERKIRAAN BB : 56-65 KG`,
     variants: [
-      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', '6XL'] }
+      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL'] }
     ]
   },
   {
@@ -159,21 +188,50 @@ DETAIL UKURAN (Estimasi Berat Badan):
     rating: 5.0,
     sold: 13,
     description: 'Tampil anggun dengan rok span putih yang elegan. Dengan sentuhan rempel belakang yang memukau, rok ini sangat cocok untuk ospek atau acara formal. Dirancang dari bahan semi woll berkualitas, memberikan penampilan mewah sekaligus kenyamanan tanpa kompromi.',
-    specifications: `Bahan: Semi Woll (Nyaman dipakai untuk kerja atau acara lainnya)
-Model: Span A-Line dengan rempel belakang
+    specifications: `MATRIAL BAHAN/KAIN : "MELENIUM"
 
-DETAIL UKURAN (Estimasi Berat Badan):
-• S (40-45 kg): Lingkar Pinggang 68 cm, Panjang 91 cm
-• M (45-50 kg): Lingkar Pinggang 72 cm, Panjang 92 cm
-• L (50-55 kg): Lingkar Pinggang 76 cm, Panjang 92 cm
-• XL (55-60 kg): Lingkar Pinggang 80 cm, Panjang 92 cm
-• XXL (60-65 kg): Lingkar Pinggang 84 cm, Panjang 92 cm
-• 3XL (65-70 kg): Lingkar Pinggang 88 cm, Panjang 93 cm
-• 4XL (70-75 kg): Lingkar Pinggang 92 cm, Panjang 93 cm
-• 5XL (75-80 kg): Lingkar Pinggang 96 cm, Panjang 93 cm
-• 6XL (80-85 kg): Lingkar Pinggang 100 cm, Panjang 93 cm`,
+√ TEBAL
+√ HALUS
+√ JATUH&LICIN
+
+UKURAN : S,M,L,XL
+
+WARNA : HITAM,COKLAT,BIRU
+
+MODEL A LINE PINGGANG KARET SAMPING
+
+*KANCING HAG DALAM
+*RESLETING DIBAGIAN BELAKANG
+*TERDAPAT KANTONG SAKU
+*ADA KOLONG BUAT IKAT PINGGANG
+
+KETERANGAN UKURAN :
+
+SIZE S
+PANJANG : 91 CM
+LINGKAR PINGGANG : 66 CM ( NORMAL ) SETELAH MULUR 80 CM
+LINGKAR BAWAH : 122 CM ( MELINGKAR )
+PERKIRAAN BB : 40-45 KG
+
+SIZE M
+PANJANG : 93 CM
+LINGKAR PINGGANG : 68 CM ( NORMAL ) SETELAH MULUR 82 CM
+LINGKAR BAWAH : 124 CM ( MELINGKAR )
+PERKIRAAN BB : 46-50 KG
+
+SIZE L
+PANJANG :94 CM
+LINGKAR PINGGANG : 70 CM ( NORMAL ) SETELAH MULUR 98 CM
+LINGKAR BAWAH : 125 CM ( MELINGKAR )
+PERKIRAAN BB : 51-55 KG
+
+SIZE XL
+PANJANG :94 CM
+LINGKAR PINGGANG : 72 CM ( NORMAL ) SETELAH MULUR 110 CM
+LINGKAR BAWAH : 126 CM ( MELINGKAR )
+PERKIRAAN BB : 56-65 KG`,
     variants: [
-      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL', '6XL'] }
+      { name: 'Ukuran', options: ['S', 'M', 'L', 'XL'] }
     ]
   },
   {
