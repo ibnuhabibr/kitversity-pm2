@@ -1,11 +1,17 @@
+// Lokasi: types/order.ts
+
 import { Product } from '@/contexts/CartContext';
 
+// --- TIPE DIPERBARUI DI SINI ---
 export type PaymentMethod = 
   | 'bank_transfer'
-  | 'gopay'
+  | 'virtual_account_bca'
+  | 'virtual_account_bri'
+  | 'virtual_account_bni'
+  | 'virtual_account_mandiri'
   | 'shopeepay'
-  | 'qris'
-  | 'virtual_account';
+  | 'gopay'
+  | 'qris';
 
 export type PaymentStatus = 
   | 'pending'
@@ -35,14 +41,6 @@ export interface CustomerInfo {
   address?: string;
 }
 
-export interface PaymentInfo {
-  method: PaymentMethod;
-  status: PaymentStatus;
-  token?: string;
-  redirectUrl?: string;
-  paidAt?: string;
-}
-
 export interface Order {
   id: string;
   items: OrderItem[];
@@ -60,11 +58,3 @@ export interface CreateOrderRequest {
   customerInfo: CustomerInfo;
   paymentMethod: PaymentMethod;
 }
-
-export interface OrderResponse {
-  order: Order;
-  payment: {
-    token: string;
-    redirectUrl: string;
-  };
-} 

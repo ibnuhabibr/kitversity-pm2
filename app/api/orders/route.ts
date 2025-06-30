@@ -7,6 +7,7 @@ import type { Order as DbOrder } from '@/types/database';
 import type { Order as FrontendOrder } from '@/types/order';
 import type { PoolConnection } from 'mysql2/promise';
 
+// --- PERUBAHAN PADA ENUM DI SINI ---
 const createOrderSchema = z.object({
   items: z.array(z.object({
     id: z.string(),
@@ -22,8 +23,14 @@ const createOrderSchema = z.object({
     phone: z.string().min(10, "Nomor telepon tidak valid"),
     address: z.string().optional(),
   }),
-  paymentMethod: z.enum(['bank_transfer', 'qris']),
+  paymentMethod: z.enum([
+    'bank_transfer', 'virtual_account_bca', 'virtual_account_bri', 
+    'virtual_account_bni', 'virtual_account_mandiri', 'shopeepay', 'gopay', 'qris'
+  ]),
 });
+
+// ... sisa kode tidak berubah, sama seperti yang terakhir kita perbaiki ...
+// (Fungsi transformDbOrderToFrontend, POST, dan GET tetap sama)
 
 function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): FrontendOrder {
     try {
