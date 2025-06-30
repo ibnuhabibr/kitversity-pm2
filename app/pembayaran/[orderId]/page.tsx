@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Copy, ArrowRight, Banknote, QrCode, Smartphone, Wallet } from 'lucide-react';
+import { Loader2, Copy, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { Order } from '@/types/order';
 import Image from 'next/image';
@@ -18,53 +18,53 @@ const paymentDetails = {
         title: "Transfer Bank BCA",
         rekening: "7355011704",
         atasNama: "Ibnu Habib Ridwansyah",
-        logo: "/logo-bca.svg",
+        logo: "/bca.png",
         note: "Bisa transfer melalui bank lain atau e-wallet (ShopeePay, GoPay, DANA, dll) ke rekening BCA ini."
     },
     virtual_account_bca: {
         title: "BCA Virtual Account",
         rekening: "122085645970893",
-        atasNama: "shopeepay ibnuhabib017",
-        logo: "/logo-bca.svg",
+        atasNama: "ShopeePay (a.n. ibnuhabib017)",
+        logo: "/bca.png",
         instructions: {
-            "mBanking (m-BCA)": "Pilih m-Transfer > BCA Virtual Account > Masukkan No. VA dan nominal > Pastikan nama tertera ShopeePay dan username ibnuhabib017 > Masukkan PIN.",
-            "iBanking (KlikBCA)": "Pilih Transfer Dana > Transfer ke BCA Virtual Account > Masukkan No. VA dan nominal > Pastikan nama tertera ShopeePay dan username ibnuhabib017 > Masukkan respon KeyBCA."
+            "mBanking (m-BCA)": "Pilih m-Transfer > BCA Virtual Account > Masukkan No. Virtual Account di atas > Masukkan nominal > Pastikan nama tertera ShopeePay & username > Masukkan PIN.",
+            "iBanking (KlikBCA)": "Pilih Transfer Dana > Transfer ke BCA Virtual Account > Masukkan No. VA di atas > Masukkan nominal > Pastikan nama tertera ShopeePay & username > Masukkan respon KeyBCA."
         }
     },
     virtual_account_bri: {
         title: "BRI Virtual Account",
         rekening: "112085645970893",
-        atasNama: "shopeepay ibnuhabib017",
-        logo: "/logo-bri.svg",
+        atasNama: "ShopeePay (a.n. ibnuhabib017)",
+        logo: "/bri.png",
         instructions: {
-            "iBanking": "Pilih Pembayaran > BRIVA > Masukkan No. VA dan nominal > Pastikan nama tertera ShopeePay dan username ibnuhabib017 > Masukkan password & mToken.",
+            "iBanking": "Pilih Pembayaran > BRIVA > Masukkan No. VA di atas > Masukkan nominal > Pastikan nama & username sesuai > Masukkan password & mToken.",
             "mBanking (BRImo)": "Pilih Dompet Digital > Top Up Baru > Pilih ShopeePay > Masukkan nomor HP (085645970893) > Masukkan nominal > Pastikan data benar > Masukkan PIN."
         }
     },
     virtual_account_bni: {
         title: "BNI Virtual Account",
         rekening: "807085645970893",
-        atasNama: "shopeepay ibnuhabib017",
-        logo: "/logo-bni.svg",
+        atasNama: "ShopeePay (a.n. ibnuhabib017)",
+        logo: "/bni.png",
         instructions: {
-            "iBanking": "Pilih Transfer > Virtual Account Billing > Masukkan No. VA dan nominal > Pastikan nama tertera ShopeePay dan username ibnuhabib017 > Masukkan Kode Otentikasi.",
+            "iBanking": "Pilih Transfer > Virtual Account Billing > Masukkan No. VA di atas > Masukkan nominal > Pastikan nama & username sesuai > Masukkan Kode Otentikasi.",
             "mBanking": "Pilih E-Wallet > ShopeePay > Input Baru > Masukkan No. HP (085645970893) > Masukkan nominal > Masukkan Password Transaksi."
         }
     },
     virtual_account_mandiri: {
         title: "Mandiri Virtual Account",
         rekening: "893085645970893",
-        atasNama: "shopeepay ibnuhabib017",
-        logo: "/logo-mandiri.svg",
+        atasNama: "ShopeePay (a.n. ibnuhabib017)",
+        logo: "/mandiri.png",
         instructions: {
-            "mBanking (Livin')": "Pilih Top up > e-Wallet > ShopeePay > Masukkan No. VA dan nominal > Pastikan username sesuai > Masukkan PIN."
+            "mBanking (Livin')": "Pilih Top up > e-Wallet > ShopeePay > Masukkan No. VA di atas > Masukkan nominal > Pastikan username sesuai > Masukkan PIN."
         }
     },
     shopeepay: {
         title: "Transfer ShopeePay",
         rekening: "085645970893",
         atasNama: "ibnuhabib017",
-        logo: "/logo-shopeepay.svg",
+        logo: "/shopeepay.png",
         instructions: {
             "Panduan": "Buka aplikasi Shopee > Pilih ShopeePay > Transfer > Transfer ke Kontak > Masukkan nomor/username di atas > Masukkan nominal > Transfer Sekarang > Masukkan PIN."
         }
@@ -73,16 +73,16 @@ const paymentDetails = {
         title: "Transfer GoPay",
         rekening: "085645970893",
         atasNama: "Ibnu Habib Ridwansyah",
-        logo: "/logo-gopay.svg",
+        logo: "/gopay.png",
         instructions: {
-            "Via Aplikasi Gojek": "Pilih Bayar > Transfer > Cari GoPay > Masukkan nomor HP tujuan > Masukkan nominal > Pilih GoPay sebagai metode bayar > Masukkan PIN.",
-            "Via Aplikasi GoPay": "Pilih Transfer > Transfer ke Orang Lain > Cari teman/kontak > Tentukan jumlah > Masukkan PIN.",
+            "Via Aplikasi Gojek/GoPay": "Pilih Bayar/Transfer > Cari GoPay > Masukkan nomor HP tujuan > Masukkan nominal > Pilih GoPay sebagai metode bayar > Masukkan PIN.",
             "Scan QRIS GoPay": "Buka aplikasi Gojek/GoPay > Pilih Bayar > Scan kode QR di bawah ini > Masukkan nominal > Bayar > Masukkan PIN."
         },
-        qrisImage: "/qris-gopay.png" // Pastikan ada gambar ini di /public
+        qrisImage: "/qris-gopay.png"
     },
     qris: { title: "QRIS", rekening: "", atasNama: "" }
 };
+
 
 const PaymentContent = () => {
     const params = useParams();
@@ -102,7 +102,6 @@ const PaymentContent = () => {
             if (!response.ok) throw new Error('Gagal memuat pesanan.');
             const data = await response.json();
             setOrder(data.order);
-            // Set detail pembayaran berdasarkan metode dari order
             setMethodDetails(paymentDetails[data.order.paymentMethod as keyof typeof paymentDetails]);
           } catch (err) {
             console.error(err);
@@ -138,17 +137,20 @@ const PaymentContent = () => {
                             </AlertDescription>
                         </Alert>
                         
-                        <div className="text-center p-4 bg-gray-50 rounded-lg">
-                            <h3 className="font-bold text-lg">{methodDetails.title}</h3>
-                            {methodDetails.rekening &&
-                                <div className="mt-2 flex items-center justify-center gap-2">
-                                    <p className="text-xl font-mono text-gray-800">{methodDetails.rekening}</p>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopy(methodDetails.rekening, "Nomor Tujuan")}>
-                                        <Copy className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            }
-                            {methodDetails.atasNama && <p className="text-sm text-gray-500">a.n. {methodDetails.atasNama}</p>}
+                        <div className="text-center p-4 bg-gray-50 rounded-lg flex items-center gap-4">
+                            <Image src={methodDetails.logo} alt={methodDetails.title} width={48} height={48} className="object-contain" />
+                            <div className="text-left">
+                                <h3 className="font-bold text-lg">{methodDetails.title}</h3>
+                                {methodDetails.rekening &&
+                                    <div className="mt-1 flex items-center gap-2">
+                                        <p className="text-lg font-mono text-gray-800">{methodDetails.rekening}</p>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopy(methodDetails.rekening, "Nomor Tujuan")}>
+                                            <Copy className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                }
+                                {methodDetails.atasNama && <p className="text-sm text-gray-500">a.n. {methodDetails.atasNama}</p>}
+                            </div>
                         </div>
 
                         {methodDetails.qrisImage && (
@@ -163,13 +165,13 @@ const PaymentContent = () => {
                                 {methodDetails.instructions && Object.entries(methodDetails.instructions).map(([key, value]) => (
                                     <AccordionItem value={key} key={key}>
                                         <AccordionTrigger>{key}</AccordionTrigger>
-                                        <AccordionContent className="text-sm leading-relaxed whitespace-pre-line">
+                                        <AccordionContent className="text-sm leading-relaxed whitespace-pre-line px-1">
                                             {value as string}
                                         </AccordionContent>
                                     </AccordionItem>
                                 ))}
                             </Accordion>
-                             {methodDetails.note && <p className="text-xs text-center mt-4 p-2 bg-yellow-50 border border-yellow-200 rounded-md">{methodDetails.note}</p>}
+                            {methodDetails.note && <p className="text-xs text-center mt-4 p-2 bg-yellow-50 border border-yellow-200 rounded-md">{methodDetails.note}</p>}
                         </div>
 
                         <Button onClick={() => router.push(`/terimakasih/${order.id}`)} size="lg" className="w-full font-bold">

@@ -14,12 +14,9 @@ import { Loader2, CreditCard, QrCode, User, Mail, Phone, CheckCircle, Package, H
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
-// Tipe data untuk metode pembayaran yang baru
 export type PaymentMethodType = 'bank_transfer' | 'virtual_account_bca' | 'virtual_account_bri' | 'virtual_account_bni' | 'virtual_account_mandiri' | 'shopeepay' | 'gopay' | 'qris';
-
 type ShippingMethod = 'cod' | 'delivery';
 
-// Komponen Card untuk Opsi Pembayaran/Pengiriman
 const OptionCard = ({ isSelected, onSelect, title, description, icon, disabled = false, badge = '' }: {
     isSelected: boolean;
     onSelect: () => void;
@@ -39,7 +36,7 @@ const OptionCard = ({ isSelected, onSelect, title, description, icon, disabled =
         )}
     >
         {badge && <div className="absolute top-[-10px] right-2 bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">{badge}</div>}
-        <div className="flex-shrink-0 text-blue-600">{icon}</div>
+        <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">{icon}</div>
         <div className="flex-1">
             <p className="font-semibold text-gray-800">{title}</p>
             <p className="text-sm text-gray-500">{description}</p>
@@ -47,7 +44,6 @@ const OptionCard = ({ isSelected, onSelect, title, description, icon, disabled =
         {isSelected && <CheckCircle className="w-5 h-5 text-blue-500" />}
     </div>
 );
-
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -134,11 +130,8 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
                     <form onSubmit={handleSubmit} className="lg:col-span-3 space-y-6">
-                        {/* Data Diri & Pengiriman tetap sama */}
                         <Card className="shadow-md">
-                            <CardHeader>
-                                <CardTitle className="text-xl">1. Data Diri</CardTitle>
-                            </CardHeader>
+                            <CardHeader><CardTitle className="text-xl">1. Data Diri</CardTitle></CardHeader>
                             <CardContent className="space-y-4">
                                 <Input placeholder="Nama Lengkap" value={customerInfo.name} onChange={(e) => setCustomerInfo(p => ({ ...p, name: e.target.value }))} required />
                                 <Input type="email" placeholder="Alamat Email" value={customerInfo.email} onChange={(e) => setCustomerInfo(p => ({ ...p, email: e.target.value }))} required />
@@ -146,9 +139,7 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
                         <Card className="shadow-md">
-                            <CardHeader>
-                                <CardTitle className="text-xl">2. Metode Pengiriman</CardTitle>
-                            </CardHeader>
+                            <CardHeader><CardTitle className="text-xl">2. Metode Pengiriman</CardTitle></CardHeader>
                             <CardContent className="space-y-3">
                                 <OptionCard isSelected={shippingMethod === 'cod'} onSelect={() => setShippingMethod('cod')} title="Ambil di Kampus UNAIR" description="Gratis. Detail lokasi & waktu akan diinfokan di grup." icon={<Package className="w-6 h-6" />} />
                                 <OptionCard isSelected={shippingMethod === 'delivery'} onSelect={() => setShippingMethod('delivery')} title="Gratis Kirim ke Rumah" description="Khusus untuk area kota Surabaya." icon={<Home className="w-6 h-6" />} />
@@ -160,25 +151,22 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
 
-                        {/* --- BAGIAN PEMBAYARAN BARU --- */}
                         <Card className="shadow-md">
-                            <CardHeader>
-                                <CardTitle className="text-xl">3. Metode Pembayaran</CardTitle>
-                            </CardHeader>
+                            <CardHeader><CardTitle className="text-xl">3. Metode Pembayaran</CardTitle></CardHeader>
                             <CardContent className="space-y-3">
                                 <h4 className="font-semibold text-sm text-gray-600 pt-2">Transfer Bank</h4>
-                                <OptionCard isSelected={paymentMethod === 'bank_transfer'} onSelect={() => setPaymentMethod('bank_transfer')} title="BCA (Bank Central Asia)" description="Bisa via M-Banking, ATM, atau E-Wallet" icon={<CreditCard className="w-6 h-6" />} />
+                                <OptionCard isSelected={paymentMethod === 'bank_transfer'} onSelect={() => setPaymentMethod('bank_transfer')} title="BCA (Bank Central Asia)" description="Bisa via M-Banking, ATM, atau E-Wallet" icon={<Image src="/bca.png" alt="BCA" width={40} height={40} className="object-contain" />} />
 
                                 <h4 className="font-semibold text-sm text-gray-600 pt-2">Virtual Account (via ShopeePay)</h4>
-                                <OptionCard isSelected={paymentMethod === 'virtual_account_bca'} onSelect={() => setPaymentMethod('virtual_account_bca')} title="BCA Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/logo-bca.svg" alt="BCA" width={24} height={24} />} />
-                                <OptionCard isSelected={paymentMethod === 'virtual_account_bri'} onSelect={() => setPaymentMethod('virtual_account_bri')} title="BRI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/logo-bri.svg" alt="BRI" width={24} height={24} />} />
-                                <OptionCard isSelected={paymentMethod === 'virtual_account_bni'} onSelect={() => setPaymentMethod('virtual_account_bni')} title="BNI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/logo-bni.svg" alt="BNI" width={24} height={24} />} />
-                                <OptionCard isSelected={paymentMethod === 'virtual_account_mandiri'} onSelect={() => setPaymentMethod('virtual_account_mandiri')} title="Mandiri Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/logo-mandiri.svg" alt="Mandiri" width={24} height={24} />} />
+                                <OptionCard isSelected={paymentMethod === 'virtual_account_bca'} onSelect={() => setPaymentMethod('virtual_account_bca')} title="BCA Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/bca.png" alt="BCA" width={40} height={40} className="object-contain" />} />
+                                <OptionCard isSelected={paymentMethod === 'virtual_account_bri'} onSelect={() => setPaymentMethod('virtual_account_bri')} title="BRI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/bri.png" alt="BRI" width={40} height={40} className="object-contain" />} />
+                                <OptionCard isSelected={paymentMethod === 'virtual_account_bni'} onSelect={() => setPaymentMethod('virtual_account_bni')} title="BNI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/bni.png" alt="BNI" width={40} height={40} className="object-contain" />} />
+                                <OptionCard isSelected={paymentMethod === 'virtual_account_mandiri'} onSelect={() => setPaymentMethod('virtual_account_mandiri')} title="Mandiri Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/mandiri.png" alt="Mandiri" width={40} height={40} className="object-contain" />} />
 
                                 <h4 className="font-semibold text-sm text-gray-600 pt-2">E-Wallet</h4>
-                                <OptionCard isSelected={paymentMethod === 'shopeepay'} onSelect={() => setPaymentMethod('shopeepay')} title="ShopeePay" description="Transfer langsung ke sesama ShopeePay" icon={<Wallet className="w-6 h-6" />} />
-                                <OptionCard isSelected={paymentMethod === 'gopay'} onSelect={() => setPaymentMethod('gopay')} title="GoPay" description="Transfer langsung atau scan QRIS GoPay" icon={<Smartphone className="w-6 h-6" />} />
-                                <OptionCard isSelected={false} onSelect={() => {}} title="QRIS (Semua E-Wallet)" description="Segera Hadir (1-3 Hari Lagi)" icon={<QrCode className="w-6 h-6" />} disabled={true} badge="Coming Soon"/>
+                                <OptionCard isSelected={paymentMethod === 'shopeepay'} onSelect={() => setPaymentMethod('shopeepay')} title="ShopeePay" description="Transfer langsung ke sesama ShopeePay" icon={<Image src="/shopeepay.png" alt="ShopeePay" width={32} height={32} />} />
+                                <OptionCard isSelected={paymentMethod === 'gopay'} onSelect={() => setPaymentMethod('gopay')} title="GoPay" description="Transfer langsung atau scan QRIS GoPay" icon={<Image src="/gopay.png" alt="GoPay" width={40} height={40} className="object-contain" />} />
+                                <OptionCard isSelected={false} onSelect={() => {}} title="QRIS (Semua E-Wallet)" description="Segera Hadir (1-3 Hari Lagi)" icon={<Image src="/qris.png" alt="QRIS" width={32} height={32} />} disabled={true} badge="Coming Soon"/>
                             </CardContent>
                         </Card>
 
@@ -188,7 +176,6 @@ export default function CheckoutPage() {
                         </Button>
                     </form>
 
-                    {/* Ringkasan Belanja tetap sama */}
                     <div className="lg:col-span-2">
                         <Card className="sticky top-24 shadow-md">
                             <CardHeader><CardTitle>Ringkasan Belanja</CardTitle></CardHeader>
