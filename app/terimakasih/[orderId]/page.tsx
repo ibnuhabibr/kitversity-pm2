@@ -1,3 +1,5 @@
+// Lokasi: app/terimakasih/[orderId]/page.tsx
+
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -12,7 +14,8 @@ export default function ThankYouPage() {
     const orderId = params.orderId as string;
     const { toast } = useToast();
 
-    const whatsappGroupLink = "https://chat.whatsapp.com/ContohLinkGrup";
+    // --- LINK GRUP WHATSAPP DIPERBARUI DI SINI ---
+    const whatsappGroupLink = "https://chat.whatsapp.com/Bw8P8G4UNG23FJFs6g66uI";
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(whatsappGroupLink);
@@ -53,12 +56,14 @@ export default function ThankYouPage() {
                                 <input 
                                     type="text" 
                                     readOnly 
-                                    value={whatsappGroupLink} 
+                                    value="Grup Diskusi Kitversity" 
                                     className="flex-1 bg-transparent outline-none text-sm text-gray-700"
                                 />
-                                <Button variant="ghost" size="sm" onClick={handleCopyLink}>
-                                    <Copy className="h-4 w-4 mr-1" /> Salin
-                                </Button>
+                                <a href={whatsappGroupLink} target="_blank" rel="noopener noreferrer">
+                                    <Button variant="outline" size="sm">
+                                        Gabung
+                                    </Button>
+                                </a>
                             </div>
                         </div>
                         
