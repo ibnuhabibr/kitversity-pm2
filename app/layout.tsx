@@ -58,7 +58,7 @@ function AnnouncementBar() {
           <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
             <circle cx={1} cy={1} r={1} />
           </svg>
-          Sesi pemesanan perlengkapan ospek dibuka 1 - 12 Juli 2025.
+          Sesi pemesanan perlengkapan ospek dibuka 2 - 13 Juli 2025.
         </p>
         <Link
           href="/produk"
