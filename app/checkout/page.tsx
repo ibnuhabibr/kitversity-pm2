@@ -121,6 +121,10 @@ export default function CheckoutPage() {
     }
   };
   
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+  };
+  
   return (
     <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-12">
@@ -179,9 +183,43 @@ export default function CheckoutPage() {
                     <div className="lg:col-span-2">
                         <Card className="sticky top-24 shadow-md">
                             <CardHeader><CardTitle>Ringkasan Belanja</CardTitle></CardHeader>
+                            {/* --- BAGIAN YANG DIPERBAIKI --- */}
                             <CardContent>
-                                {/* ... (isi ringkasan belanja tidak berubah) ... */}
+                                <div className="space-y-4">
+                                    <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
+                                        {checkoutItems.map((item) => (
+                                            <div key={item.cartItemId || item.id} className="flex items-center justify-between text-sm">
+                                                <div className="flex items-center gap-3 overflow-hidden">
+                                                    <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden relative flex-shrink-0">
+                                                        <Image src={item.image || ''} alt={item.name} layout="fill" className="object-cover"/>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="font-medium text-gray-800 truncate">{item.name}</p>
+                                                        <p className="text-gray-500">{item.quantity} x {formatPrice(item.price)}</p>
+                                                    </div>
+                                                </div>
+                                                <p className="font-semibold pl-2">{formatPrice(item.price * item.quantity)}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="border-t pt-4 space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <p className="text-gray-600">Subtotal</p>
+                                            <p className="font-medium">{formatPrice(getTotalPrice())}</p>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <p className="text-gray-600">Ongkos Kirim</p>
+                                            <p className="font-medium text-green-600">Gratis</p>
+                                        </div>
+                                        <div className="border-t my-2" />
+                                        <div className="flex justify-between font-bold text-lg">
+                                            <p>Total</p>
+                                            <p>{formatPrice(getTotalPrice())}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </CardContent>
+                            {/* --- AKHIR BAGIAN YANG DIPERBAIKI --- */}
                         </Card>
                     </div>
                 </div>
