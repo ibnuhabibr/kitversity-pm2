@@ -135,7 +135,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // n8n Webhook URL
-  const n8nWebhookUrl = 'https://n8n.kitversity.com/webhook/48deae5a-d049-486b-afc5-69a22b91b4a5';
+  const n8nWebhookUrl = 'https://n8n.kitversity.com/webhook/1607ad4c-a2a0-403e-9892-444008a188c1';
 
   // Save messages to localStorage
   useEffect(() => {
