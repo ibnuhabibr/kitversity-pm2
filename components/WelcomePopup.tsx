@@ -67,7 +67,7 @@ export function WelcomePopup() {
               <div className="flex items-center justify-center space-x-2 mt-1">
                   <Calendar className="h-4 w-4 text-gray-500"/>
                   <p className="font-semibold text-sm text-gray-700">
-                      1 Juli - 12 Juli 2025
+                      2 Juli - 13 Juli 2025
                   </p>
               </div>
           </div>

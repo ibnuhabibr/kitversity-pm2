@@ -62,7 +62,7 @@ const faqData = [
     id: '5',
     category: 'general',
     question: 'Bagaimana sistem pembelian produk Kitversity?',
-    answer: 'Sesuai dengan informasi yang tertera baik dalam website ini dan laman official @Kitversity, kami menerapkan sistem Pre Order atau Open PO. Jadi, kami membuka Open Pre Order mulai dari tanggal 01 Juli — 12 Juli, dan tim kami akan selalu update mengenai berbagai informasi pada grup whatsapp para pembeli.'
+    answer: 'Sesuai dengan informasi yang tertera baik dalam website ini dan laman official @Kitversity, kami menerapkan sistem Pre Order atau Open PO. Jadi, kami membuka Open Pre Order mulai dari tanggal 02 Juli — 13 Juli, dan tim kami akan selalu update mengenai berbagai informasi pada grup whatsapp para pembeli.'
   },
   {
     id: '6',
