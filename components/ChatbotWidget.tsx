@@ -64,7 +64,7 @@ export const ChatbotWidget = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // URL Webhook n8n
-  const n8nWebhookUrl = 'https://n8n.srv858128.hstgr.cloud/webhook/f0bb6474-a467-41b8-8908-5c59c9860e7f';
+  const n8nWebhookUrl = 'https://n8n.kitversity.com/webhook/48deae5a-d049-486b-afc5-69a22b91b4a5';
 
   // Save messages to localStorage whenever they change
   useEffect(() => {
