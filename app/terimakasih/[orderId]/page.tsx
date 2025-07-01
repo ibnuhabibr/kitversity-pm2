@@ -2,11 +2,13 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { CheckCircle, Copy, MessageCircle, ArrowLeft } from 'lucide-react';
+import { CheckCircle, Copy, MessageCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import type { Order } from '@/types/order';
 
 export default function ThankYouPage() {
     const params = useParams();
@@ -14,22 +16,90 @@ export default function ThankYouPage() {
     const orderId = params.orderId as string;
     const { toast } = useToast();
 
-    // --- LINK GRUP WHATSAPP DIPERBARUI DI SINI ---
+    // State untuk menyimpan detail pesanan yang diambil dari API
+    const [order, setOrder] = useState<Order | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
     const whatsappGroupLink = "https://chat.whatsapp.com/Bw8P8G4UNG23FJFs6g66uI";
 
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(whatsappGroupLink);
-        toast({
-            title: "Link Grup WhatsApp Disalin!",
-            description: "Silakan bergabung untuk info dan promo menarik.",
-        });
-    };
+    // Mengambil data pesanan dari API saat halaman dimuat
+    useEffect(() => {
+        if (!orderId) return;
 
+        const fetchOrderDetails = async () => {
+            try {
+                const response = await fetch(`/api/orders?id=${orderId}`);
+                if (!response.ok) {
+                    throw new Error("Gagal memuat detail pesanan.");
+                }
+                const data = await response.json();
+                setOrder(data.order);
+            } catch (error) {
+                console.error(error);
+                toast({
+                    title: "Error",
+                    description: "Tidak dapat menemukan detail pesanan Anda.",
+                    variant: "destructive",
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchOrderDetails();
+    }, [orderId, toast]);
+
+
+    // --- PESAN WHATSAPP BARU YANG LEBIH DETAIL ---
     const handleConfirmPayment = () => {
-        const message = `Halo Admin Kitversity, saya ingin konfirmasi pembayaran untuk pesanan ID: ${orderId}.\n\nBerikut saya lampirkan bukti pembayarannya. Terima kasih.`;
+        if (!order) return;
+
+        // Format Rincian Item
+        const itemDetails = order.items.map(item => 
+            `- ${item.name} (Qty: ${item.quantity}) - ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * item.quantity)}`
+        ).join('\n');
+
+        // Format Metode Pembayaran agar lebih mudah dibaca
+        const paymentMethodText = order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+        // Susun pesan lengkap dengan format WhatsApp
+        const message = `*KONFIRMASI PEMBAYARAN - KITVERSITY*
+
+Halo Admin, saya ingin mengonfirmasi pembayaran untuk pesanan berikut:
+-----------------------------------
+*ID Pesanan:* ${order.id}
+*Tanggal:* ${new Date(order.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+-----------------------------------
+
+*DATA PEMBELI:*
+- *Nama:* ${order.customerInfo.name}
+- *Email:* ${order.customerInfo.email}
+- *No. WhatsApp:* ${order.customerInfo.phone}
+
+*RINCIAN PESANAN:*
+${itemDetails}
+
+*METODE PEMBAYARAN:*
+${paymentMethodText}
+
+*TOTAL PEMBAYARAN:*
+*${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(order.totalAmount)}*
+-----------------------------------
+
+Berikut saya lampirkan bukti pembayarannya.
+Terima kasih!`;
+
         const whatsappUrl = `https://wa.me/6285135706028?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <Loader2 className="w-10 h-10 animate-spin text-primary" />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
@@ -42,7 +112,7 @@ export default function ThankYouPage() {
                         <div className="mx-auto bg-green-100 rounded-full h-16 w-16 flex items-center justify-center">
                             <CheckCircle className="h-10 w-10 text-green-600" />
                         </div>
-                        <CardTitle className="text-2xl font-bold mt-4">Terima Kasih!</CardTitle>
+                        <CardTitle className="text-2xl font-bold mt-4">Terima Kasih, {order?.customerInfo.name}!</CardTitle>
                         <CardDescription>
                             Pesananmu dengan ID <strong>{orderId}</strong> sedang menunggu konfirmasi pembayaran.
                         </CardDescription>
@@ -71,7 +141,7 @@ export default function ThankYouPage() {
                             <p className="text-gray-600 mb-3 text-sm">
                                 Langkah terakhir, kirim bukti pembayaranmu via WhatsApp agar pesanan segera kami proses.
                             </p>
-                            <Button onClick={handleConfirmPayment} size="lg" className="w-full bg-green-600 hover:bg-green-700 font-bold">
+                            <Button onClick={handleConfirmPayment} size="lg" className="w-full bg-green-600 hover:bg-green-700 font-bold" disabled={isLoading || !order}>
                                 <MessageCircle className="mr-2 h-5 w-5" /> Konfirmasi & Kirim Bukti
                             </Button>
                         </div>
