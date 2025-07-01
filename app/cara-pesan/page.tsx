@@ -5,11 +5,11 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Search, ShoppingCart, User, CreditCard, QrCode, MessageCircle, Truck, CheckCircle, Receipt, Users, Star, Heart, Bot, FileText } from 'lucide-react';
+import { Search, ShoppingCart, User, CreditCard, QrCode, MessageCircle, Truck, CheckCircle, Receipt, Users, Home, LayoutGrid, Bot, HelpCircle, Heart } from 'lucide-react';
 
-// --- Alur Pemesanan Baru ---
+// Alur Pemesanan (Tetap sama)
 const orderSteps = [
-  { icon: FileText, title: "1. Kunjungi Website", description: "Kunjungi website kami di WWW.KITVERSITY.COM." },
+  { icon: Home, title: "1. Kunjungi Website", description: "Kunjungi website kami di WWW.KITVERSITY.COM." },
   { icon: Search, title: "2. Cari & Pilih Produk", description: "Jelajahi katalog atau gunakan fitur pencarian, lalu klik produk untuk melihat detail." },
   { icon: ShoppingCart, title: "3. Tambah Ke Keranjang", description: "Pilih varian dan jumlah, lalu klik tombol 'Masukkan ke Keranjang' atau 'Beli Langsung'." },
   { icon: User, title: "4. Isi Data Diri", description: "Lengkapi Nama, Email, dan Nomor WhatsApp aktif di halaman checkout." },
@@ -21,26 +21,47 @@ const orderSteps = [
   { icon: Truck, title: "10. Pesanan Diproses & Dikirim", description: "Tim kami akan memverifikasi pembayaran dan segera memproses pesanan Anda." }
 ];
 
-const features = [
-  { icon: Star, title: "Produk Terkurasi", description: "Kami hanya memilih produk berkualitas tinggi yang relevan untuk kebutuhan mahasiswa." },
-  { icon: Heart, title: "Fitur Wishlist", description: "Simpan produk impianmu untuk dibeli nanti dengan menekan tombol hati." },
-  { icon: Bot, title: "Chatbot AI 24/7", description: "Punya pertanyaan di luar jam kerja? Tanya langsung ke Chatbot AI kami yang cerdas." },
+// --- KONTEN BARU UNTUK TUR WEBSITE ---
+const tourStops = [
+    { 
+        icon: Home, 
+        title: "Beranda", 
+        description: "Temukan promo terbaru, produk paling laris, dan pengumuman penting langsung di halaman utama kami.",
+        href: "/"
+    },
+    { 
+        icon: LayoutGrid, 
+        title: "Halaman Produk", 
+        description: "Jelajahi semua koleksi produk kami. Gunakan filter dan pencarian untuk menemukan barang dengan cepat.",
+        href: "/produk"
+    },
+    { 
+        icon: Bot, 
+        title: "Chatbot AI 24/7", 
+        description: "Punya pertanyaan kapan saja? Asisten AI kami siap menjawab seputar produk dan pemesanan.",
+        href: "/chat"
+    },
+    { 
+        icon: HelpCircle, 
+        title: "Pusat Bantuan (FAQ)", 
+        description: "Temukan jawaban dari pertanyaan yang sering diajukan oleh pelanggan lain di halaman FAQ.",
+        href: "/faq"
+    },
+    { 
+        icon: Heart, 
+        title: "Wishlist", 
+        description: "Simpan produk-produk yang Anda suka dengan menekan tombol hati untuk dilihat atau dibeli nanti.",
+        href: "/wishlist"
+    }
 ];
 
 export default function HowToOrderPage() {
-
-    const handleWhatsAppClick = () => {
-        const message = 'Halo! Saya butuh bantuan terkait pemesanan di Kitversity.';
-        const whatsappUrl = `https://wa.me/6285135706028?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    };
-
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto max-w-7xl px-4 py-16">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Alur Pemesanan & Informasi</h1>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">Panduan lengkap berbelanja di Kitversity dan temukan semua fitur yang kami sediakan untuk Anda.</p>
+                    <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Alur Pemesanan & Tur Website</h1>
+                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">Panduan lengkap berbelanja di Kitversity dan jelajahi semua fitur yang kami sediakan untuk Anda.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
@@ -71,43 +92,39 @@ export default function HowToOrderPage() {
                         </Card>
                     </div>
 
-                    {/* Kolom Kanan: Informasi Tambahan */}
+                    {/* Kolom Kanan: Tur Website */}
                     <div className="lg:col-span-2 space-y-8">
-                        <Card className="shadow-lg">
+                        <Card className="shadow-lg sticky top-24">
                             <CardHeader>
-                                <CardTitle>Fitur Unggulan Kitversity</CardTitle>
-                                <CardDescription>Kami menyediakan fitur-fitur ini untuk kenyamanan Anda.</CardDescription>
+                                <CardTitle>Tur Singkat Website</CardTitle>
+                                <CardDescription>Jelajahi fitur-fitur utama yang kami sediakan untuk Anda.</CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                {features.map((feature, index) => {
-                                    const Icon = feature.icon;
+                            <CardContent className="space-y-6">
+                                {tourStops.map((stop, index) => {
+                                    const Icon = stop.icon;
                                     return (
-                                        <div key={index} className="flex items-start space-x-4">
-                                            <div className="flex-shrink-0 bg-purple-100 text-purple-600 rounded-lg h-10 w-10 flex items-center justify-center">
-                                                <Icon className="h-5 w-5" />
+                                        <div key={index} className="flex flex-col items-start p-4 rounded-lg bg-gray-50 border hover:border-gray-300 transition-colors">
+                                            <div className="flex items-center gap-3 w-full">
+                                                <div className="flex-shrink-0 bg-purple-100 text-purple-600 rounded-lg h-10 w-10 flex items-center justify-center">
+                                                    <Icon className="h-5 w-5" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h4 className="font-semibold text-gray-800">{stop.title}</h4>
+                                                    <p className="text-xs text-gray-500">{stop.description}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 className="font-semibold text-gray-800">{feature.title}</h4>
-                                                <p className="text-sm text-gray-500">{feature.description}</p>
+                                            <div className="w-full mt-3">
+                                                 <Button asChild variant="outline" size="sm" className="w-full">
+                                                    <Link href={stop.href}>
+                                                        Kunjungi Halaman
+                                                    </Link>
+                                                </Button>
                                             </div>
                                         </div>
                                     );
                                 })}
                             </CardContent>
                         </Card>
-
-                        <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-2">Butuh Bantuan?</h3>
-                            <p className="text-gray-600 mb-6">Tim kami siap membantu Anda jika mengalami kendala.</p>
-                            <div className="space-y-3">
-                                <Button onClick={handleWhatsAppClick} className="w-full bg-green-600 hover:bg-green-700" size="lg">
-                                    <MessageCircle className="h-5 w-5 mr-2" /> Chat via WhatsApp
-                                </Button>
-                                <Button asChild variant="outline" className="w-full" size="lg">
-                                    <a href="mailto:admin@kitversity.com">Kirim Email</a>
-                                </Button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
