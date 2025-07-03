@@ -2,7 +2,7 @@
 
 import pool from './config';
 import { Order, OrderItem, Payment, User, Product } from '@/types/database';
-import type { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import type { ResultSetHeader } from 'mysql2/promise';
 
 // Helper untuk mengambil baris pertama dari hasil query
 function getFirstRow<T>(rows: any): T | undefined {
@@ -12,7 +12,7 @@ function getFirstRow<T>(rows: any): T | undefined {
   return undefined;
 }
 
-// ... (UserModel tetap sama)
+// UserModel tetap sama
 export const UserModel = {
   async create(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User | undefined> {
     const { name, email, phone, university, address, role } = user;
@@ -35,15 +35,18 @@ export const UserModel = {
   }
 };
 
-
-// --- Product Model DIPERBARUI ---
+// --- Product Model DIPERBARUI TOTAL ---
 export const ProductModel = {
-  async create(product: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Promise<Product | undefined> {
-    const { name, description, price, stock, image_url, category } = product;
+  async create(product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | undefined> {
+    const { 
+        name, description, specifications, price, originalPrice, 
+        discount, stock, image_url, category, rating = 5.0, sold = 0 
+    } = product;
+    
     const [result] = await pool.query<ResultSetHeader>(
-      `INSERT INTO products (name, description, price, stock, image_url, category)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [name, description, price, stock, image_url, category]
+      `INSERT INTO products (name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold]
     );
     return this.findById(result.insertId);
   },
@@ -58,18 +61,27 @@ export const ProductModel = {
     return rows as Product[];
   },
 
-  // --- FUNGSI BARU UNTUK UPDATE PRODUK ---
   async update(id: number, product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | undefined> {
-    const { name, description, price, stock, image_url, category } = product;
+    const existingProduct = await this.findById(id);
+    if (!existingProduct) {
+        throw new Error("Produk tidak ditemukan untuk diupdate");
+    }
+
+    // Gabungkan data lama dengan data baru
+    const dataToUpdate = { ...existingProduct, ...product };
+
+    const { name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold } = dataToUpdate;
+    
     await pool.query(
-        `UPDATE products SET name = ?, description = ?, price = ?, stock = ?, image_url = ?, category = ?
+        `UPDATE products SET 
+            name = ?, description = ?, specifications = ?, price = ?, originalPrice = ?, 
+            discount = ?, stock = ?, image_url = ?, category = ?, rating = ?, sold = ?
          WHERE id = ?`,
-        [name, description, price, stock, image_url, category, id]
+        [name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold, id]
     );
     return this.findById(id);
   },
 
-  // --- FUNGSI BARU UNTUK HAPUS PRODUK ---
   async deleteById(id: number): Promise<boolean> {
       const [result] = await pool.query<ResultSetHeader>(
           'DELETE FROM products WHERE id = ?',
@@ -78,7 +90,8 @@ export const ProductModel = {
       return result.affectedRows > 0;
   }
 };
-// ... (OrderModel dan model lainnya tetap sama)
+
+// ... (OrderModel dan model lainnya tidak berubah)
 export const OrderModel = {
   async create(order: Omit<Order, 'id' | 'created_at' | 'updated_at'>): Promise<Order | undefined> {
     const { user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info } = order;

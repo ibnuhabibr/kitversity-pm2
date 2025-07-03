@@ -42,12 +42,30 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* --- BAGIAN INI YANG DIPERBAIKI --- */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Pendapatan" value={formatPrice(stats?.totalRevenue || 0)} icon={<DollarSign className="h-5 w-5 text-green-500" />} />
-        <StatCard title="Total Pesanan" value={stats?.totalOrders.toString() || '0'} icon={<ShoppingCart className="h-5 w-5 text-blue-500" />} />
-        <StatCard title="Total Produk" value={stats?.totalProducts.toString() || '0'} icon={<Package className="h-5 w-5 text-orange-500" />} />
-        <StatCard title="Total Pelanggan" value={stats?.totalUsers.toString() || '0'} icon={<Users className="h-5 w-5 text-purple-500" />} />
+        <StatCard 
+            title="Total Pendapatan" 
+            value={formatPrice(stats?.totalRevenue || 0)} 
+            icon={<DollarSign className="h-5 w-5 text-green-500" />} 
+        />
+        <StatCard 
+            title="Total Pesanan" 
+            value={String(stats?.totalOrders || 0)} 
+            icon={<ShoppingCart className="h-5 w-5 text-blue-500" />} 
+        />
+        <StatCard 
+            title="Total Produk" 
+            value={String(stats?.totalProducts || 0)} 
+            icon={<Package className="h-5 w-5 text-orange-500" />} 
+        />
+        <StatCard 
+            title="Total Pelanggan" 
+            value={String(stats?.totalUsers || 0)} 
+            icon={<Users className="h-5 w-5 text-purple-500" />} 
+        />
       </div>
+      {/* --- AKHIR PERBAIKAN --- */}
       
       <Card>
           <CardHeader>

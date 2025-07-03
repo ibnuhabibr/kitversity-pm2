@@ -16,10 +16,15 @@ export interface Product {
   id: number;
   name: string;
   description?: string;
+  specifications?: string; // <-- TAMBAHKAN INI
   price: number;
+  originalPrice?: number;  // <-- TAMBAHKAN INI
+  discount?: number;       // <-- TAMBAHKAN INI
   stock: number;
   image_url?: string;
   category?: string;
+  rating: number;          // <-- TAMBAHKAN INI
+  sold: number;            // <-- TAMBAHKAN INI
   created_at: Date;
   updated_at: Date;
 }

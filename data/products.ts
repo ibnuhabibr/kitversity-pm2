@@ -477,6 +477,21 @@ Ukuran: Bervariasi (tergantung motif)
 Cetak: Full Color
 Fitur: Hasil presisi dengan potongan laser`
   },
+  {
+    id: '19',
+    name: 'Cincin Rotan Pramuka',
+    price: 7500,
+    originalPrice: 10700,
+    discount: 30,
+    image: '/produk19.png', // Sesuai permintaan: /public/produk19.png
+    category: ['aksesoris', 'laki-laki', 'perempuan'],
+    rating: 5.0, // Asumsi rating awal
+    sold: 30,
+    description: 'Cincin Rotan untuk Hasduk Pramuka. Dibuat dari rotan asli berkualitas, halus, dan awet. Pelengkap wajib untuk seragam pramuka saat kegiatan ospek atau acara kepramukaan lainnya.',
+    specifications: `Bahan: Rotan Asli Pilihan
+Ukuran: Standar Hasduk Pramuka
+Fitur: Halus, kuat, dan tidak mudah patah.`
+  },
 ];
 
 // Fungsi-fungsi di bawah ini tidak perlu diubah
