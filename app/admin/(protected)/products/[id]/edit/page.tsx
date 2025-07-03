@@ -12,7 +12,7 @@ export default function EditProductPage() {
   const params = useParams();
   const { id } = params;
   const { toast } = useToast();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<any>(null); // State untuk menyimpan data produk
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -72,9 +72,13 @@ export default function EditProductPage() {
 
   if (isLoading) {
     return (
-      <Card>
-        <CardHeader><CardTitle>Memuat Data Produk...</CardTitle></CardHeader>
-        <CardContent><Skeleton className="h-[500px] w-full" /></CardContent>
+        <Card>
+            <CardHeader>
+                <CardTitle>Memuat Data Produk...</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Skeleton className="h-[500px] w-full" />
+            </CardContent>
       </Card>
     );
   }
@@ -87,7 +91,8 @@ export default function EditProductPage() {
     <Card>
       <CardHeader>
         <CardTitle>Edit Produk</CardTitle>
-        <CardDescription>Perbarui detail untuk produk: <span className="font-semibold">{initialData.name}</span></CardDescription>
+        {/* --- BARIS INI YANG DIPERBAIKI --- */}
+        <CardDescription>Perbarui detail untuk produk: <span className="font-semibold">{product.name}</span></CardDescription>
       </CardHeader>
       <CardContent>
         <ProductForm onSubmit={handleSubmit} initialData={product} isSubmitting={isSubmitting} />
