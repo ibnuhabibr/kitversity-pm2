@@ -16,13 +16,11 @@ export default function ThankYouPage() {
     const orderId = params.orderId as string;
     const { toast } = useToast();
 
-    // State untuk menyimpan detail pesanan yang diambil dari API
     const [order, setOrder] = useState<Order | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const whatsappGroupLink = "https://chat.whatsapp.com/Bw8P8G4UNG23FJFs6g66uI";
 
-    // Mengambil data pesanan dari API saat halaman dimuat
     useEffect(() => {
         if (!orderId) return;
 
@@ -49,20 +47,12 @@ export default function ThankYouPage() {
         fetchOrderDetails();
     }, [orderId, toast]);
 
-
-    // --- PESAN WHATSAPP BARU YANG LEBIH DETAIL ---
     const handleConfirmPayment = () => {
         if (!order) return;
-
-        // Format Rincian Item
         const itemDetails = order.items.map(item => 
             `- ${item.name} (Qty: ${item.quantity}) - ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * item.quantity)}`
         ).join('\n');
-
-        // Format Metode Pembayaran agar lebih mudah dibaca
         const paymentMethodText = order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-
-        // Susun pesan lengkap dengan format WhatsApp
         const message = `*KONFIRMASI PEMBAYARAN - KITVERSITY*
 
 Halo Admin, saya ingin mengonfirmasi pembayaran untuk pesanan berikut:
@@ -93,6 +83,15 @@ Terima kasih!`;
         window.open(whatsappUrl, '_blank');
     };
 
+    // --- FUNGSI UNTUK MENYALIN LINK ---
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(whatsappGroupLink);
+        toast({
+            title: 'Berhasil Disalin!',
+            description: 'Link grup WhatsApp telah disalin ke clipboard.',
+        });
+    };
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -118,6 +117,7 @@ Terima kasih!`;
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6 px-6 pb-8">
+                        {/* --- BAGIAN GABUNG GRUP WHATSAPP DIPERBARUI --- */}
                         <div>
                             <p className="text-gray-600 mb-2 text-sm">
                                 Jangan lewatkan info & promo eksklusif! Gabung grup WhatsApp kami:
@@ -126,9 +126,12 @@ Terima kasih!`;
                                 <input 
                                     type="text" 
                                     readOnly 
-                                    value="Grup Diskusi Kitversity" 
+                                    value={whatsappGroupLink} 
                                     className="flex-1 bg-transparent outline-none text-sm text-gray-700"
                                 />
+                                <Button variant="ghost" size="icon" onClick={handleCopyLink} className="h-8 w-8">
+                                    <Copy className="h-4 w-4" />
+                                </Button>
                                 <a href={whatsappGroupLink} target="_blank" rel="noopener noreferrer">
                                     <Button variant="outline" size="sm">
                                         Gabung
@@ -136,6 +139,7 @@ Terima kasih!`;
                                 </a>
                             </div>
                         </div>
+                        {/* --- AKHIR PERUBAHAN --- */}
                         
                         <div className="border-t pt-6">
                             <p className="text-gray-600 mb-3 text-sm">

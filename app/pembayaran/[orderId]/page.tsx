@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { Order } from '@/types/order';
 import Image from 'next/image';
 
+// --- BAGIAN DETAIL PEMBAYARAN DIPERBARUI ---
 const paymentDetails = {
     bank_transfer: {
         title: "Transfer Bank BCA",
@@ -80,8 +81,18 @@ const paymentDetails = {
         },
         qrisImage: "/qris-gopay.png"
     },
-    qris: { title: "QRIS", rekening: "", atasNama: "" }
+    qris: {
+        title: "QRIS",
+        atasNama: "IBNU HABIB RIDWANSYAH",
+        logo: "/qris-logo.png",
+        qrisImage: "/qris.png", // PENTING: Ganti dengan path gambar QRIS kamu!
+        instructions: {
+            "Panduan Umum": "1. Buka aplikasi M-Banking atau E-Wallet Anda (GoPay, DANA, ShopeePay, OVO, dll).\n2. Pilih menu Bayar atau Scan QR.\n3. Scan kode QR di atas.\n4. Masukkan jumlah total pembayaran dan selesaikan transaksi."
+        },
+        note: "Pastikan nama Merchant yang muncul adalah IBNU HABIB RIDWANSYAH sebelum melakukan pembayaran."
+    }
 };
+// --- AKHIR PERUBAHAN ---
 
 
 const PaymentContent = () => {

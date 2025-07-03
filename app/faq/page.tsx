@@ -1,3 +1,5 @@
+// Lokasi: app/faq/page.tsx
+
 'use client';
 
 import { useState } from 'react';
@@ -33,6 +35,7 @@ const faqCategories = [
   }
 ];
 
+// --- BAGIAN DATA FAQ DIPERBARUI ---
 const faqData = [
   {
     id: '1',
@@ -50,7 +53,7 @@ const faqData = [
     id: '3',
     category: 'payment',
     question: 'Metode pembayaran apa saja yang tersedia?',
-    answer: 'Kami menyediakan dua metode pembayaran yaitu melalui transfer bank dan juga QRIS (M-Banking dan E-Wallet)'
+    answer: 'Kami menyediakan berbagai metode pembayaran, termasuk QRIS (untuk semua E-Wallet & M-Banking), transfer langsung ke GoPay & ShopeePay, serta Transfer Bank melalui BCA dan Virtual Account.'
   },
   {
     id: '4',
@@ -58,6 +61,7 @@ const faqData = [
     question: 'Apakah pembayaran di Kitversity aman?',
     answer: 'Ya, sangat aman! Kami menggunakan sistem pembayaran dengan alamat rekening tim kami, pembeli juga dapat bertanya untuk lebih lanjut melalui Whatsapp admin atau pun pada grup khusus para pembeli.'
   },
+  // ... (sisa data FAQ tidak berubah)
   {
     id: '5',
     category: 'general',
@@ -101,6 +105,7 @@ const faqData = [
     answer: 'Cara tercepat adalah melalui WhatsApp di +62 851-3570-6028. Tim kami aktif 24/7 dan akan merespon dengan cepat. Anda juga bisa mengirim email ke admin@kitversity.com atau menggunakan layanan Chatbot AI yang telah kami latih untuk dapat melayani customer dengan sebaik mungkin.'
   }
 ];
+// --- AKHIR PERUBAHAN ---
 
 
 export default function FAQPage() {
@@ -128,7 +133,7 @@ export default function FAQPage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Temukan jawaban untuk pertanyaan yang sering diajukan. Jika tidak menemukan jawaban yang Anda cari, 
             jangan ragu untuk menghubungi tim customer service kami.
           </p>

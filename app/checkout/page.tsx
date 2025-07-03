@@ -56,7 +56,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', address: '' });
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('bank_transfer');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('qris'); // Default ke QRIS
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('cod');
 
   useEffect(() => {
@@ -155,9 +155,22 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
 
+                        {/* --- BAGIAN METODE PEMBAYARAN DIPERBARUI --- */}
                         <Card className="shadow-md">
                             <CardHeader><CardTitle className="text-xl">3. Metode Pembayaran</CardTitle></CardHeader>
                             <CardContent className="space-y-3">
+                                <h4 className="font-semibold text-sm text-gray-600 pt-2">E-Wallet & QRIS</h4>
+                                <OptionCard 
+                                    isSelected={paymentMethod === 'qris'} 
+                                    onSelect={() => setPaymentMethod('qris')} 
+                                    title="QRIS (Semua E-Wallet & M-Banking)" 
+                                    description="Scan dengan GoPay, ShopeePay, DANA, BCA, dll." 
+                                    icon={<Image src="/qris-logo.png" alt="QRIS" width={32} height={32} />} 
+                                    disabled={false}
+                                />
+                                <OptionCard isSelected={paymentMethod === 'shopeepay'} onSelect={() => setPaymentMethod('shopeepay')} title="ShopeePay" description="Transfer langsung ke sesama ShopeePay" icon={<Image src="/shopeepay.png" alt="ShopeePay" width={32} height={32} />} />
+                                <OptionCard isSelected={paymentMethod === 'gopay'} onSelect={() => setPaymentMethod('gopay')} title="GoPay" description="Transfer langsung atau scan QRIS GoPay" icon={<Image src="/gopay.png" alt="GoPay" width={40} height={40} className="object-contain" />} />
+                                
                                 <h4 className="font-semibold text-sm text-gray-600 pt-2">Transfer Bank</h4>
                                 <OptionCard isSelected={paymentMethod === 'bank_transfer'} onSelect={() => setPaymentMethod('bank_transfer')} title="BCA (Bank Central Asia)" description="Bisa via M-Banking, ATM, atau E-Wallet" icon={<Image src="/bca.png" alt="BCA" width={40} height={40} className="object-contain" />} />
 
@@ -166,13 +179,9 @@ export default function CheckoutPage() {
                                 <OptionCard isSelected={paymentMethod === 'virtual_account_bri'} onSelect={() => setPaymentMethod('virtual_account_bri')} title="BRI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/bri.png" alt="BRI" width={40} height={40} className="object-contain" />} />
                                 <OptionCard isSelected={paymentMethod === 'virtual_account_bni'} onSelect={() => setPaymentMethod('virtual_account_bni')} title="BNI Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/bni.png" alt="BNI" width={40} height={40} className="object-contain" />} />
                                 <OptionCard isSelected={paymentMethod === 'virtual_account_mandiri'} onSelect={() => setPaymentMethod('virtual_account_mandiri')} title="Mandiri Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/mandiri.png" alt="Mandiri" width={40} height={40} className="object-contain" />} />
-
-                                <h4 className="font-semibold text-sm text-gray-600 pt-2">E-Wallet</h4>
-                                <OptionCard isSelected={paymentMethod === 'shopeepay'} onSelect={() => setPaymentMethod('shopeepay')} title="ShopeePay" description="Transfer langsung ke sesama ShopeePay" icon={<Image src="/shopeepay.png" alt="ShopeePay" width={32} height={32} />} />
-                                <OptionCard isSelected={paymentMethod === 'gopay'} onSelect={() => setPaymentMethod('gopay')} title="GoPay" description="Transfer langsung atau scan QRIS GoPay" icon={<Image src="/gopay.png" alt="GoPay" width={40} height={40} className="object-contain" />} />
-                                <OptionCard isSelected={false} onSelect={() => {}} title="QRIS (Semua E-Wallet)" description="Segera Hadir (1-3 Hari Lagi)" icon={<Image src="/qris.png" alt="QRIS" width={32} height={32} />} disabled={true} badge="Coming Soon"/>
                             </CardContent>
                         </Card>
+                         {/* --- AKHIR PERUBAHAN --- */}
 
                         {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
                         <Button type="submit" size="lg" className="w-full text-base font-bold" disabled={isLoading}>
@@ -183,7 +192,6 @@ export default function CheckoutPage() {
                     <div className="lg:col-span-2">
                         <Card className="sticky top-24 shadow-md">
                             <CardHeader><CardTitle>Ringkasan Belanja</CardTitle></CardHeader>
-                            {/* --- BAGIAN YANG DIPERBAIKI --- */}
                             <CardContent>
                                 <div className="space-y-4">
                                     <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
@@ -219,7 +227,6 @@ export default function CheckoutPage() {
                                     </div>
                                 </div>
                             </CardContent>
-                            {/* --- AKHIR BAGIAN YANG DIPERBAIKI --- */}
                         </Card>
                     </div>
                 </div>
