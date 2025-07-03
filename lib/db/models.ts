@@ -12,14 +12,14 @@ function getFirstRow<T>(rows: any): T | undefined {
   return undefined;
 }
 
-// User Model
+// ... (UserModel tetap sama)
 export const UserModel = {
   async create(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User | undefined> {
-    const { name, email, phone, university, address, role } = user; // Menambahkan 'role'
+    const { name, email, phone, university, address, role } = user;
     const [result] = await pool.query<ResultSetHeader>(
       `INSERT INTO users (name, email, phone, university, address, role)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [name, email, phone, university, address, role || 'user'] // Memberi default 'user' jika role tidak ada
+      [name, email, phone, university, address, role || 'user']
     );
     return this.findById(result.insertId);
   },
@@ -35,7 +35,8 @@ export const UserModel = {
   }
 };
 
-// Product Model
+
+// --- Product Model DIPERBARUI ---
 export const ProductModel = {
   async create(product: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Promise<Product | undefined> {
     const { name, description, price, stock, image_url, category } = product;
@@ -53,12 +54,31 @@ export const ProductModel = {
   },
 
   async findAll(): Promise<Product[]> {
-    const [rows] = await pool.query('SELECT * FROM products');
+    const [rows] = await pool.query('SELECT * FROM products ORDER BY id DESC');
     return rows as Product[];
+  },
+
+  // --- FUNGSI BARU UNTUK UPDATE PRODUK ---
+  async update(id: number, product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | undefined> {
+    const { name, description, price, stock, image_url, category } = product;
+    await pool.query(
+        `UPDATE products SET name = ?, description = ?, price = ?, stock = ?, image_url = ?, category = ?
+         WHERE id = ?`,
+        [name, description, price, stock, image_url, category, id]
+    );
+    return this.findById(id);
+  },
+
+  // --- FUNGSI BARU UNTUK HAPUS PRODUK ---
+  async deleteById(id: number): Promise<boolean> {
+      const [result] = await pool.query<ResultSetHeader>(
+          'DELETE FROM products WHERE id = ?',
+          [id]
+      );
+      return result.affectedRows > 0;
   }
 };
-
-// Order Model (YANG DIPERBAIKI)
+// ... (OrderModel dan model lainnya tetap sama)
 export const OrderModel = {
   async create(order: Omit<Order, 'id' | 'created_at' | 'updated_at'>): Promise<Order | undefined> {
     const { user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info } = order;
@@ -83,14 +103,11 @@ export const OrderModel = {
     return this.findById(id);
   },
 
-  // Fungsi yang ditambahkan untuk mengatasi error
   async findAll(): Promise<Order[]> {
     const [rows] = await pool.query('SELECT * FROM orders');
     return rows as Order[];
   }
 };
-
-// OrderItem Model
 export const OrderItemModel = {
   async create(item: Omit<OrderItem, 'id' | 'created_at'>): Promise<OrderItem | undefined> {
     const { order_id, product_id, quantity, price } = item;
@@ -114,8 +131,6 @@ export const OrderItemModel = {
     return rows as OrderItem[];
   }
 };
-
-// Payment Model
 export const PaymentModel = {
   async create(payment: Omit<Payment, 'id' | 'created_at' | 'updated_at'>): Promise<Payment | undefined> {
     const { order_id, amount, payment_method, status, midtrans_token, midtrans_redirect_url } = payment;
