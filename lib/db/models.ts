@@ -38,15 +38,20 @@ export const UserModel = {
 // --- Product Model DIPERBARUI TOTAL ---
 export const ProductModel = {
   async create(product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | undefined> {
-    const { 
-        name, description, specifications, price, originalPrice, 
-        discount, stock, image_url, category, rating = 5.0, sold = 0 
+    const {
+        name, description, specifications, price, originalPrice,
+        discount, stock, image_url, category, rating = 5.0, sold = 0, variants
     } = product;
-    
+
     const [result] = await pool.query<ResultSetHeader>(
-      `INSERT INTO products (name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold]
+      `INSERT INTO products (
+        name, description, specifications, price, originalPrice,
+        discount, stock, image_url, category, rating, sold, variants
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        name, description, specifications, price, originalPrice,
+        discount, stock, image_url, category, rating, sold, variants
+      ]
     );
     return this.findById(result.insertId);
   },
@@ -67,17 +72,23 @@ export const ProductModel = {
         throw new Error("Produk tidak ditemukan untuk diupdate");
     }
 
-    // Gabungkan data lama dengan data baru
     const dataToUpdate = { ...existingProduct, ...product };
 
-    const { name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold } = dataToUpdate;
-    
+    const {
+        name, description, specifications, price, originalPrice, discount,
+        stock, image_url, category, rating, sold, variants
+    } = dataToUpdate;
+
     await pool.query(
-        `UPDATE products SET 
-            name = ?, description = ?, specifications = ?, price = ?, originalPrice = ?, 
-            discount = ?, stock = ?, image_url = ?, category = ?, rating = ?, sold = ?
+        `UPDATE products SET
+            name = ?, description = ?, specifications = ?, price = ?, originalPrice = ?,
+            discount = ?, stock = ?, image_url = ?, category = ?, rating = ?,
+            sold = ?, variants = ?
          WHERE id = ?`,
-        [name, description, specifications, price, originalPrice, discount, stock, image_url, category, rating, sold, id]
+        [
+            name, description, specifications, price, originalPrice, discount,
+            stock, image_url, category, rating, sold, variants, id
+        ]
     );
     return this.findById(id);
   },
