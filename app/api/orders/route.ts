@@ -3,11 +3,11 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import pool from '@/lib/db/config';
+import { OrderModel, OrderItemModel } from '@/lib/db/models';
 import type { Order as DbOrder } from '@/types/database';
-import type { Order as FrontendOrder } from '@/types/order';
+import type { Order as FrontendOrder, OrderItem } from '@/types/order';
 import type { PoolConnection } from 'mysql2/promise';
 
-// --- PERUBAHAN PADA ENUM DI SINI ---
 const createOrderSchema = z.object({
   items: z.array(z.object({
     id: z.string(),
@@ -24,47 +24,57 @@ const createOrderSchema = z.object({
     address: z.string().optional(),
   }),
   paymentMethod: z.enum([
-    'bank_transfer', 'virtual_account_bca', 'virtual_account_bri', 
+    'bank_transfer', 'virtual_account_bca', 'virtual_account_bri',
     'virtual_account_bni', 'virtual_account_mandiri', 'shopeepay', 'gopay', 'qris'
   ]),
 });
 
-// ... sisa kode tidak berubah, sama seperti yang terakhir kita perbaiki ...
-// (Fungsi transformDbOrderToFrontend, POST, dan GET tetap sama)
 
 function transformDbOrderToFrontend(dbOrder: DbOrder, items: any[] = []): FrontendOrder {
     try {
-        const customerInfo = typeof dbOrder.customer_info === 'string' 
-            ? JSON.parse(dbOrder.customer_info) 
+        const customerInfo = typeof dbOrder.customer_info === 'string'
+            ? JSON.parse(dbOrder.customer_info)
             : dbOrder.customer_info;
-        
+
         return {
             id: String(dbOrder.id),
-            items: items,
+            items: items.map(item => ({
+                id: String(item.product_id),
+                name: item.name,
+                price: Number(item.price),
+                quantity: item.quantity,
+                image: item.image_url,
+            })),
             customerInfo: customerInfo,
             totalAmount: Number(dbOrder.total_amount),
             status: dbOrder.status,
-            paymentStatus: dbOrder.status,
+            paymentStatus: dbOrder.status, // Bisa disamakan atau dibuat logika terpisah nanti
             paymentMethod: dbOrder.payment_method as any,
+            shippingMethod: dbOrder.shipping_method,
+            shippingAddress: dbOrder.shipping_address,
             createdAt: new Date(dbOrder.created_at).toISOString(),
             updatedAt: new Date(dbOrder.updated_at).toISOString(),
         };
     } catch (e) {
-        console.error("Failed to parse customer_info:", dbOrder.customer_info);
+        console.error("Gagal mem-parsing customer_info:", dbOrder.customer_info, e);
+        // Fallback jika JSON tidak valid
         return {
             id: String(dbOrder.id),
-            items: items,
-            customerInfo: { name: 'Error', email: 'Error', phone: 'Error' },
+            items: [],
+            customerInfo: { name: 'Error Parsing', email: 'Error', phone: 'Error' },
             totalAmount: Number(dbOrder.total_amount),
-            status: dbOrder.status,
-            paymentStatus: dbOrder.status,
-            paymentMethod: dbOrder.payment_method as any,
-            createdAt: new Date(dbOrder.created_at).toISOString(),
-            updatedAt: new Date(dbOrder.updated_at).toISOString(),
+            status: 'error',
+            paymentStatus: 'error',
+            paymentMethod: 'bank_transfer',
+            shippingMethod: 'Error',
+            shippingAddress: 'Error',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
     }
 }
 
+// --- FUNGSI POST TETAP SAMA, TIDAK PERLU DIUBAH ---
 export async function POST(request: Request) {
   let connection: PoolConnection | undefined;
   
@@ -124,35 +134,36 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
-    try {
-      const { searchParams } = new URL(request.url);
-      const orderId = searchParams.get('id');
-  
-      if (orderId) {
-        const [orderRows] = await pool.execute('SELECT * FROM orders WHERE id = ?', [parseInt(orderId, 10)]);
-        const dbOrder = (orderRows as any)[0];
-        
-        if (!dbOrder) {
-          return NextResponse.json({ error: 'Pesanan tidak ditemukan' }, { status: 404 });
-        }
 
-        const [itemRows] = await pool.execute(
-            'SELECT oi.*, p.name FROM `order_items` oi JOIN `products` p ON oi.product_id = p.id WHERE oi.order_id = ?', 
-            [dbOrder.id]
-        );
-        
-        const frontendOrder = transformDbOrderToFrontend(dbOrder, itemRows as any[]);
-  
-        return NextResponse.json({ order: frontendOrder });
+// --- FUNGSI GET DIPERBARUI TOTAL ---
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const orderId = searchParams.get('id');
+
+    // Jika ada ID, ambil detail satu pesanan beserta itemnya
+    if (orderId) {
+      const dbOrder = await OrderModel.findById(Number(orderId));
+      
+      if (!dbOrder) {
+        return NextResponse.json({ error: 'Pesanan tidak ditemukan' }, { status: 404 });
       }
-  
-      const [allOrderRows] = await pool.execute('SELECT * FROM orders ORDER BY created_at DESC');
-      const allFrontendOrders = (allOrderRows as any[]).map(order => transformDbOrderToFrontend(order));
-      return NextResponse.json({ orders: allFrontendOrders });
-  
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-      return NextResponse.json({ error: 'Gagal mengambil data pesanan' }, { status: 500 });
+
+      // Ambil semua item yang berhubungan dengan pesanan ini
+      const orderItems = await OrderItemModel.findByOrderId(dbOrder.id);
+      
+      const frontendOrder = transformDbOrderToFrontend(dbOrder, orderItems);
+
+      return NextResponse.json({ order: frontendOrder });
     }
+
+    // Jika tidak ada ID, ambil semua pesanan (tanpa detail item)
+    const allDbOrders = await OrderModel.findAll();
+    const allFrontendOrders = allDbOrders.map(order => transformDbOrderToFrontend(order));
+    return NextResponse.json({ orders: allFrontendOrders });
+
+  } catch (error) {
+    console.error('Gagal mengambil data pesanan:', error);
+    return NextResponse.json({ error: 'Terjadi kesalahan di server' }, { status: 500 });
+  }
 }
