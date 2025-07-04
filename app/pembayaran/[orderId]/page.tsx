@@ -89,7 +89,7 @@ const paymentDetails = {
         instructions: {
             "Panduan Umum": "1. Buka aplikasi M-Banking atau E-Wallet Anda (GoPay, DANA, ShopeePay, OVO, dll).\n2. Pilih menu Bayar atau Scan QR.\n3. Scan kode QR di atas.\n4. Masukkan jumlah total pembayaran dan selesaikan transaksi."
         },
-        note: "Pastikan nama Merchant yang muncul adalah IBNU HABIB RIDWANSYAH sebelum melakukan pembayaran."
+        note: "Pastikan nama Merchant yang muncul adalah MP-TOKO KITVERSITY sebelum melakukan pembayaran."
     }
 };
 // --- AKHIR PERUBAHAN ---
