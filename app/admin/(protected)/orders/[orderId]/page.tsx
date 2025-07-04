@@ -51,14 +51,14 @@ export default function OrderDetailPage() {
     });
   };
   
-  const getStatusVariant = (status: string) => {
-      switch(status) {
-          case 'processing': return 'default';
-          case 'completed': return 'success';
-          case 'pending-payment': return 'secondary';
-          default: return 'destructive';
-      }
-  }
+  const getStatusVariant = (status: string): "default" | "secondary" | "destructive" | "outline" => {
+    switch(status) {
+        case 'completed': return 'default'; // 'success' diubah menjadi 'default' (biasanya warna biru/hitam)
+        case 'processing': return 'outline'; // Bisa juga 'default' jika ingin lebih menonjol
+        case 'pending-payment': return 'secondary';
+        default: return 'destructive';
+    }
+}
 
   if (isLoading) {
     return <div className="space-y-4"><Skeleton className="h-48 w-full" /><Skeleton className="h-64 w-full" /></div>;
