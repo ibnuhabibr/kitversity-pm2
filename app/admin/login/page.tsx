@@ -37,7 +37,10 @@ export default function LoginPage() {
 
       toast({ title: "Login Berhasil", description: `Selamat datang, ${username}!` });
       router.push('/admin');
-      router.refresh(); // Penting untuk me-refresh state di server
+      
+      // --- BARIS INI YANG MEMPERBAIKI MASALAHNYA ---
+      router.refresh(); 
+      // ---------------------------------------------
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan.');
