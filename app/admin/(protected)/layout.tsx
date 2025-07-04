@@ -4,7 +4,6 @@ import { useState } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
 import { Toaster } from "@/components/ui/toaster";
-import { cn } from '@/lib/utils';
 import MiddlewareAuth from '@/components/admin/MiddlewareAuth';
 
 export default function AdminProtectedLayout({
@@ -12,22 +11,18 @@ export default function AdminProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // Default sidebar tertutup di mobile, terbuka di desktop
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    // Pastikan tidak ada tag <html> dan <body> di sini
     <MiddlewareAuth>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex h-screen bg-gray-100 font-sans">
+        {/* Sidebar sekarang menerima state dan fungsi untuk mengubahnya */}
         <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        <div className={cn(
-            "flex-1 flex flex-col overflow-hidden transition-all duration-300",
-            // Beri margin kiri jika sidebar terbuka
-            isSidebarOpen ? "lg:ml-64" : "lg:ml-0" 
-        )}>
-          <AdminHeader 
-            isSidebarOpen={isSidebarOpen}
-            onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-          />
+        
+        {/* Konten Utama */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <AdminHeader onMenuClick={() => setIsSidebarOpen(true)} />
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-6">
             {children}
           </main>
