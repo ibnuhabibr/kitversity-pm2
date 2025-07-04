@@ -83,7 +83,7 @@ const paymentDetails = {
     },
     qris: {
         title: "QRIS",
-        atasNama: "IBNU HABIB RIDWANSYAH",
+        atasNama: "MP-TOKO KITVERSITY",
         logo: "/qris-logo.png",
         qrisImage: "/qris.png", // PENTING: Ganti dengan path gambar QRIS kamu!
         instructions: {
