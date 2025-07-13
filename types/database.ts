@@ -25,11 +25,7 @@ export interface Product {
   category?: string;
   rating: number;
   sold: number;
-<<<<<<< HEAD
-  variants?: string; 
-=======
-  variants?: string; // <-- TAMBAHKAN INI
->>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
+  variants?: string; // Menyimpan varian produk sebagai string JSON
   created_at: Date;
   updated_at: Date;
 }
@@ -41,12 +37,8 @@ export interface Order {
   status: string;
   shipping_address: string;
   shipping_method: string;
-<<<<<<< HEAD
   payment_method: string;
-=======
-  payment_method: string; // Diubah ke string agar lebih fleksibel
->>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
-  customer_info: string;
+  customer_info: string; // Disimpan sebagai string JSON
   created_at: Date;
   updated_at: Date;
 }
@@ -57,20 +49,10 @@ export interface OrderItem {
   product_id: number;
   quantity: number;
   price: number;
-<<<<<<< HEAD
-  // --- REVISI DI SINI ---
-  // Menambahkan properti untuk menyimpan detail produk seperti ukuran, warna, dll.
-  product_details: string | null; // Disimpan sebagai string JSON
-  // --- AKHIR REVISI ---
+  product_details: string | null; // Disimpan sebagai string JSON dari varian yang dipilih
   created_at: Date;
 }
 
-=======
-  created_at: Date;
-}
-
-// --- TIPE ENUM DIPERBARUI DI SINI ---
->>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
 export interface Payment {
   id: number;
   order_id: number;
@@ -82,8 +64,4 @@ export interface Payment {
   paid_at?: Date;
   created_at: Date;
   updated_at: Date;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
