@@ -13,7 +13,9 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, CreditCard, QrCode, User, Mail, Phone, CheckCircle, Package, Home, Wallet, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import type { PaymentMethodType, ShippingMethod } from '@/types/order';
+// --- REVISI DI SINI: Mengganti PaymentMethodType menjadi PaymentMethod ---
+import type { PaymentMethod, ShippingMethod } from '@/types/order';
+// --- AKHIR REVISI ---
 
 
 const OptionCard = ({ isSelected, onSelect, title, description, icon, disabled = false, badge = '' }: {
@@ -55,7 +57,9 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', address: '' });
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('qris');
+  // --- REVISI DI SINI: Mengganti PaymentMethodType menjadi PaymentMethod ---
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('qris');
+  // --- AKHIR REVISI ---
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('cod');
 
   useEffect(() => {
@@ -88,7 +92,6 @@ export default function CheckoutPage() {
     }
     
     try {
-      // --- REVISI DI SINI: Menambahkan shippingMethod ke body request ---
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -101,10 +104,9 @@ export default function CheckoutPage() {
             address: shippingMethod === 'delivery' ? customerInfo.address : 'COD Kampus UNAIR',
           }, 
           paymentMethod,
-          shippingMethod // Data metode pengiriman ditambahkan di sini
+          shippingMethod
         })
       });
-      // --- AKHIR REVISI ---
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Gagal membuat pesanan');
