@@ -8,7 +8,6 @@ import type { Order as DbOrder, OrderItem as DbOrderItem } from '@/types/databas
 import type { Order as FrontendOrder } from '@/types/order';
 import type { PoolConnection } from 'mysql2/promise';
 
-// --- REVISI DI SINI: Menambahkan shippingMethod ke skema validasi ---
 const createOrderSchema = z.object({
   items: z.array(z.object({
     id: z.string(),
@@ -28,9 +27,8 @@ const createOrderSchema = z.object({
     'bank_transfer', 'virtual_account_bca', 'virtual_account_bri',
     'virtual_account_bni', 'virtual_account_mandiri', 'shopeepay', 'gopay', 'qris'
   ]),
-  shippingMethod: z.enum(['cod', 'delivery']), // Menambahkan validasi untuk shippingMethod
+  shippingMethod: z.enum(['cod', 'delivery']),
 });
-// --- AKHIR REVISI ---
 
 function transformDbOrderToFrontend(dbOrder: DbOrder, items: DbOrderItem[] = []): FrontendOrder {
     try {
@@ -75,24 +73,20 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const validatedData = createOrderSchema.parse(body);
-    // --- REVISI DI SINI: Mengambil shippingMethod dari data yang sudah divalidasi ---
     const { items, customerInfo, paymentMethod, shippingMethod } = validatedData;
-    // --- AKHIR REVISI ---
     
     connection = await pool.getConnection();
     await connection.beginTransaction();
 
     const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // --- REVISI DI SINI: Menggunakan variabel shippingMethod di query INSERT ---
     const [orderResult] = await connection.execute(
       `INSERT INTO orders (total_amount, status, shipping_address, shipping_method, payment_method, customer_info) VALUES (?, ?, ?, ?, ?, ?)`,
       [totalAmount, 'pending-payment', customerInfo.address || 'COD Kampus UNAIR', shippingMethod, paymentMethod, JSON.stringify(customerInfo)]
     );
-    // --- AKHIR REVISI ---
     
     const orderId = (orderResult as any).insertId;
-    if (!orderId) throw new Error('Gagal membuat pesanan di database.');
+    if (!orderId) throw new Error('Gagal mendapatkan orderId setelah insert.');
     if (!connection) throw new Error('Koneksi database hilang.');
     
     const db = connection;
@@ -120,18 +114,45 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ order: frontendOrder });
 
-  } catch (error) {
+  } catch (error: any) {
     if (connection) await connection.rollback();
-    console.error('Error saat membuat pesanan:', error);
+    
+    // --- REVISI DI SINI: Logging dan response error yang lebih detail ---
+    console.error('===================================');
+    console.error('ERROR SAAT MEMBUAT PESANAN (API):');
+    console.error('===================================');
+    console.error('Tipe Error:', error.constructor.name);
+    
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Data tidak valid', details: error.errors }, { status: 400 });
+      console.error('Detail Validasi Zod:', error.errors);
+      return NextResponse.json({ 
+        error: 'Data yang dikirim tidak valid.', 
+        details: error.errors 
+      }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Gagal membuat pesanan', details: (error as Error).message }, { status: 500 });
+    
+    if (error.code) { // Error dari MySQL biasanya punya properti 'code'
+        console.error('Kode Error MySQL:', error.code);
+        console.error('Pesan Error MySQL:', error.sqlMessage);
+        return NextResponse.json({ 
+            error: 'Terjadi kesalahan pada database.', 
+            details: `MySQL Error: ${error.sqlMessage} (Code: ${error.code})`
+        }, { status: 500 });
+    }
+
+    console.error('Pesan Error Umum:', error.message);
+    return NextResponse.json({ 
+        error: 'Gagal membuat pesanan, terjadi kesalahan internal.', 
+        details: error.message 
+    }, { status: 500 });
+    // --- AKHIR REVISI ---
+
   } finally {
     if (connection) connection.release();
   }
 }
 
+// Handler GET tidak berubah
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
