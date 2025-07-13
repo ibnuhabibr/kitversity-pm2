@@ -80,10 +80,12 @@ export async function POST(request: Request) {
 
     const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // --- REVISI DI SINI: Menambahkan user_id secara eksplisit ---
     const [orderResult] = await connection.execute(
-      `INSERT INTO orders (total_amount, status, shipping_address, shipping_method, payment_method, customer_info) VALUES (?, ?, ?, ?, ?, ?)`,
-      [totalAmount, 'pending-payment', customerInfo.address || 'COD Kampus UNAIR', shippingMethod, paymentMethod, JSON.stringify(customerInfo)]
+      `INSERT INTO orders (user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [null, totalAmount, 'pending-payment', customerInfo.address || 'COD Kampus UNAIR', shippingMethod, paymentMethod, JSON.stringify(customerInfo)]
     );
+    // --- AKHIR REVISI ---
     
     const orderId = (orderResult as any).insertId;
     if (!orderId) throw new Error('Gagal mendapatkan orderId setelah insert.');
@@ -117,7 +119,6 @@ export async function POST(request: Request) {
   } catch (error: any) {
     if (connection) await connection.rollback();
     
-    // --- REVISI DI SINI: Logging dan response error yang lebih detail ---
     console.error('===================================');
     console.error('ERROR SAAT MEMBUAT PESANAN (API):');
     console.error('===================================');
@@ -131,7 +132,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    if (error.code) { // Error dari MySQL biasanya punya properti 'code'
+    if (error.code) { 
         console.error('Kode Error MySQL:', error.code);
         console.error('Pesan Error MySQL:', error.sqlMessage);
         return NextResponse.json({ 
@@ -145,14 +146,12 @@ export async function POST(request: Request) {
         error: 'Gagal membuat pesanan, terjadi kesalahan internal.', 
         details: error.message 
     }, { status: 500 });
-    // --- AKHIR REVISI ---
 
   } finally {
     if (connection) connection.release();
   }
 }
 
-// Handler GET tidak berubah
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
