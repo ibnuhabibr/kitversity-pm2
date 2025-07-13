@@ -8,7 +8,7 @@ import type { Order as DbOrder, OrderItem as DbOrderItem } from '@/types/databas
 import type { Order as FrontendOrder } from '@/types/order';
 import type { PoolConnection } from 'mysql2/promise';
 
-// Skema validasi untuk data yang masuk dari frontend
+// --- REVISI DI SINI: Menambahkan shippingMethod ke skema validasi ---
 const createOrderSchema = z.object({
   items: z.array(z.object({
     id: z.string(),
@@ -16,7 +16,7 @@ const createOrderSchema = z.object({
     price: z.number(),
     quantity: z.number().min(1),
     image: z.string().optional(),
-    selectedVariants: z.record(z.string()).optional(), // Menerima varian yang dipilih
+    selectedVariants: z.record(z.string()).optional(),
   })).min(1),
   customerInfo: z.object({
     name: z.string().min(3, "Nama harus diisi"),
@@ -28,9 +28,10 @@ const createOrderSchema = z.object({
     'bank_transfer', 'virtual_account_bca', 'virtual_account_bri',
     'virtual_account_bni', 'virtual_account_mandiri', 'shopeepay', 'gopay', 'qris'
   ]),
+  shippingMethod: z.enum(['cod', 'delivery']), // Menambahkan validasi untuk shippingMethod
 });
+// --- AKHIR REVISI ---
 
-// Fungsi helper untuk mengubah format data dari database ke format yang dimengerti frontend
 function transformDbOrderToFrontend(dbOrder: DbOrder, items: DbOrderItem[] = []): FrontendOrder {
     try {
         const customerInfo = typeof dbOrder.customer_info === 'string'
@@ -41,16 +42,16 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: DbOrderItem[] = [])
             id: String(dbOrder.id),
             items: items.map(item => ({
                 id: String(item.product_id),
-                name: (item as any).name, // Asumsi 'name' di-join dari tabel products
+                name: (item as any).name,
                 price: Number(item.price),
                 quantity: item.quantity,
-                image: (item as any).image_url, // Asumsi 'image_url' di-join
-                product_details: item.product_details, // Menyertakan detail produk (varian)
+                image: (item as any).image_url,
+                product_details: item.product_details,
             })),
             customerInfo: customerInfo,
             totalAmount: Number(dbOrder.total_amount),
             status: dbOrder.status,
-            paymentStatus: dbOrder.status, // Bisa disamakan atau dibuat logika terpisah nanti
+            paymentStatus: dbOrder.status,
             paymentMethod: dbOrder.payment_method as any,
             shippingMethod: dbOrder.shipping_method,
             shippingAddress: dbOrder.shipping_address,
@@ -59,7 +60,6 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: DbOrderItem[] = [])
         };
     } catch (e) {
         console.error("Gagal mem-parsing customer_info:", dbOrder.customer_info, e);
-        // Fallback jika terjadi error parsing JSON
         return {
             id: String(dbOrder.id), items: [], customerInfo: { name: 'Error Parsing', email: 'Error', phone: 'Error' },
             totalAmount: Number(dbOrder.total_amount), status: 'error', paymentStatus: 'error',
@@ -69,24 +69,27 @@ function transformDbOrderToFrontend(dbOrder: DbOrder, items: DbOrderItem[] = [])
     }
 }
 
-// Handler untuk metode POST (membuat pesanan baru)
 export async function POST(request: Request) {
   let connection: PoolConnection | undefined;
   
   try {
     const body = await request.json();
     const validatedData = createOrderSchema.parse(body);
-    const { items, customerInfo, paymentMethod } = validatedData;
+    // --- REVISI DI SINI: Mengambil shippingMethod dari data yang sudah divalidasi ---
+    const { items, customerInfo, paymentMethod, shippingMethod } = validatedData;
+    // --- AKHIR REVISI ---
     
     connection = await pool.getConnection();
     await connection.beginTransaction();
 
     const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    // --- REVISI DI SINI: Menggunakan variabel shippingMethod di query INSERT ---
     const [orderResult] = await connection.execute(
       `INSERT INTO orders (total_amount, status, shipping_address, shipping_method, payment_method, customer_info) VALUES (?, ?, ?, ?, ?, ?)`,
-      [totalAmount, 'pending-payment', customerInfo.address || 'COD Kampus UNAIR', 'cod', paymentMethod, JSON.stringify(customerInfo)]
+      [totalAmount, 'pending-payment', customerInfo.address || 'COD Kampus UNAIR', shippingMethod, paymentMethod, JSON.stringify(customerInfo)]
     );
+    // --- AKHIR REVISI ---
     
     const orderId = (orderResult as any).insertId;
     if (!orderId) throw new Error('Gagal membuat pesanan di database.');
@@ -96,7 +99,6 @@ export async function POST(request: Request) {
 
     const orderItemsPromises = items.map(item => {
         const productId = parseInt(item.id, 10);
-        // Mengubah objek varian menjadi string JSON untuk disimpan di database
         const productDetails = item.selectedVariants && Object.keys(item.selectedVariants).length > 0 
             ? JSON.stringify(item.selectedVariants) 
             : null;
@@ -130,13 +132,11 @@ export async function POST(request: Request) {
   }
 }
 
-// Handler untuk metode GET (mengambil data pesanan)
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const orderId = searchParams.get('id');
 
-    // Jika ada ID di URL, ambil detail satu pesanan
     if (orderId) {
       const dbOrder = await OrderModel.findById(Number(orderId));
       if (!dbOrder) {
@@ -148,7 +148,6 @@ export async function GET(request: Request) {
       return NextResponse.json({ order: frontendOrder });
     }
 
-    // Jika tidak ada ID, ambil semua pesanan
     const allDbOrders = await OrderModel.findAll();
     const allFrontendOrders = await Promise.all(allDbOrders.map(async (order) => {
         const items = await OrderItemModel.findByOrderId(order.id);

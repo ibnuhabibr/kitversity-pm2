@@ -13,9 +13,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, CreditCard, QrCode, User, Mail, Phone, CheckCircle, Package, Home, Wallet, Smartphone } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import type { PaymentMethodType, ShippingMethod } from '@/types/order';
 
-export type PaymentMethodType = 'bank_transfer' | 'virtual_account_bca' | 'virtual_account_bri' | 'virtual_account_bni' | 'virtual_account_mandiri' | 'shopeepay' | 'gopay' | 'qris';
-type ShippingMethod = 'cod' | 'delivery';
 
 const OptionCard = ({ isSelected, onSelect, title, description, icon, disabled = false, badge = '' }: {
     isSelected: boolean;
@@ -56,7 +55,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', address: '' });
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('qris'); // Default ke QRIS
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('qris');
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('cod');
 
   useEffect(() => {
@@ -89,6 +88,7 @@ export default function CheckoutPage() {
     }
     
     try {
+      // --- REVISI DI SINI: Menambahkan shippingMethod ke body request ---
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,9 +100,11 @@ export default function CheckoutPage() {
             phone: customerInfo.phone,
             address: shippingMethod === 'delivery' ? customerInfo.address : 'COD Kampus UNAIR',
           }, 
-          paymentMethod 
+          paymentMethod,
+          shippingMethod // Data metode pengiriman ditambahkan di sini
         })
       });
+      // --- AKHIR REVISI ---
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Gagal membuat pesanan');
@@ -155,7 +157,6 @@ export default function CheckoutPage() {
                             </CardContent>
                         </Card>
 
-                        {/* --- BAGIAN METODE PEMBAYARAN DIPERBARUI --- */}
                         <Card className="shadow-md">
                             <CardHeader><CardTitle className="text-xl">3. Metode Pembayaran</CardTitle></CardHeader>
                             <CardContent className="space-y-3">
@@ -181,8 +182,7 @@ export default function CheckoutPage() {
                                 <OptionCard isSelected={paymentMethod === 'virtual_account_mandiri'} onSelect={() => setPaymentMethod('virtual_account_mandiri')} title="Mandiri Virtual Account" description="Bayar ke VA ShopeePay" icon={<Image src="/mandiri.png" alt="Mandiri" width={40} height={40} className="object-contain" />} />
                             </CardContent>
                         </Card>
-                         {/* --- AKHIR PERUBAHAN --- */}
-
+                         
                         {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
                         <Button type="submit" size="lg" className="w-full text-base font-bold" disabled={isLoading}>
                             {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : 'Lanjut ke Pembayaran'}
