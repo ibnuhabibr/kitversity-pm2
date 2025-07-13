@@ -12,6 +12,10 @@ export type PaymentMethod =
   | 'gopay'
   | 'qris';
 
+// --- REVISI DI SINI: Menambahkan export type ShippingMethod ---
+export type ShippingMethod = 'cod' | 'delivery';
+// --- AKHIR REVISI ---
+
 export type PaymentStatus = 
   | 'pending'
   | 'processing'
@@ -31,7 +35,6 @@ export interface OrderItem {
   price: number;
   quantity: number;
   image: string;
-  // Menyimpan detail varian produk (ukuran, warna, dll) dari backend
   product_details: string | null; 
 }
 
@@ -60,4 +63,5 @@ export interface CreateOrderRequest {
   items: OrderItem[];
   customerInfo: CustomerInfo;
   paymentMethod: PaymentMethod;
+  shippingMethod: ShippingMethod;
 }
