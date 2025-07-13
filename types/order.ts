@@ -2,6 +2,10 @@
 
 import { Product } from '@/contexts/CartContext';
 
+<<<<<<< HEAD
+=======
+// --- TIPE DIPERBARUI DI SINI ---
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
 export type PaymentMethod = 
   | 'bank_transfer'
   | 'virtual_account_bca'
@@ -31,10 +35,13 @@ export interface OrderItem {
   price: number;
   quantity: number;
   image: string;
+<<<<<<< HEAD
   // --- REVISI DI SINI ---
   // Menambahkan properti untuk membawa detail produk dari backend ke frontend.
   product_details: string | null; // Akan berisi string JSON dari varian
   // --- AKHIR REVISI ---
+=======
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
 }
 
 export interface CustomerInfo {
@@ -62,4 +69,8 @@ export interface CreateOrderRequest {
   items: OrderItem[];
   customerInfo: CustomerInfo;
   paymentMethod: PaymentMethod;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797

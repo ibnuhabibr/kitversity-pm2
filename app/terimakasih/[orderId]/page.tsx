@@ -8,7 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { CheckCircle, Copy, MessageCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+<<<<<<< HEAD
 import type { Order } from '@/types/order'; // Menggunakan tipe data frontend
+=======
+import type { Order } from '@/types/order';
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
 
 export default function ThankYouPage() {
     const params = useParams();
@@ -49,6 +53,7 @@ export default function ThankYouPage() {
 
     const handleConfirmPayment = () => {
         if (!order) return;
+<<<<<<< HEAD
 
         // --- REVISI DI SINI: Membuat format rincian pesanan lebih detail ---
         const itemDetails = order.items.map(item => {
@@ -71,6 +76,12 @@ export default function ThankYouPage() {
 
         const paymentMethodText = order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         
+=======
+        const itemDetails = order.items.map(item => 
+            `- ${item.name} (Qty: ${item.quantity}) - ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * item.quantity)}`
+        ).join('\n');
+        const paymentMethodText = order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
         const message = `*KONFIRMASI PEMBAYARAN - KITVERSITY*
 
 Halo Admin, saya ingin mengonfirmasi pembayaran untuk pesanan berikut:
@@ -101,6 +112,10 @@ Terima kasih!`;
         window.open(whatsappUrl, '_blank');
     };
 
+<<<<<<< HEAD
+=======
+    // --- FUNGSI UNTUK MENYALIN LINK ---
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
     const handleCopyLink = () => {
         navigator.clipboard.writeText(whatsappGroupLink);
         toast({
@@ -134,6 +149,10 @@ Terima kasih!`;
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6 px-6 pb-8">
+<<<<<<< HEAD
+=======
+                        {/* --- BAGIAN GABUNG GRUP WHATSAPP DIPERBARUI --- */}
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
                         <div>
                             <p className="text-gray-600 mb-2 text-sm">
                                 Jangan lewatkan info & promo eksklusif! Gabung grup WhatsApp kami:
@@ -155,6 +174,10 @@ Terima kasih!`;
                                 </a>
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+                        {/* --- AKHIR PERUBAHAN --- */}
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
                         
                         <div className="border-t pt-6">
                             <p className="text-gray-600 mb-3 text-sm">
@@ -169,4 +192,8 @@ Terima kasih!`;
             </div>
         </div>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797

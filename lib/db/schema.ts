@@ -3,7 +3,28 @@ import pool from './config';
 // Fungsi untuk membuat tabel-tabel yang diperlukan
 export async function createTables() {
   try {
+<<<<<<< HEAD
     // Tabel Users
+=======
+    // Tabel Orders (SUDAH DIMODIFIKASI)
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT,
+        total_amount DECIMAL(10,2) NOT NULL,
+        status VARCHAR(50) NOT NULL DEFAULT 'pending-payment', -- Status baru
+        shipping_address TEXT, -- Tidak wajib
+        shipping_method VARCHAR(100),
+        payment_method VARCHAR(50), -- Kolom baru
+        customer_info JSON, -- Kolom baru untuk menyimpan info customer
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+      );
+    `);
+
+    // Tabel lain tetap sama...
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,11 +33,15 @@ export async function createTables() {
         phone VARCHAR(20),
         university VARCHAR(255),
         address TEXT,
+<<<<<<< HEAD
         role ENUM('admin', 'user') DEFAULT 'user',
+=======
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       );
     `);
+<<<<<<< HEAD
 
     // Tabel Admins
     await pool.query(`
@@ -101,8 +126,17 @@ export async function createTables() {
     `);
 
     console.log('Database tables checked/created successfully for MySQL');
+=======
+    // ... (sisa tabel lainnya)
+
+    console.log('Database tables created/updated successfully for MySQL');
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
   } catch (error) {
     console.error('Error creating database tables:', error);
     throw error;
   }
 }
+<<<<<<< HEAD
+=======
+// ... sisa file
+>>>>>>> 45e8a62a7999f3e68c1eee3cb4fc65ace4bda797
