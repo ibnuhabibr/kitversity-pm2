@@ -55,6 +55,14 @@ export default function ProductDetailClient({ product }: { product: any }) {
   };
 
   const handleAddToCart = () => {
+    if (product.available === false) {
+      toast({
+        title: 'Produk Tidak Tersedia',
+        description: 'Produk ini sudah close order',
+        variant: 'destructive'
+      });
+      return;
+    }
     if (!validateVariants()) return;
     addItem(product, quantity, selectedVariants);
     toast({
@@ -66,6 +74,14 @@ export default function ProductDetailClient({ product }: { product: any }) {
 
   // --- LOGIKA "BELI LANGSUNG" DIKEMBALIKAN KE SEMULA ---
   const handleBuyNow = () => {
+    if (product.available === false) {
+      toast({
+        title: 'Produk Tidak Tersedia',
+        description: 'Produk ini sudah close order',
+        variant: 'destructive'
+      });
+      return;
+    }
     if (!validateVariants()) return;
 
     // 1. Buat item sementara untuk checkout
@@ -237,22 +253,45 @@ export default function ProductDetailClient({ product }: { product: any }) {
                   </div>
                 </div>
 
+                {/* Status Available/Unavailable */}
+                {product.available === false && (
+                  <div className="bg-red-100 border-2 border-red-500 rounded-lg p-6 mb-4">
+                    <div className="flex items-center justify-center">
+                      <div className="flex-shrink-0 mr-4">
+                        <svg className="h-8 w-8 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <div className="text-center">
+                        <h3 className="text-xl font-bold text-red-800 mb-2">
+                          CLOSE ORDER
+                        </h3>
+                        <p className="text-lg text-red-700 font-medium">
+                          Produk ini sudah tidak tersedia untuk dipesan
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     onClick={handleAddToCart}
                     variant="outline"
                     size="lg"
                     className="flex-1"
+                    disabled={product.available === false}
                   >
                     <ShoppingCart className="h-5 w-5 mr-2" />
-                    Masukkan ke Keranjang
+                    {product.available === false ? 'Tidak Tersedia' : 'Masukkan ke Keranjang'}
                   </Button>
                   <Button
                     onClick={handleBuyNow}
                     size="lg"
-                    className="flex-1 bg-orange-500 hover:bg-orange-600"
+                    className={product.available === false ? "flex-1 bg-gray-400 cursor-not-allowed" : "flex-1 bg-orange-500 hover:bg-orange-600"}
+                    disabled={product.available === false}
                   >
-                    Beli Langsung
+                    {product.available === false ? 'Tidak Tersedia' : 'Beli Langsung'}
                   </Button>
                 </div>
 

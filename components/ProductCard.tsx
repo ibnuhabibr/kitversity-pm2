@@ -23,6 +23,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation(); // Mencegah event klik menyebar ke elemen parent
+    if (product.available === false) {
+      toast({
+        title: 'Produk Tidak Tersedia',
+        description: 'Produk ini sudah close order',
+        variant: 'destructive'
+      });
+      return;
+    }
     addItem(product);
     toast({
       title: 'Berhasil!',
@@ -77,10 +85,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             -{calculateDiscount(product.originalPrice, product.price)}%
           </div>
         )}
+        
+        {/* Status Available/Unavailable */}
+        {product.available === false && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 rounded-t-xl">
+            <div className="bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-2xl transform rotate-0">
+              CLOSE ORDER
+            </div>
+          </div>
+        )}
 
         {/* Tombol Aksi di Desktop */}
         <div className="absolute bottom-2 right-2 flex-col gap-2 hidden sm:flex opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-          <Button size="sm" onClick={handleAddToCart} className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-10 h-10 p-0 shadow-lg" title="Tambah ke Keranjang">
+          <Button 
+            size="sm" 
+            onClick={handleAddToCart} 
+            disabled={product.available === false}
+            className={cn(
+              "rounded-full w-10 h-10 p-0 shadow-lg",
+              product.available === false 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            )} 
+            title={product.available === false ? "Produk Tidak Tersedia" : "Tambah ke Keranjang"}
+          >
             <ShoppingCart className="h-4 w-4" />
           </Button>
           <Button size="sm" onClick={handleWishlistToggle} variant="secondary" className={cn("rounded-full w-10 h-10 p-0 shadow-lg", isWishlisted(product.id) ? "bg-red-50 text-red-500" : "bg-white text-gray-600")} title={isWishlisted(product.id) ? "Hapus dari Wishlist" : "Tambah ke Wishlist"}>
@@ -112,8 +140,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         
         {/* Tombol Aksi di Mobile */}
         <div className="mt-3 grid grid-cols-2 gap-2 sm:hidden">
-          <Button size="sm" onClick={handleAddToCart} className="w-full bg-blue-600 hover:bg-blue-700">
-            <ShoppingCart className="h-4 w-4 mr-2" /> Beli
+          <Button 
+            size="sm" 
+            onClick={handleAddToCart} 
+            disabled={product.available === false}
+            className={cn(
+              "w-full",
+              product.available === false 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-blue-600 hover:bg-blue-700"
+            )}
+          >
+            <ShoppingCart className="h-4 w-4 mr-2" /> 
+            {product.available === false ? "Tidak Tersedia" : "Beli"}
           </Button>
           <Button size="sm" onClick={handleWishlistToggle} variant="outline" className={cn("w-full", isWishlisted(product.id) && "text-red-500 border-red-500")}>
             <Heart className="h-4 w-4 mr-2" fill={isWishlisted(product.id) ? "currentColor" : "none"} /> {isWishlisted(product.id) ? "Tersimpan" : "Simpan"}

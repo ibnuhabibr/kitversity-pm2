@@ -74,22 +74,52 @@ function ProductsContent() {
       product.price >= priceRange[0] && product.price <= priceRange[1]
     );
 
-    // Sorting
+    // Sorting - Available products first, then unavailable
     const sortedResult = [...result];
     switch (sortBy) {
       case 'price-low':
-        sortedResult.sort((a, b) => a.price - b.price);
+        sortedResult.sort((a, b) => {
+          // Available products first
+          if (a.available !== b.available) {
+            return (a.available === true ? -1 : 1);
+          }
+          return a.price - b.price;
+        });
         break;
       case 'price-high':
-        sortedResult.sort((a, b) => b.price - a.price);
+        sortedResult.sort((a, b) => {
+          // Available products first
+          if (a.available !== b.available) {
+            return (a.available === true ? -1 : 1);
+          }
+          return b.price - a.price;
+        });
         break;
       case 'popular':
-        sortedResult.sort((a, b) => (b.sold || 0) - (a.sold || 0));
+        sortedResult.sort((a, b) => {
+          // Available products first
+          if (a.available !== b.available) {
+            return (a.available === true ? -1 : 1);
+          }
+          return (b.sold || 0) - (a.sold || 0);
+        });
         break;
       case 'rating':
-        sortedResult.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        sortedResult.sort((a, b) => {
+          // Available products first
+          if (a.available !== b.available) {
+            return (a.available === true ? -1 : 1);
+          }
+          return (b.rating || 0) - (a.rating || 0);
+        });
         break;
-      default: // 'relevance'
+      default: // 'relevance' - Available products first
+        sortedResult.sort((a, b) => {
+          if (a.available !== b.available) {
+            return (a.available === true ? -1 : 1);
+          }
+          return 0;
+        });
         break;
     }
 

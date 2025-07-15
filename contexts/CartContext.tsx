@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   specifications: string;
   variants?: { name: string; options: string[] }[];
+  available?: boolean;
 }
 
 // Mendefinisikan tipe data untuk item di dalam keranjang

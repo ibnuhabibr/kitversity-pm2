@@ -14,6 +14,40 @@ export const categories = [
 // Daftar produk dengan deskripsi dan spesifikasi yang telah diperbarui
 export const products: Product[] = [
   {
+    id: '20',
+    name: 'Notebook Penugasan Amerta',
+    price: 10000,
+    image: '/produk20.png',
+    category: ['alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
+    rating: 5.0,
+    sold: 0,
+    description: 'Notebook berkualitas tinggi untuk penugasan kampus. Kertas tebal dan tidak mudah sobek, cocok untuk menulis, menggambar, atau mencatat materi kuliah. Desain minimalis dan elegan.',
+    specifications: `Ukuran: A5 (14.8 x 21 cm)
+Jumlah Halaman: 100 lembar
+Kertas: 70 gsm, tidak mudah sobek
+Cover: Soft cover dengan desain minimalis
+Binding: Spiral binding yang kuat
+Warna: Hitam dengan aksen emas`,
+    available: true
+  },
+  {
+    id: '21',
+    name: 'Notebook Penugasan Amerta',
+    price: 10000,
+    image: '/produk21.png',
+    category: ['alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
+    rating: 5.0,
+    sold: 0,
+    description: 'Notebook berkualitas tinggi untuk penugasan kampus. Kertas tebal dan tidak mudah sobek, cocok untuk menulis, menggambar, atau mencatat materi kuliah. Desain minimalis dan elegan.',
+    specifications: `Ukuran: A5 (14.8 x 21 cm)
+Jumlah Halaman: 100 lembar
+Kertas: 70 gsm, tidak mudah sobek
+Cover: Soft cover dengan desain minimalis
+Binding: Spiral binding yang kuat
+Warna: Hitam dengan aksen emas`,
+    available: true
+  },
+  {
     id: '1',
     name: 'Kemeja Putih',
     price: 75000,
@@ -35,7 +69,8 @@ DETAIL UKURAN (Toleransi 1-2cm):
 • Size XXXL (17): Lingkar Dada 122cm, Panjang Baju 72cm`,
     variants: [
       { name: 'Ukuran', options: ['M', 'L', 'XL', 'XXL', 'XXXL'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '2',
@@ -50,7 +85,8 @@ DETAIL UKURAN (Toleransi 1-2cm):
     description: 'Dasi hitam polos untuk pria dan wanita. Desain formal yang pas untuk melengkapi penampilan saat ospek, kerja, dan acara resmi lainnya.',
     specifications: `Warna: Hitam Pekat
 Model: Slim Fit / Formal Standard
-Bahan: Poliester Halus`
+Bahan: Poliester Halus`,
+    available: false
   },
   {
     id: '3',
@@ -85,7 +121,8 @@ SIZE CHART (Lingkar Pinggang / Lingkar Kaki / Panjang Celana 98-100cm):
 • Size 38: LP 98cm / LK 39cm`,
     variants: [
       { name: 'Ukuran', options: ['27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '4',
@@ -118,7 +155,8 @@ SIZE CHART (Lingkar Pinggang / Panjang Celana 98-100cm):
 (Toleransi ukuran 1-2cm)`,
     variants: [
       { name: 'Ukuran', options: ['26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '5',
@@ -175,7 +213,8 @@ LINGKAR BAWAH : 126 CM ( MELINGKAR )
 PERKIRAAN BB : 56-65 KG`,
     variants: [
       { name: 'Ukuran', options: ['S', 'M', 'L', 'XL'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '6',
@@ -232,7 +271,8 @@ LINGKAR BAWAH : 126 CM ( MELINGKAR )
 PERKIRAAN BB : 56-65 KG`,
     variants: [
       { name: 'Ukuran', options: ['S', 'M', 'L', 'XL'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '7',
@@ -251,7 +291,8 @@ Fitur Unggulan:
 • Halus, lembut, dan tidak berbulu
 • Tidak licin & sangat mudah dibentuk
 • Tegak di dahi (tidak letoy)
-Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`
+Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`,
+    available: false
   },
   {
     id: '8',
@@ -270,7 +311,8 @@ Fitur Unggulan:
 • Halus, lembut, dan tidak berbulu
 • Tidak licin & sangat mudah dibentuk
 • Tegak di dahi (tidak letoy)
-Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`
+Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`,
+    available: false
   },
   {
     id: '9',
@@ -291,7 +333,8 @@ Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`
 Cara Perawatan:
 • Suhu maksimal 40°C
 • Jangan gunakan pemutih
-• Jangan dicuci kering atau disetrika`
+• Jangan dicuci kering atau disetrika`,
+    available: false
   },
   {
     id: '10',
@@ -312,7 +355,8 @@ Cara Perawatan:
 Cara Perawatan:
 • Suhu maksimal 40°C
 • Jangan gunakan pemutih
-• Jangan dicuci kering atau disetrika`
+• Jangan dicuci kering atau disetrika`,
+    available: false
   },
   {
     id: '11',
@@ -340,7 +384,8 @@ SIZE CHART (Lebar x Panjang, toleransi 1-2cm):
 • XXL: 56 cm x 79 cm`,
     variants: [
       { name: 'Ukuran', options: ['S', 'M', 'L', 'XL', 'XXL'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '12',
@@ -362,7 +407,8 @@ SIZE CHART (Panjang x Lebar Pinggang):
 • XL: Panjang 92cm, Lebar Pinggang 90cm (melar)`,
     variants: [
       { name: 'Ukuran', options: ['M', 'L', 'XL'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '13',
@@ -386,7 +432,8 @@ SIZE CHART (Panjang Insole):
 • Size 43: 26.5 cm`,
     variants: [
       { name: 'Ukuran', options: ['39', '40', '41', '42', '43'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '14',
@@ -412,7 +459,8 @@ PANDUAN UKURAN (Panjang Telapak Kaki):
 • Size 41: 26 cm`,
     variants: [
       { name: 'Ukuran', options: ['37', '38', '39', '40', '41'] }
-    ]
+    ],
+    available: false
   },
   {
     id: '15',
@@ -428,7 +476,8 @@ PANDUAN UKURAN (Panjang Telapak Kaki):
     specifications: `Material: Kulit Fiber High Quality
 Lebar: 3.5 cm
 Warna Tali: Hitam
-Warna Kepala: Emas / Perak (Motif random)`
+Warna Kepala: Emas / Perak (Motif random)`,
+    available: false
   },
   {
     id: '16',
@@ -443,7 +492,8 @@ Warna Kepala: Emas / Perak (Motif random)`
     description: 'Satu set hasduk pramuka lengkap dengan ring rotan berkualitas. Kain super halus (ero/tetron) dengan jahitan rapi dan warna yang tidak mudah luntur. Ring rotan asli, awet, dan halus.',
     specifications: `Bahan Hasduk: Kain Super Halus (Ero/Tetron)
 Ring: Rotan Asli Kualitas Bagus
-Fitur: Jahitan rapi, warna awet, toleransi ukuran hasduk -+5cm`
+Fitur: Jahitan rapi, warna awet, toleransi ukuran hasduk -+5cm`,
+    available: false
   },
   {
     id: '17',
@@ -459,7 +509,8 @@ Fitur: Jahitan rapi, warna awet, toleransi ukuran hasduk -+5cm`
     specifications: `Bahan: Akrilik 2mm
 Ukuran: Bervariasi (tergantung motif)
 Cetak: Full Color
-Fitur: Hasil presisi dengan potongan laser`
+Fitur: Hasil presisi dengan potongan laser`,
+    available: false
   },
   {
     id: '18',
@@ -475,7 +526,8 @@ Fitur: Hasil presisi dengan potongan laser`
     specifications: `Bahan: Akrilik 2mm
 Ukuran: Bervariasi (tergantung motif)
 Cetak: Full Color
-Fitur: Hasil presisi dengan potongan laser`
+Fitur: Hasil presisi dengan potongan laser`,
+    available: false
   },
   {
     id: '19',
@@ -483,14 +535,15 @@ Fitur: Hasil presisi dengan potongan laser`
     price: 7500,
     originalPrice: 10700,
     discount: 30,
-    image: '/produk19.png', // Sesuai permintaan: /public/produk19.png
+    image: '/produk19.png',
     category: ['aksesoris', 'laki-laki', 'perempuan'],
-    rating: 5.0, // Asumsi rating awal
+    rating: 5.0,
     sold: 30,
     description: 'Cincin Rotan untuk Hasduk Pramuka. Dibuat dari rotan asli berkualitas, halus, dan awet. Pelengkap wajib untuk seragam pramuka saat kegiatan ospek atau acara kepramukaan lainnya.',
     specifications: `Bahan: Rotan Asli Pilihan
 Ukuran: Standar Hasduk Pramuka
-Fitur: Halus, kuat, dan tidak mudah patah.`
+Fitur: Halus, kuat, dan tidak mudah patah.`,
+    available: false
   },
 ];
 

@@ -13,23 +13,23 @@ const heroSlides = [
   {
     id: 1,
     image: '/banner1.png',
-    title: 'JUAL KEPERLUAN MAHASISWA',
-    subtitle: 'TERLENGKAP DAN TERMURAH',
-    description: 'SEMUA KEBUTUHAN KULIAHMU ADA DI SINI'
+    title: 'PRODUK TERBARU KITVERSITY',
+    subtitle: 'NOTEBOOK PENUGASAN AMERTA',
+    description: 'KUALITAS PREMIUM UNTUK PENUGASAN KAMPUS'
   },
   {
     id: 2,
     image: '/banner2.png',
-    title: 'BINGUNG MAU CARI KEPERLUAN NGAMPUS?',
-    subtitle: 'KITVERSITY-IN AJA',
-    description: 'PALING JAGO PENUHIN KEBUTUHAN NGAMPUSMU'
+    title: 'ALAT TULIS BERKUALITAS',
+    subtitle: 'UNTUK MAHASISWA BERPRESTASI',
+    description: 'TEMPATKAN PRODUK TERBAIK DI ATAS'
   },
   {
     id: 3,
     image: '/banner3.png',
-    title: 'MAU YANG SATSET DAN GAMAU RIBET?',
-    subtitle: 'BELI ONLINE KEBUTUHANMU',
-    description: 'DI KITVERSITY AJA'
+    title: 'KITVERSITY TERUS BERINOVASI',
+    subtitle: 'PRODUK TERBARU SIAP DIPESAN',
+    description: 'DAPATKAN PRODUK TERBAIK KAMI'
   }
 ];
 
@@ -44,7 +44,9 @@ export default function Home() {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
-  const featuredProducts = products.slice(0, 8);
+  const featuredProducts = products
+    .filter(product => product.available !== false)
+    .slice(0, 8);
 
   const scrollToCategories = () => {
     const categoriesSection = document.getElementById('categories-section');
@@ -170,10 +172,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Paling Laris Minggu Ini
+              Produk Terbaru Tersedia
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Produk pilihan yang paling diminati mahasiswa
+              Produk terbaru Kitversity yang siap dipesan
             </p>
           </div>
 
@@ -195,13 +197,16 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Mau Cari Kebutuhan OSPEK? Kitversity Aja
+              PRODUK TERBARU KITVERSITY
             </h2>
-            <p className="text-xl mb-8 opacity-90">
-              GRATIS ONGKIR SELURUH WILAYAH SURABAYA
+            <p className="text-xl mb-4 opacity-90">
+              NOTEBOOK PENUGASAN AMERTA
+            </p>
+            <p className="text-lg mb-8 opacity-90">
+              KUALITAS PREMIUM UNTUK PENUGASAN KAMPUS
             </p>
             <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
-              <Link href="/produk">Belanja Sekarang</Link>
+              <Link href="/produk">Pesan Sekarang</Link>
             </Button>
           </div>
         </div>

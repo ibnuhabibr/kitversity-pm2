@@ -60,17 +60,16 @@ export function WelcomePopup() {
             </DialogTitle>
           </DialogHeader>
           
-          <div className="my-5 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="font-bold text-md text-blue-800">
-                  OPEN PRE-ORDER
-              </p>
-              <div className="flex items-center justify-center space-x-2 mt-1">
-                  <Calendar className="h-4 w-4 text-gray-500"/>
-                  <p className="font-semibold text-sm text-gray-700">
-                      2 Juli - 13 Juli 2025
-                  </p>
-              </div>
+          <div className="my-5 p-4 bg-green-50 rounded-lg border border-green-200">
+            <p className="font-bold text-md text-green-800 text-center">
+              TERIMA KASIH!
+            </p>
+            <p className="text-sm text-green-700 text-center mt-1">
+              Kepada para pembeli setia yang telah mempercayai Kitversity pada periode Pre-Order Batch 1
+            </p>
           </div>
+          
+
 
           <p className="text-sm text-muted-foreground mb-4">
             Butuh bantuan atau ada pertanyaan? Hubungi kami melalui:
