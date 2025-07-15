@@ -16,11 +16,13 @@ export const products: Product[] = [
   {
     id: '1',
     name: 'Notebook',
-    price: 10000,
-    image: '/produk22.png',
+    price: 15000,
+    originalPrice: 25000,
+    discount: 40,
+    image: '/produk22.jpg',
     category: ['alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
-    sold: 0,
+    sold: 50,
     description: 'Notebook berkualitas tinggi untuk penugasan kampus. Kertas tebal dan tidak mudah sobek, cocok untuk menulis, menggambar, atau mencatat materi kuliah. Desain minimalis dan elegan.',
     specifications: `Ukuran: A5 (14.8 x 21 cm)
 Jumlah Halaman: 100 lembar
@@ -33,11 +35,13 @@ Warna: Hitam dengan aksen emas`,
   {
     id: '2',
     name: 'ID Card',
-    price: 15000,
-    image: '/produk23.png',
+    price: 12000,
+    originalPrice: 15000,
+    discount: 20,
+    image: '/produk23.jpg',
     category: ['aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
-    sold: 0,
+    sold: 35,
     description: 'ID Card berkualitas tinggi untuk keperluan identitas mahasiswa. Terbuat dari bahan PVC yang tahan lama dan tidak mudah rusak. Cocok untuk kartu mahasiswa, kartu anggota organisasi, atau keperluan identitas lainnya.',
     specifications: `Ukuran: 85.6 x 54 mm (standar ISO)
 Bahan: PVC berkualitas tinggi
@@ -50,13 +54,13 @@ Desain: Dapat disesuaikan dengan kebutuhan`,
   {
     id: '3',
     name: 'Bundling Notebook + ID Card',
-    price: 22000,
-    originalPrice: 25000,
-    discount: 12,
-    image: '/produk24.png',
+    price: 25000,
+    originalPrice: 35000,
+    discount: 28,
+    image: '/produk24.jpg',
     category: ['paket-bundling', 'alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
-    sold: 0,
+    sold: 25,
     description: 'Paket hemat bundling notebook dan ID card untuk kebutuhan mahasiswa. Dapatkan kedua produk berkualitas dengan harga lebih ekonomis. Cocok untuk persiapan kuliah atau sebagai hadiah untuk mahasiswa baru.',
     specifications: `Paket berisi:
 • 1x Notebook A5 (100 lembar, kertas 70 gsm)
