@@ -14,7 +14,7 @@ export const categories = [
 // Daftar produk dengan deskripsi dan spesifikasi yang telah diperbarui
 export const products: Product[] = [
   {
-    id: '1',
+    id: '20',
     name: 'Notebook',
     price: 19000,
     originalPrice: 25000,
@@ -28,7 +28,7 @@ export const products: Product[] = [
     available: true
   },
   {
-    id: '2',
+    id: '21',
     name: 'ID Card (FREE PASFOTO & PITA)',
     price: 14000,
     originalPrice: 20000,
@@ -42,7 +42,7 @@ export const products: Product[] = [
     available: true
   },
   {
-    id: '3',
+    id: '22',
     name: 'BUNDLING (Paket berisi: Notebook, ID Card, Pasfoto, Pita, Janji Mahasiswa, dan Hymne Airlangga)',
     price: 28000,
     originalPrice: 45000,
@@ -56,7 +56,7 @@ export const products: Product[] = [
     available: true
   },
   {
-    id: '4',
+    id: '1',
     name: 'Kemeja Putih',
     price: 75000,
     originalPrice: 107000,
@@ -81,7 +81,7 @@ DETAIL UKURAN (Toleransi 1-2cm):
     available: false
   },
   {
-    id: '5',
+    id: '2',
     name: 'Dasi',
     price: 15000,
     originalPrice: 21000,
@@ -97,7 +97,7 @@ Bahan: Poliester Halus`,
     available: false
   },
   {
-    id: '6',
+    id: '3',
     name: 'Celana Pria Hitam',
     price: 85000,
     originalPrice: 121000,
@@ -133,7 +133,7 @@ SIZE CHART (Lingkar Pinggang / Lingkar Kaki / Panjang Celana 98-100cm):
     available: false
   },
   {
-    id: '7',
+    id: '4',
     name: 'Celana Pria Putih',
     price: 85000,
     originalPrice: 121000,
@@ -167,7 +167,7 @@ SIZE CHART (Lingkar Pinggang / Panjang Celana 98-100cm):
     available: false
   },
   {
-    id: '8',
+    id: '5',
     name: 'Rok Wanita Hitam',
     price: 80000,
     originalPrice: 114000,
@@ -225,7 +225,7 @@ PERKIRAAN BB : 56-65 KG`,
     available: false
   },
   {
-    id: '9',
+    id: '6',
     name: 'Rok Wanita Putih',
     price: 80000,
     originalPrice: 114000,
@@ -283,7 +283,7 @@ PERKIRAAN BB : 56-65 KG`,
     available: false
   },
   {
-    id: '10',
+    id: '7',
     name: 'Hijab Hitam',
     price: 20000,
     originalPrice: 29000,
@@ -303,7 +303,7 @@ Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`,
     available: false
   },
   {
-    id: '11',
+    id: '8',
     name: 'Hijab Putih',
     price: 20000,
     originalPrice: 29000,
@@ -323,7 +323,7 @@ Catatan: Disarankan dicuci terlebih dahulu sebelum pemakaian pertama.`,
     available: false
   },
   {
-    id: '12',
+    id: '9',
     name: 'Kaos Kaki Hitam',
     price: 15000,
     originalPrice: 21000,
@@ -345,7 +345,7 @@ Cara Perawatan:
     available: false
   },
   {
-    id: '13',
+    id: '10',
     name: 'Kaos Kaki Putih',
     price: 15000,
     originalPrice: 21000,
@@ -367,7 +367,7 @@ Cara Perawatan:
     available: false
   },
   {
-    id: '14',
+    id: '11',
     name: 'Kaos Putih Panjang',
     price: 50000,
     originalPrice: 71000,
@@ -396,7 +396,7 @@ SIZE CHART (Lebar x Panjang, toleransi 1-2cm):
     available: false
   },
   {
-    id: '15',
+    id: '12',
     name: 'Celana Training',
     price: 55000,
     originalPrice: 79000,
@@ -419,7 +419,7 @@ SIZE CHART (Panjang x Lebar Pinggang):
     available: false
   },
   {
-    id: '16',
+    id: '13',
     name: 'Pantofel Pria',
     price: 75000,
     originalPrice: 107000,
@@ -444,7 +444,7 @@ SIZE CHART (Panjang Insole):
     available: false
   },
   {
-    id: '17',
+    id: '14',
     name: 'Pantofel Wanita',
     price: 65000,
     originalPrice: 93000,
@@ -471,7 +471,7 @@ PANDUAN UKURAN (Panjang Telapak Kaki):
     available: false
   },
   {
-    id: '18',
+    id: '15',
     name: 'Ikat Pinggang',
     price: 25000,
     originalPrice: 36000,
@@ -488,7 +488,7 @@ Warna Kepala: Emas / Perak (Motif random)`,
     available: false
   },
   {
-    id: '19',
+    id: '16',
     name: 'Hasduk & Rotan',
     price: 22000,
     originalPrice: 31000,
@@ -504,7 +504,7 @@ Fitur: Jahitan rapi, warna awet, toleransi ukuran hasduk -+5cm`,
     available: false
   },
   {
-    id: '20',
+    id: '17',
     name: 'Pin Garuda',
     price: 7000,
     originalPrice: 10000,
@@ -521,7 +521,7 @@ Fitur: Hasil presisi dengan potongan laser`,
     available: false
   },
   {
-    id: '21',
+    id: '18',
     name: 'Pin Bendera',
     price: 7000,
     originalPrice: 10000,
@@ -538,7 +538,7 @@ Fitur: Hasil presisi dengan potongan laser`,
     available: false
   },
   {
-    id: '22',
+    id: '19',
     name: 'Cincin Rotan Pramuka',
     price: 7500,
     originalPrice: 10700,
