@@ -23,13 +23,8 @@ export const products: Product[] = [
     category: ['alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
     sold: 32,
-    description: 'Notebook berkualitas tinggi untuk penugasan kampus. Kertas tebal dan tidak mudah sobek, cocok untuk menulis, menggambar, atau mencatat materi kuliah. Desain minimalis dan elegan.',
-    specifications: `Ukuran: A5 (14.8 x 21 cm)
-Jumlah Halaman: 100 lembar
-Kertas: 70 gsm, tidak mudah sobek
-Cover: Soft cover dengan desain minimalis
-Binding: Spiral binding yang kuat
-Warna: Hitam dengan aksen emas`,
+    description: 'Notebook berkualitas tinggi untuk keperluan Amerta.',
+    specifications: `Sesuai dengan ketentuan terbaru Amerta 2025`,
     available: true
   },
   {
@@ -42,18 +37,13 @@ Warna: Hitam dengan aksen emas`,
     category: ['aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
     sold: 54,
-    description: 'ID Card berkualitas tinggi untuk keperluan identitas mahasiswa. Terbuat dari bahan PVC yang tahan lama dan tidak mudah rusak. Cocok untuk kartu mahasiswa, kartu anggota organisasi, atau keperluan identitas lainnya.',
-    specifications: `Ukuran: 85.6 x 54 mm (standar ISO)
-Bahan: PVC berkualitas tinggi
-Ketebalan: 0.76 mm
-Finishing: Laminasi glossy
-Fitur: Tahan air dan tidak mudah pudar
-Design: Dapat disesuaikan dengan kebutuhan`,
+    description: 'ID Card berkualitas tinggi untuk keperluan Amerta',
+    specifications: `Gratis Pasfoto & Pita, Sesuai dengan ketentuan terbaru Amerta 2025`,
     available: true
   },
   {
     id: '3',
-    name: 'BUNDLING (FREE PASFOTO DAN PITA) ',
+    name: 'BUNDLING (Paket berisi: Notebook, ID Card, Pasfoto, Pita, Janji Mahasiswa, dan Hymne Airlangga)',
     price: 28000,
     originalPrice: 45000,
     discount: 37,
@@ -61,16 +51,8 @@ Design: Dapat disesuaikan dengan kebutuhan`,
     category: ['paket-bundling', 'alat-tulis', 'aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
     sold: 18,
-    description: 'Paket hemat bundling notebook dan ID card untuk kebutuhan mahasiswa. Dapatkan kedua produk berkualitas dengan harga lebih ekonomis. Cocok untuk persiapan kuliah atau sebagai hadiah untuk mahasiswa baru.',
-    specifications: `Paket berisi:
-• 1x Notebook A5 (100 lembar, kertas 70 gsm)
-• 1x ID Card PVC (85.6 x 54 mm)
-
-Keunggulan bundling:
-• Hemat Rp 3.000 dari harga satuan
-• Kualitas terjamin untuk kedua produk
-• Cocok untuk mahasiswa baru
-• Kemasan menarik`,
+    description: 'Paket hemat bundling notebook dan ID card untuk kebutuhan Amerta',
+    specifications: `Paket berisi: Notebook, ID Card, Pasfoto, Pita, Janji Mahasiswa, dan Hymne Airlangga`,
     available: true
   },
   {
