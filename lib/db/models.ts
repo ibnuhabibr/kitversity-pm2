@@ -12,7 +12,7 @@ function getFirstRow<T>(rows: any): T | undefined {
   return undefined;
 }
 
-// UserModel tetap sama
+// UserModel
 export const UserModel = {
   async create(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<User | undefined> {
     const { name, email, phone, university, address, role } = user;
@@ -35,7 +35,7 @@ export const UserModel = {
   }
 };
 
-// --- Product Model DIPERBARUI TOTAL ---
+// ProductModel
 export const ProductModel = {
   async create(product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at'>>): Promise<Product | undefined> {
     const {
@@ -102,7 +102,7 @@ export const ProductModel = {
   }
 };
 
-// ... (OrderModel dan model lainnya tidak berubah)
+// OrderModel
 export const OrderModel = {
   async create(order: Omit<Order, 'id' | 'created_at' | 'updated_at'>): Promise<Order | undefined> {
     const { user_id, total_amount, status, shipping_address, shipping_method, payment_method, customer_info } = order;
@@ -130,8 +130,18 @@ export const OrderModel = {
   async findAll(): Promise<Order[]> {
     const [rows] = await pool.query('SELECT * FROM orders');
     return rows as Order[];
+  },
+
+  async deleteById(id: number): Promise<boolean> {
+    const [result] = await pool.query<ResultSetHeader>(
+      'DELETE FROM orders WHERE id = ?',
+      [id]
+    );
+    return result.affectedRows > 0;
   }
 };
+
+// OrderItemModel
 export const OrderItemModel = {
   async create(item: Omit<OrderItem, 'id' | 'created_at'>): Promise<OrderItem | undefined> {
     const { order_id, product_id, quantity, price } = item;
@@ -155,6 +165,8 @@ export const OrderItemModel = {
     return rows as OrderItem[];
   }
 };
+
+// PaymentModel
 export const PaymentModel = {
   async create(payment: Omit<Payment, 'id' | 'created_at' | 'updated_at'>): Promise<Payment | undefined> {
     const { order_id, amount, payment_method, status, midtrans_token, midtrans_redirect_url } = payment;

@@ -68,7 +68,9 @@ export default function ThankYouPage() {
             return `- ${item.name}${variantText} (Qty: ${item.quantity}) - ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price * item.quantity)}`;
         }).join('\n');
         
-        const paymentMethodText = order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        const paymentMethodText = order.paymentMethod
+    ? order.paymentMethod.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+    : 'Metode Tidak Diketahui';
         
         const message = `*KONFIRMASI PEMBAYARAN - KITVERSITY*
 

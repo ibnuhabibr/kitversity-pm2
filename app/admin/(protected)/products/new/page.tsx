@@ -14,10 +14,18 @@ export default function NewProductPage() {
   const handleSubmit = async (data: any) => {
     setIsSubmitting(true);
     try {
+      // --- PERBAIKAN DI SINI ---
+      // Pastikan varian kosong dikirim sebagai null, bukan string kosong
+      const payload = {
+        ...data,
+        variants: data.variants ? data.variants : null,
+      };
+      // --- AKHIR PERBAIKAN ---
+
       const response = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload), // Menggunakan payload yang sudah diperbaiki
       });
 
       if (!response.ok) {
