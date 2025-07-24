@@ -3,96 +3,68 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Dialog, DialogOverlay, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Bot, PartyPopper, Calendar } from 'lucide-react';
+import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-// Pastikan kita mengekspor komponen dengan nama yang benar
 export function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    // Menggunakan key baru di sessionStorage untuk memastikan popup ini muncul lagi setelah update
-    const hasSeenPopup = sessionStorage.getItem('kitversity-welcome-popup-v3');
+    // Key baru agar popup muncul lagi untuk semua pengunjung setelah update
+    const hasSeenPopup = sessionStorage.getItem('kitversity-welcome-popup-v4');
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
         setIsOpen(true);
-        sessionStorage.setItem('kitversity-welcome-popup-v3', 'true');
-      }, 500); // Waktu muncul dipercepat menjadi 0.5 detik
+        sessionStorage.setItem('kitversity-welcome-popup-v4', 'true');
+      }, 500); // Popup muncul setelah 0.5 detik
       
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const handleWhatsAppClick = () => {
-    const phoneNumber = '6285135706028';
-    const message = 'Halo! Saya ingin bertanya tentang produk Kitversity.';
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+  const handleNavigateToProducts = () => {
+    router.push('/produk');
     setIsOpen(false);
   };
 
-  const handleChatbotClick = () => {
-    router.push('/chat');
-    setIsOpen(false);
-  };
-
+  // Komponen Dialog sudah otomatis menyediakan tombol close (X)
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {/* Latar belakang semi-transparan yang tidak menghalangi */}
-      <DialogOverlay className="bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
       <DialogContent 
         className={cn(
-          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", 
-          "sm:max-w-sm p-0 overflow-hidden rounded-xl shadow-2xl border-none fixed"
+          "sm:max-w-md p-0 overflow-hidden rounded-xl shadow-2xl border-none",
+          "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
         )}
       >
-        <div className="p-6 text-center bg-white">
+        <div className="p-8 text-center bg-white">
           <DialogHeader className="items-center">
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-full mb-4 shadow-lg w-fit">
-              <PartyPopper className="h-8 w-8 text-white" />
+              <ShoppingBag className="h-8 w-8 text-white" />
             </div>
             <DialogTitle className="text-xl font-extrabold text-gray-900 tracking-tight">
-              Selamat Datang di Kitversity!
+              Selamat Datang di Wajah Baru Kitversity!
             </DialogTitle>
+             <DialogDescription className="text-muted-foreground pt-2">
+              Produk-produk terbaru untuk kebutuhan perkuliahanmu sudah tersedia. Jelajahi sekarang!
+            </DialogDescription>
           </DialogHeader>
           
-          <div className="my-5 p-4 bg-green-50 rounded-lg border border-green-200">
-            <p className="font-bold text-md text-green-800 text-center">
-              TERIMA KASIH!
-            </p>
-            <p className="text-sm text-green-700 text-center mt-1">
-              Kepada para pembeli setia yang telah mempercayai Kitversity pada periode Pre-Order Batch 1
-            </p>
-          </div>
-          
-
-
-          <p className="text-sm text-muted-foreground mb-4">
-            Butuh bantuan atau ada pertanyaan? Hubungi kami melalui:
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="mt-6">
             <Button
-              onClick={handleWhatsAppClick}
-              className="bg-green-600 hover:bg-green-700 text-white flex items-center justify-center space-x-2"
+              onClick={handleNavigateToProducts}
+              size="lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 font-bold"
             >
-              <MessageCircle className="h-5 w-5" />
-              <span>Admin WA</span>
-            </Button>
-            <Button
-              onClick={handleChatbotClick}
-              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center space-x-2"
-            >
-              <Bot className="h-5 w-5" />
-              <span>Chatbot AI</span>
+              Lihat Semua Produk
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
-        {/* Tombol close (X) sudah otomatis disediakan oleh DialogContent, jadi tidak perlu ditambah manual */}
+        {/* Tombol 'X' untuk close sudah otomatis ada dari DialogContent */}
       </DialogContent>
     </Dialog>
   );
