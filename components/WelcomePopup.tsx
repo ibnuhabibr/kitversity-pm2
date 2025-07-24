@@ -3,12 +3,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+// --- PERBAIKAN DI SINI: Menambahkan 'DialogClose' ke dalam import ---
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { PartyPopper, ArrowRight, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
 
 export function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +40,6 @@ export function WelcomePopup() {
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
         )}
       >
-        {/* Kontainer utama dengan flexbox untuk centering sempurna */}
         <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-white">
           <DialogHeader className="items-center">
             <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4 rounded-full mb-5 shadow-lg w-fit transform hover:scale-110 transition-transform duration-300">
@@ -66,15 +65,15 @@ export function WelcomePopup() {
           </div>
         </div>
         
-        {/* Tombol Close manual agar bisa di-styling, bawaan Radix di-override */}
-        <Dialog.Close asChild>
+        {/* --- PERBAIKAN DI SINI: Menggunakan 'DialogClose' langsung --- */}
+        <DialogClose asChild>
             <button 
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
                 aria-label="Tutup"
             >
                 <X className="h-6 w-6" />
             </button>
-        </Dialog.Close>
+        </DialogClose>
 
       </DialogContent>
     </Dialog>
