@@ -3,10 +3,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-// --- PERHATIKAN PERUBAHAN DI BARIS INI ---
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { PartyPopper, ArrowRight, X } from 'lucide-react';
+import { PartyPopper, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -15,14 +14,14 @@ export function WelcomePopup() {
   const router = useRouter();
 
   useEffect(() => {
-    // Gunakan key baru di sessionStorage agar popup ini muncul lagi untuk semua pengunjung
+    // Key baru agar popup muncul lagi untuk semua pengunjung setelah update
     const hasSeenPopup = sessionStorage.getItem('kitversity-welcome-popup-amerta2025');
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
         setIsOpen(true);
         sessionStorage.setItem('kitversity-welcome-popup-amerta2025', 'true');
       }, 1000); // Popup muncul setelah 1 detik
-
+      
       return () => clearTimeout(timer);
     }
   }, []);
@@ -33,14 +32,14 @@ export function WelcomePopup() {
   };
 
   return (
-    // --- PERUBAHAN DI SINI: Menambahkan `showCloseButton={false}` ---
-    <Dialog open={isOpen} onOpenChange={setIsOpen} modal={true}>
-      <DialogContent
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent 
         className={cn(
           "sm:max-w-lg p-0 overflow-hidden rounded-2xl shadow-2xl border-none",
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
         )}
       >
+        {/* Konten dijamin center dengan flexbox */}
         <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-white">
           <DialogHeader className="items-center">
             <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4 rounded-full mb-5 shadow-lg w-fit transform hover:scale-110 transition-transform duration-300">
@@ -53,7 +52,7 @@ export function WelcomePopup() {
               Semua kebutuhan PKKMB Universitas Airlangga-mu ada di sini. Siap jadi Ksatria Airlangga?
             </DialogDescription>
           </DialogHeader>
-
+          
           <div className="mt-8 w-full">
             <Button
               onClick={handleNavigateToProducts}
@@ -65,17 +64,10 @@ export function WelcomePopup() {
             </Button>
           </div>
         </div>
-
-        {/* Tombol Close manual agar bisa di-styling */}
-        <DialogClose asChild>
-            <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
-                aria-label="Tutup"
-            >
-                <X className="h-6 w-6" />
-            </button>
-        </DialogClose>
-
+        
+        {/* Tombol Close manual sudah DIHAPUS. 
+          Kita akan pakai tombol close 'X' bawaan dari DialogContent yang posisinya sudah pas.
+        */}
       </DialogContent>
     </Dialog>
   );
