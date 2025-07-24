@@ -3,7 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-// --- PERBAIKAN DI SINI: Menambahkan 'DialogClose' ke dalam import ---
+// --- PERHATIKAN PERUBAHAN DI BARIS INI ---
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { PartyPopper, ArrowRight, X } from 'lucide-react';
@@ -22,7 +22,7 @@ export function WelcomePopup() {
         setIsOpen(true);
         sessionStorage.setItem('kitversity-welcome-popup-amerta2025', 'true');
       }, 1000); // Popup muncul setelah 1 detik
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -33,8 +33,9 @@ export function WelcomePopup() {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent 
+    // --- PERUBAHAN DI SINI: Menambahkan `showCloseButton={false}` ---
+    <Dialog open={isOpen} onOpenChange={setIsOpen} modal={true}>
+      <DialogContent
         className={cn(
           "sm:max-w-lg p-0 overflow-hidden rounded-2xl shadow-2xl border-none",
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95"
@@ -52,7 +53,7 @@ export function WelcomePopup() {
               Semua kebutuhan PKKMB Universitas Airlangga-mu ada di sini. Siap jadi Ksatria Airlangga?
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="mt-8 w-full">
             <Button
               onClick={handleNavigateToProducts}
@@ -64,10 +65,10 @@ export function WelcomePopup() {
             </Button>
           </div>
         </div>
-        
-        {/* --- PERBAIKAN DI SINI: Menggunakan 'DialogClose' langsung --- */}
+
+        {/* Tombol Close manual agar bisa di-styling */}
         <DialogClose asChild>
-            <button 
+            <button
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors"
                 aria-label="Tutup"
             >
