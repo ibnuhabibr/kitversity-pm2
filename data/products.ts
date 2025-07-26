@@ -56,6 +56,20 @@ export const products: Product[] = [
     available: true
   },
   {
+    id: '23',
+    name: '[ADD ON] HYMNE & JANJI',
+    price: 1000,
+    originalPrice: 5000,
+    discount: 80,
+    image: '/produk25.png',
+    category: ['aksesoris', 'laki-laki', 'perempuan'],
+    rating: 5.0,
+    sold: 12,
+    description: 'HYMNE & JANJI UNTUK PKKMB AMERTA AIRLANGGA 2025',
+    specifications: `SESUAI DENGAN KETENTUAN YANG BERLAKU`,
+    available: true
+  },
+  {
     id: '1',
     name: 'Kemeja Putih',
     price: 75000,
