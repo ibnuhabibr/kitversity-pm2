@@ -61,7 +61,7 @@ export const products: Product[] = [
     price: 1000,
     originalPrice: 5000,
     discount: 80,
-    image: '/produk25.png',
+    image: '/produk25.jpg',
     category: ['aksesoris', 'laki-laki', 'perempuan'],
     rating: 5.0,
     sold: 12,
