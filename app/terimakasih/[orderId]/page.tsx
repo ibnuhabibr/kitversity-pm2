@@ -19,7 +19,7 @@ export default function ThankYouPage() {
     const [order, setOrder] = useState<Order | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const whatsappGroupLink = "https://chat.whatsapp.com/Bw8P8G4UNG23FJFs6g66uI";
+    const whatsappGroupLink = "https://chat.whatsapp.com/InE8kmCrWBFIdYN1axoOpp";
 
     useEffect(() => {
         if (!orderId) return;

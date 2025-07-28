@@ -17,7 +17,7 @@ import Image from 'next/image';
 const paymentDetails = {
     bank_transfer: {
         title: "Transfer Bank BCA",
-        rekening: "7355011704",
+        rekening: "7355211282",
         atasNama: "Ibnu Habib Ridwansyah",
         logo: "/bca.png",
         note: "Bisa transfer melalui bank lain atau e-wallet (ShopeePay, GoPay, DANA, dll) ke rekening BCA ini."
