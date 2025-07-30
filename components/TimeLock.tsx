@@ -35,13 +35,6 @@ export default function TimeLock() {
     <div className="fixed inset-0 bg-gray-900 bg-opacity-95 z-[9999] flex items-center justify-center p-6 text-center text-white animate-in fade-in-50 duration-500">
       <div className="max-w-md">
         <div className="flex justify-center mb-6">
-            <Image
-                src="/freeze.png"
-                alt="Kitversity Logo"
-                width={250}
-                height={80}
-                className="object-contain"
-            />
         </div>
         <div className="bg-yellow-400 text-yellow-900 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg transform rotate-[-15deg]">
           <PartyPopper className="w-12 h-12" />
